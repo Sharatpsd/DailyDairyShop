@@ -14,6 +14,8 @@ from pathlib import Path
 from django.contrib.messages import constants as messages
 from django.conf.global_settings import MEDIA_URL, MEDIA_ROOT
 import os
+import os
+
 MESSAGE_TAGS = {
     messages.DEBUG: 'debug',
     messages.INFO: 'info',
@@ -34,7 +36,8 @@ SECRET_KEY = 'django-insecure-4^hblj$3@q-n3mp%vmvy&367_c*@jqj$bo7@25wq_6mkd9gu&f
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['daily-dairy.onrender.com']
+ALLOWED_HOSTS = ['daily-dairyshop-2.onrender.com', '127.0.0.1', 'localhost']
+
 
 
 # Application definition
