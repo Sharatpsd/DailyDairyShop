@@ -1,0 +1,196 @@
+{% extends 'app/base.html' %}
+{% load static %}
+
+{% block title %}About Us{% endblock title %}
+
+{% block main-content %}
+<style>
+    /* Custom Aesthetic CSS for About Us */
+    .about-hero {
+        background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+        color: white;
+        padding: 60px 0;
+        border-radius: 20px;
+        margin-bottom: 40px;
+        box-shadow: 0 10px 30px rgba(0, 123, 255, 0.2);
+    }
+    .about-card {
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 123, 255, 0.05);
+        transition: all 0.3s ease;
+        background: linear-gradient(145deg, #ffffff 0%, #fafbff 100%);
+        overflow: hidden;
+    }
+    .about-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12), 0 6px 18px rgba(0, 123, 255, 0.08);
+    }
+    .accordion-item {
+        border: none !important;
+        border-radius: 12px !important;
+        margin-bottom: 15px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+        background: #fff;
+        transition: all 0.3s ease;
+    }
+    .accordion-button {
+        background: linear-gradient(45deg, #f8f9fa, #e9ecef);
+        border-radius: 12px !important;
+        font-weight: 600;
+        color: #007bff;
+        padding: 15px 20px;
+        transition: all 0.3s ease;
+    }
+    .accordion-button:not(.collapsed) {
+        background: linear-gradient(45deg, #007bff, #0056b3);
+        color: white;
+        box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.125);
+    }
+    .accordion-button:focus {
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    }
+    .accordion-body {
+        padding: 20px;
+        background: #f8f9ff;
+        border-radius: 0 0 12px 12px;
+    }
+    .about-image {
+        border-radius: 20px;
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        transition: all 0.3s ease;
+        height: 450px;
+        object-fit: cover;
+        border: 1px solid rgba(255, 255, 255, 0.2); /* Subtle border for polish */
+        width: 100%;
+    }
+    .about-image:hover {
+        transform: scale(1.02);
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+    }
+    .value-item {
+        display: flex;
+        align-items: center;
+        padding: 8px 0;
+        transition: all 0.3s ease;
+    }
+    .value-item:hover {
+        transform: translateX(5px);
+        color: #007bff;
+    }
+    .value-item i {
+        font-size: 1.1rem;
+        margin-right: 10px;
+        transition: all 0.3s ease;
+    }
+    .value-item:hover i {
+        color: #28a745;
+        transform: scale(1.2);
+    }
+    .cta-section {
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        border-radius: 15px;
+        padding: 40px;
+        text-align: center;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+    }
+    .btn-outline-primary {
+        border-radius: 50px;
+        padding: 12px 30px;
+        font-weight: 600;
+        border-width: 2px;
+        transition: all 0.3s ease;
+    }
+    .btn-outline-primary:hover {
+        transform: scale(1.05);
+        box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
+        background: linear-gradient(45deg, #007bff, #0056b3);
+        border-color: transparent;
+        color: white;
+    }
+</style>
+
+<div class="container my-5">
+    <!-- Hero Section -->
+    <div class="about-hero text-center">
+        <h1 class="display-4 fw-bold mb-3">About Us</h1>
+        <p class="lead mb-0">Discover our commitment to quality dairy products and sustainable farming in Bangladesh.</p>
+    </div>
+
+    <div class="row g-5 align-items-center">
+        <!-- Image on Left Side -->
+        <div class="col-lg-6">
+            <img src="{% static 'app/images/about.png' %}"
+                 class="about-image w-100"
+                 alt="Serene dairy farm landscape in Bangladesh with cows grazing in lush green fields, representing freshness and sustainability"
+                 loading="lazy">
+        </div>
+        <!-- Text Content on Right Side -->
+        <div class="col-lg-6">
+            <div class="about-card p-4">
+                <h3 class="fw-bold text-primary mb-4">Our Story</h3>
+                <p class="lead mb-4 text-muted">Established with a passion for fresh, farm-to-table dairy, we bring the finest products from our fields directly to your doorstep. Rooted in Bangladesh's rich agricultural heritage, we prioritize health, taste, and environmental responsibility.</p>
+
+                <div class="accordion" id="aboutAccordion">
+                    <!-- Mission -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#mission">
+                                Our Mission
+                            </button>
+                        </h2>
+                        <div id="mission" class="accordion-collapse collapse show" data-bs-parent="#aboutAccordion">
+                            <div class="accordion-body">
+                                We provide fresh, high-quality dairy products directly from the farm to your home. Our goal is to ensure healthy and delicious products for every family.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Vision -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#vision">
+                                Our Vision
+                            </button>
+                        </h2>
+                        <div id="vision" class="accordion-collapse collapse" data-bs-parent="#aboutAccordion">
+                            <div class="accordion-body">
+                                To become the leading dairy supplier in Bangladesh, known for quality, trust, and sustainability.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Values -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#values">
+                                Our Values
+                            </button>
+                        </h2>
+                        <div id="values" class="accordion-collapse collapse" data-bs-parent="#aboutAccordion">
+                            <div class="accordion-body">
+                                <ul class="list-unstyled">
+                                    <li class="value-item"><i class="bi bi-check-circle-fill text-success"></i>Quality and Freshness</li>
+                                    <li class="value-item"><i class="bi bi-check-circle-fill text-success"></i>Customer Satisfaction</li>
+                                    <li class="value-item"><i class="bi bi-check-circle-fill text-success"></i>Transparency and Trust</li>
+                                    <li class="value-item"><i class="bi bi-check-circle-fill text-success"></i>Innovation and Sustainability</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CTA Section -->
+    <div class="row mt-5">
+        <div class="col-12">
+            <div class="cta-section">
+                <p class="text-muted lead mb-4">Join us in supporting local farming and sustainable practices. We're more than a supplier—we're your partner in health.</p>
+                <a href="{% url 'contact' %}" class="btn btn-outline-primary btn-lg">Contact Us Today</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock main-content %}

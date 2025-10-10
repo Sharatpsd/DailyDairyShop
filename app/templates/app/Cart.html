@@ -1,0 +1,164 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% load filters %}
+
+{% block title %}My Cart - Shopping Cart{% endblock %}
+
+{% block main-content %}
+<style>
+    /* Custom CSS for Professional Cart */
+    .cart-container {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    .cart-card {
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+        overflow: hidden;
+        background: #fff;
+    }
+    .cart-table {
+        margin-bottom: 0;
+    }
+    .cart-table thead th {
+        background: linear-gradient(45deg, #f8f9fa, #e9ecef);
+        border: none;
+        font-weight: 600;
+        color: #495057;
+        padding: 15px;
+        border-radius: 10px 10px 0 0;
+    }
+    .cart-table tbody tr {
+        transition: all 0.3s ease;
+    }
+    .cart-table tbody tr:hover {
+        background-color: #f8f9ff;
+        transform: scale(1.01);
+    }
+    .cart-table td {
+        padding: 15px;
+        vertical-align: middle;
+        border-color: #e9ecef;
+    }
+    .btn-cart-sm {
+        border-radius: 20px;
+        padding: 5px 12px;
+        font-size: 0.875rem;
+        transition: all 0.3s ease;
+    }
+    .btn-remove {
+        background: linear-gradient(45deg, #dc3545, #c82333);
+        border: none;
+        color: white;
+    }
+    .btn-remove:hover {
+        transform: scale(1.1);
+        box-shadow: 0 3px 10px rgba(220, 53, 69, 0.3);
+    }
+    .btn-update {
+        background: linear-gradient(45deg, #007bff, #0056b3);
+        border: none;
+        color: white;
+    }
+    .btn-update:hover {
+        transform: scale(1.1);
+        box-shadow: 0 3px 10px rgba(0, 123, 255, 0.3);
+    }
+    .total-summary {
+        background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+        color: white;
+        border-radius: 15px;
+        padding: 20px;
+        text-align: right;
+        box-shadow: 0 5px 15px rgba(40, 167, 69, 0.2);
+    }
+    .empty-cart {
+        text-align: center;
+        padding: 60px 20px;
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        border-radius: 15px;
+        margin-top: 20px;
+    }
+    .btn-shop {
+        background: linear-gradient(45deg, #007bff, #0056b3);
+        border: none;
+        border-radius: 50px;
+        padding: 12px 30px;
+        font-weight: 600;
+        color: white;
+        transition: all 0.3s ease;
+    }
+    .btn-shop:hover {
+        transform: scale(1.05);
+        box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
+    }
+    .cart-hero {
+        background: linear-gradient(135deg, #007bff 0%, #28a745 100%);
+        color: white;
+        padding: 40px 0;
+        border-radius: 15px;
+        text-align: center;
+        margin-bottom: 30px;
+    }
+</style>
+
+<div class="container my-5">
+    <div class="cart-hero">
+        <h2 class="fw-bold mb-3"><i class="bi bi-cart-fill me-2"></i>My Cart</h2>
+        <p class="lead mb-0">Review your selected dairy products. </p>
+    </div>
+
+    {% if cart_items %}
+        <div class="cart-card">
+            <div class="table-responsive">
+                <table class="table cart-table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>Subtotal</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in cart_items %}
+                        <tr>
+                            <td>
+                                <strong>{{ item.product.title }}</strong><br>
+                                <small class="text-muted">{{ item.product.description|truncatewords:5 }}</small>
+                            </td>
+                            <td>${{ item.product.discounted_price|floatformat:2 }}</td>
+                            <td>
+                                <form method="POST" action="{% url 'update_cart' item.id %}" class="d-inline">
+                                    {% csrf_token %}
+                                    <input type="number" name="quantity" value="{{ item.quantity }}" min="1" class="form-control w-50 d-inline" style="width: 80px;">
+                                    <button type="submit" class="btn btn-update btn-cart-sm ms-1">Update</button>
+                                </form>
+                            </td>
+                            <td>${{ item.product.discounted_price|multiply:item.quantity|floatformat:2 }}</td>
+                            <td>
+                                <a href="{% url 'remove_from_cart' item.id %}" class="btn btn-remove btn-cart-sm">Remove</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="total-summary p-3">
+                <h4 class="mb-0">Grand Total: ${{ total|floatformat:2 }}</h4>
+            </div>
+            <div class="card-footer text-end p-3">
+
+            </div>
+        </div>
+    {% else %}
+        <div class="empty-cart">
+            <h3>Your cart is empty!</h3>
+            <p>Looks like you haven’t added any products yet.</p>
+            <a href="{% url 'home' %}" class="btn btn-shop">Continue Shopping</a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

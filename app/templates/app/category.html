@@ -1,0 +1,42 @@
+{% extends 'app/base.html' %}
+{% load static %}
+
+{% block title %}Category{% endblock title %}
+
+{% block main-content %}
+<div class="container my-5">
+    <!-- Category Header -->
+    <div class="text-center mb-5">
+        <h2 class="fw-bold text-primary">Category: {{ val }}</h2>
+        <p class="text-muted">Explore our wide range of quality products in this category</p>
+    </div>
+
+    <!-- Products Grid -->
+    <div class="row g-4">
+        {% for product in products %}
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+            <div class="card h-100 border-0 shadow-sm hover-shadow">
+                <img src="{{ product.product_image.url }}" class="card-img-top p-3" alt="{{ product.title }}" style="height:200px; object-fit:contain;">
+                <div class="card-body text-center">
+                    <h5 class="card-title fw-bold">{{ product.title }}</h5>
+                    <p class="text-success fw-semibold mb-2">${{ product.discounted_price }}</p>
+                    <p class="text-muted small">{{ product.description|truncatechars:50 }}</p>
+                    <!-- Updated View Details Button -->
+                    <a href="{% url 'product_detail' product.pk %}" class="btn btn-sm btn-primary mt-2">View Details</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p class="text-center text-muted">No products found in this category.</p>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+.hover-shadow:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    transition: 0.3s ease-in-out;
+}
+</style>
+{% endblock main-content %}

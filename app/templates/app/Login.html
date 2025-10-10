@@ -1,0 +1,91 @@
+{% extends 'app/base.html' %}
+{% load static %}
+
+{% block title %}Login - Sign In{% endblock %}
+
+{% block main-content %}
+<style>
+    /* Custom CSS for Professional Login */
+    .login-card {
+        max-width: 500px;
+        margin: 0 auto;
+        border: none;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0, 123, 255, 0.1), 0 4px 15px rgba(0, 0, 0, 0.05);
+        background: linear-gradient(145deg, #ffffff 0%, #f8f9ff 100%);
+        transition: all 0.3s ease;
+        overflow: hidden;
+    }
+    .login-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 40px rgba(0, 123, 255, 0.15), 0 6px 20px rgba(0, 0, 0, 0.08);
+    }
+    .form-floating > .form-control {
+        border-radius: 10px;
+        border: 1px solid #e9ecef;
+        padding: 20px 15px;
+        transition: all 0.3s ease;
+        height: calc(3.5rem + 2px);
+    }
+    .form-floating > .form-control:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+        background-color: #f8f9ff;
+    }
+    .btn-login {
+        background: linear-gradient(45deg, #28a745, #20c997);
+        border: none;
+        border-radius: 50px;
+        padding: 12px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        transition: all 0.3s ease;
+        width: 100%;
+    }
+    .btn-login:hover {
+        transform: scale(1.05);
+        box-shadow: 0 5px 15px rgba(40, 167, 69, 0.3);
+        background: linear-gradient(45deg, #20c997, #28a745);
+    }
+    .login-hero {
+        background: linear-gradient(135deg, #28a745 0%, #007bff 100%);
+        color: white;
+        padding: 20px;
+        border-radius: 20px 20px 0 0;
+        text-align: center;
+    }
+    .forgot-link {
+        text-align: right;
+        font-size: 0.875rem;
+    }
+</style>
+
+<div class="container my-5">
+    <div class="login-card">
+        <div class="login-hero">
+            <h2 class="mb-0 fw-bold"><i class="bi bi-box-arrow-in-right me-2"></i>Sign In</h2>
+            <p class="lead mb-0 small">Access your account for easy shopping.</p>
+        </div>
+        <div class="card-body p-4">
+            <form method="POST">
+                {% csrf_token %}
+                <div class="form-floating mb-3">
+                    <input type="text" name="username" class="form-control" id="id_username" placeholder="Username" required>
+                    <label for="id_username">Username </label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="password" name="password" class="form-control" id="id_password" placeholder="Password" required>
+                    <label for="id_password">Password </label>
+                </div>
+                <div class="forgot-link mb-3">
+                    <a href="{% url 'password_reset' %}" class="text-primary">Forgot Password?</a>
+                </div>
+                <button type="submit" class="btn btn-login btn-success">Login</button>
+            </form>
+            <div class="text-center mt-4">
+                <p class="text-muted">Don't have an account? <a href="{% url 'register' %}" class="text-primary fw-semibold">Register here</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
