@@ -36,7 +36,7 @@ SECRET_KEY = 'django-insecure-4^hblj$3@q-n3mp%vmvy&367_c*@jqj$bo7@25wq_6mkd9gu&f
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['daily-dairyshop-3.onrender.com', '127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['dailydairyshop-3.onrender.com', '127.0.0.1', 'localhost']
 
 
 
