@@ -16,6 +16,9 @@ from django.conf.global_settings import MEDIA_URL, MEDIA_ROOT
 import os
 import os
 
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/'
+
 MESSAGE_TAGS = {
     messages.DEBUG: 'debug',
     messages.INFO: 'info',
@@ -34,7 +37,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-4^hblj$3@q-n3mp%vmvy&367_c*@jqj$bo7@25wq_6mkd9gu&f'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['dailydairyshop-3.onrender.com', '127.0.0.1', 'localhost']
 
@@ -50,7 +53,16 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'app',
+    'cloudinary',
+    'cloudinary_storage',
+
 ]
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'dfkzni71h',           # Cloudinary account name
+    'API_KEY': '829724278825645',   # API Key
+    'API_SECRET': '829724278825645',# Replace with your secret
+}
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -60,7 +72,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-     'whitenoise.middleware.WhiteNoiseMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'ec.urls'

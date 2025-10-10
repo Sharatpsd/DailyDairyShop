@@ -1,9 +1,11 @@
+from cloudinary.models import CloudinaryField
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.text import slugify
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
+from cloudinary.models import CloudinaryField
 
 # Category choices for products
 CATEGORY_CHOICES = (
@@ -22,11 +24,12 @@ class Product(models.Model):
     title = models.CharField(max_length=100)
     selling_price = models.FloatField()
     discounted_price = models.FloatField()
+    image = CloudinaryField('image', blank=True, null=True)
     description = models.TextField()
     composition = models.TextField(default='')
     prodapp = models.TextField(default='')
     category = models.CharField(choices=CATEGORY_CHOICES, max_length=2)
-    product_image = models.ImageField(upload_to='product')
+    # product_image = models.ImageField(upload_to='product')
     slug = models.SlugField(blank=True, null=True, unique=True)
 
     def save(self, *args, **kwargs):
