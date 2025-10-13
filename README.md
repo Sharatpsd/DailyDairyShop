@@ -38,27 +38,23 @@ This is a Django-based e-commerce web application for a **Daily Dairy Shop**. It
 ## Installation
 
 1. **Clone the repository:**
-```bash
-git clone <repo-link>
+
+git clone <https://github.com/Sharatpsd/DailyDairyShop.git>
 cd ec
 Create virtual environment:
 
-bash
-Copy code
+
 python -m venv venv
 venv\Scripts\activate   # Windows
 # source venv/bin/activate  # Linux/Mac
 Install dependencies:
 
-bash
-Copy code
+
 pip install -r requirements.txt
 Configure settings:
 
 Open settings.py and add your Cloudinary credentials:
 
-python
-Copy code
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': '<your_cloud_name>',
     'API_KEY': '<your_api_key>',
@@ -67,26 +63,21 @@ CLOUDINARY_STORAGE = {
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 Apply migrations:
 
-bash
-Copy code
+
 python manage.py makemigrations
 python manage.py migrate
 Create superuser (admin):
 
-bash
-Copy code
 python manage.py createsuperuser
 Run the server:
 
-bash
-Copy code
+
 python manage.py runserver
 Open in browser:
 Go to http://127.0.0.1:8000/
 
 Project Structure
-bash
-Copy code
+
 ec/
 ├── app/                   # Main Django app
 │   ├── admin.py           # Admin panel configuration
@@ -131,5 +122,6 @@ Improve frontend UI
 
 Author
 Sharat Acharja Mugdho
+Email:sharatacharjee6@gmail.com
 Green University of Bangladesh (GUB)
 
