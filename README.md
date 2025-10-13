@@ -1,4 +1,4 @@
-# 🥛 Daily Dairy Shop - E-Commerce Django Project
+#  Daily Dairy Shop - E-Commerce Django Project
 
 [![Python](https://img.shields.io/badge/Python-3.13-blue)](https://www.python.org/)
 [![Django](https://img.shields.io/badge/Django-4.2.7-green)](https://www.djangoproject.com/)
