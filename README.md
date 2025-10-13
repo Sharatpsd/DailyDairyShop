@@ -1,11 +1,10 @@
 # Daily Dairy Shop - E-Commerce Django Project
 
-GitHub: https://github.com/Sharatpsd
-Live Demo: https://dailydairyshop-3.onrender.com
+
 
 [![Python](https://img.shields.io/badge/Python-3.13-blue)](https://www.python.org/)
 [![Django](https://img.shields.io/badge/Django-4.2.7-green)](https://www.djangoproject.com/)
-[![License](https://img.shields.io/badge/License-MIT-orange)](https://opensource.org/licenses/MIT)
+
 
 ## Project Overview
 This is a Django-based e-commerce web application for a **Daily Dairy Shop**. It allows users to browse products, add them to cart/wishlist, and buy them online. Admin can manage products and orders. Images are stored on **Cloudinary**.
