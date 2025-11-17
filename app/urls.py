@@ -48,6 +48,9 @@ urlpatterns = [
     path('checkout/<int:order_id>/<str:gateway>/', views.checkout_start, name='checkout_start'),
     path('callbacks/bkash/', views.bkash_callback, name='bkash_callback'),
     path('callbacks/nagad/', views.nagad_callback, name='nagad_callback'),
+    path('buy/<int:pk>/', views.buy_now, name='buy_now'),
+    
+
 
 
 

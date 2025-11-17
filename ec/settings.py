@@ -14,7 +14,9 @@ from pathlib import Path
 from django.contrib.messages import constants as messages
 from django.conf.global_settings import MEDIA_URL, MEDIA_ROOT
 import os
-import os
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
 
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'
@@ -26,6 +28,7 @@ MESSAGE_TAGS = {
     messages.WARNING: 'warning',
     messages.ERROR: 'danger',
 }
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -55,14 +58,18 @@ INSTALLED_APPS = [
     'app',
     'cloudinary',
     'cloudinary_storage',
-
 ]
-CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': 'dfkzni71h',           # Cloudinary account name
-    'API_KEY': '829724278825645',   # API Key
-    'API_SECRET': '829724278825645',# Replace with your secret
-}
+
+# ---------------- Cloudinary Configuration ----------------
+cloudinary.config( 
+    cloud_name = "dfkzni71h",
+    api_key = "813172256721514",
+    api_secret = "bip7IZdpeaHp9w71Up-HncjPoX0",
+    secure = True
+)
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+# ----------------------------------------------------------
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
