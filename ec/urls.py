@@ -22,6 +22,9 @@ from django.conf.urls.static import static  # needed for media files
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('app.urls')),
+    path('adminpanel/', include('adminpanel.urls')),
+   
+
 
 
 ]

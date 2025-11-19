@@ -17,6 +17,10 @@ from django.contrib import messages
 from django.urls import reverse
 from django.conf import settings
 from decimal import Decimal
+from django.shortcuts import render, redirect
+from app.models import Product, Order, Cart
+from django.contrib.auth.decorators import login_required, user_passes_test
+
 
 from .models import Product, Cart, Order, Transaction
 # 🏠 Home Page
@@ -374,3 +378,19 @@ def nagad_callback(request):
     # verify signature; update order/txn similarly
     # (fields differ per provider)
     return JsonResponse({"ok": True})
+# Only staff can access
+def staff_check(user):
+    return user.is_staff
+
+@login_required
+@user_passes_test(staff_check)
+def admin_dashboard(request):
+    products = Product.objects.all()
+    orders = Order.objects.all()
+    cart_items = Cart.objects.all()
+    context = {
+        'products': products,
+        'orders': orders,
+        'cart_items': cart_items,
+    }
+    return render(request, 'dashboard/admin_dashboard.html', context)

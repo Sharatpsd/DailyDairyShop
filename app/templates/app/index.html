@@ -1,139 +1,152 @@
 {% extends 'app/base.html' %}
 {% load static %}
 
-{% block title %}Home{% endblock title %}
+{% block title %}Welcome - Daily Dairy Shop{% endblock %}
 
 {% block banner-slider %}
-<!-- Premium Winter-Ready Banner Slider -->
-<div id="bannerCarousel" class="carousel slide position-relative" data-bs-ride="carousel" data-bs-interval="7000">
-    <div class="carousel-indicators">
-        <button type="button" data-bs-target="#bannerCarousel" data-bs-slide-to="0" class="active"></button>
-        <button type="button" data-bs-target="#bannerCarousel" data-bs-slide-to="1"></button>
-        <button type="button" data-bs-target="#bannerCarousel" data-bs-slide-to="2"></button>
-        <button type="button" data-bs-target="#bannerCarousel" data-bs-slide-to="3"></button>
-    </div>
-
-    <div class="carousel-inner rounded-4 overflow-hidden shadow-lg">
-        <!-- Slide 1 -->
-        <div class="carousel-item active">
-            <img src="{% static 'app/images/banner/b1.jpg' %}" class="d-block w-100 carousel-image" alt="Fresh Dairy">
-            <div class="carousel-caption d-none d-md-block">
-                <div class="caption-content">
-                    <h1 class="display-3 fw-bold text-white mb-3 animate-fade-in">Fresh Dairy Delivered</h1>
-                    <p class="lead text-white mb-4">Pure milk, yogurt & cheese from Bangladeshi farms to your door</p>
-                    <a href="#products" class="btn btn-primary btn-lg px-5 py-3 shadow">Shop Now</a>
-                </div>
-            </div>
+<!-- FULL SCREEN DARK WELCOME SLIDER – Text Only + Snow -->
+<div class="welcome-slider">
+    <div class="slide-track">
+        <div class="slide active">
+            <h1>Welcome to Daily Dairy Shop</h1>
+            <p>Freshest milk, curd & dairy delivered every morning</p>
         </div>
-        <!-- Slide 2 -->
-        <div class="carousel-item">
-            <img src="{% static 'app/images/banner/b2.jpg' %}" class="d-block w-100 carousel-image" alt="Natural & Healthy">
-            <div class="carousel-caption d-none d-md-block">
-                <div class="caption-content">
-                    <h1 class="display-3 fw-bold text-white mb-3 animate-fade-in">100% Natural</h1>
-                    <p class="lead text-white mb-4">Organic dairy for a healthier family</p>
-                    <a href="#products" class="btn btn-primary btn-lg px-5 py-3 shadow">Explore Now</a>
-                </div>
-            </div>
+        <div class="slide">
+            <h1>Pure & Natural Dairy</h1>
+            <p>100% farm-fresh • No preservatives • From local farmers</p>
         </div>
-        <!-- Slide 3 -->
-        <div class="carousel-item">
-            <img src="{% static 'app/images/banner/b3.jpg' %}" class="d-block w-100 carousel-image" alt="Winter Offers">
-            <div class="carousel-caption d-none d-md-block">
-                <div class="caption-content">
-                    <h1 class="display-3 fw-bold text-white mb-3 animate-fade-in">Winter Special Offers</h1>
-                    <p class="lead text-white mb-4">Up to 30% OFF on all dairy essentials!</p>
-                    <a href="#products" class="btn btn-warning btn-lg px-5 py-3 shadow text-dark fw-bold">Grab Deals Now</a>
-                </div>
-            </div>
+        <div class="slide">
+            <h1>Daily Fresh Delivery</h1>
+            <p>Order before 10 PM • Get it tomorrow 6–8 AM</p>
         </div>
-        <!-- Slide 4 -->
-        <div class="carousel-item">
-            <img src="{% static 'app/images/banner/b4.jpg' %}" class="d-block w-100 carousel-image" alt="Sustainable Farming">
-            <div class="carousel-caption d-none d-md-block">
-                <div class="caption-content">
-                    <h1 class="display-3 fw-bold text-white mb-3 animate-fade-in">Farm Fresh Daily</h1>
-                    <p class="lead text-white mb-4">Supporting local farmers & sustainable Bangladesh</p>
-                    <a href="#about" class="btn btn-outline-light btn-lg px-5 py-3 shadow">Our Story</a>
-                </div>
-            </div>
+        <!-- Duplicate for seamless loop -->
+        <div class="slide">
+            <h1>Welcome to Daily Dairy Shop</h1>
+            <p>Freshest milk, curd & dairy delivered every morning</p>
         </div>
     </div>
 
-    <!-- Controls -->
-    <button class="carousel-control-prev" type="button" data-bs-target="#bannerCarousel" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon"></span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#bannerCarousel" data-bs-slide="next">
-        <span class="carousel-control-next-icon"></span>
-    </button>
+    <!-- Shop Now Button -->
+    <div class="welcome-btn">
+        <a href="#products" class="btn btn-success btn-lg rounded-pill px-5 py-3 shadow-lg">
+            Shop Now
+        </a>
+    </div>
+
+    <!-- Snow Canvas -->
+    <canvas id="snow-canvas"></canvas>
 </div>
 
-<!-- Elegant Snow Falling Effect (Only on Home Page) -->
-<canvas id="snow-canvas" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:1;"></canvas>
-
 <style>
-/* Premium Slider 2025 */
-.carousel {
-    margin-top: 20px;
-    border-radius: 20px;
-    overflow: hidden;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.18);
-}
-.carousel-image {
-    height: 580px;
-    object-fit: cover;
-    filter: brightness(0.7) contrast(1.1);
-}
-.caption-content {
-    background: rgba(0,0,0,0.5);
-    padding: 40px 50px;
-    border-radius: 20px;
-    backdrop-filter: blur(15px);
-    border: 1px solid rgba(255,255,255,0.15);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-}
-.carousel-indicators .active {
-    background-color: #2E8B57;
-}
-.carousel-control-prev-icon,
-.carousel-control-next-icon {
-    background-color: rgba(46,139,87,0.8);
-    border-radius: 50%;
-    width: 55px;
-    height: 55px;
-}
-.carousel-control-prev-icon:hover,
-.carousel-control-next-icon:hover {
-    background-color: #2E8B57;
-}
+    .welcome-slider {
+        position: relative;
+        height: 100vh;
+        width: 100%;
+        background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+        overflow: hidden;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
 
-/* Ultra Premium Cards */
-.card {
-    border: none !important;
-    border-radius: 20px !important;
-    overflow: hidden;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-    transition: all 0.4s ease;
-}
-.card:hover {
-    transform: translateY(-15px);
-    box-shadow: 0 25px 50px rgba(46,139,87,0.2) !important;
-}
-.card img {
-    transition: transform 0.5s ease;
-}
-.card:hover img {
-    transform: scale(1.1);
-}
-.btn-primary {
-    border-radius: 50px;
-    padding: 0.7rem 2rem;
-    font-weight: 600;
-}
+    .slide-track {
+        display: flex;
+        width: 400%;
+        height: 100%;
+        animation: textSlide 15s infinite linear;
+    }
+
+    .slide {
+        width: 100%;
+        height: 100%;
+        flex-shrink: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 0 10%;
+    }
+
+    .slide h1 {
+        font-size: 3.8rem;
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+        text-shadow: 0 8px 25px rgba(0,0,0,0.6);
+    }
+
+    .slide p {
+        font-size: 1.5rem;
+        opacity: 0.95;
+        max-width: 800px;
+        line-height: 1.6;
+    }
+
+    @keyframes textSlide {
+        0%   { transform: translateX(0%); }
+        25%  { transform: translateX(0%); }
+        33.33% { transform: translateX(-100%); }
+        58.33% { transform: translateX(-100%); }
+        66.66% { transform: translateX(-200%); }
+        91.66% { transform: translateX(-200%); }
+        100% { transform: translateX(-300%); }
+    }
+
+    .welcome-btn {
+        position: absolute;
+        bottom: 12%;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 10;
+    }
+
+    .btn-success {
+        background: #2E8B57;
+        border: none;
+        font-weight: 600;
+        transition: all 0.4s;
+    }
+
+    .btn-success:hover {
+        background: #1e6b42;
+        transform: translateY(-5px);
+        box-shadow: 0 15px 40px rgba(46,139,87,0.6);
+    }
+
+    /* Mobile */
+    @media (max-width: 768px) {
+        .slide h1 { font-size: 2.6rem; }
+        .slide p { font-size: 1.2rem; padding: 0 20px; }
+        .welcome-btn { bottom: 10%; }
+    }
+
+    #snow-canvas {
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        pointer-events: none;
+        z-index: 5;
+    }
+
+    /* Card Hover Effect */
+    .product-card {
+        transition: all 0.4s ease;
+    }
+    .product-card:hover {
+        transform: translateY(-15px);
+        box-shadow: 0 25px 50px rgba(46,139,87,0.2) !important;
+    }
+    .product-card .btn {
+        transition: all 0.3s ease;
+    }
+    .product-card .btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 25px rgba(46,139,87,0.4);
+    }
 </style>
 
-<!-- Snow Effect Script (Light & Professional) -->
+<!-- Snow Effect Script -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const canvas = document.getElementById('snow-canvas');
@@ -142,45 +155,39 @@ document.addEventListener('DOMContentLoaded', function() {
     canvas.height = window.innerHeight;
 
     const snowflakes = [];
-    const numFlakes = 80;
-
-    for(let i = 0; i < numFlakes; i++) {
+    for(let i = 0; i < 90; i++) {
         snowflakes.push({
             x: Math.random() * canvas.width,
             y: Math.random() * canvas.height,
-            radius: Math.random() * 3 + 1,
-            speed: Math.random() * 2 + 0.5,
-            opacity: Math.random() * 0.6 + 0.4
+            r: Math.random() * 3 + 1,
+            speed: Math.random() * 1.8 + 0.6,
+            opacity: Math.random() * 0.7 + 0.3
         });
     }
 
-    function drawSnow() {
+    function draw() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
         ctx.beginPath();
-        for(let flake of snowflakes) {
-            ctx.moveTo(flake.x, flake.y);
-            ctx.arc(flake.x, flake.y, flake.radius, 0, Math.PI * 2);
-            ctx.globalAlpha = flake.opacity;
+        snowflakes.forEach(s => {
+            ctx.moveTo(s.x, s.y);
+            ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
+            ctx.globalAlpha = s.opacity;
             ctx.fill();
-        }
+        });
         ctx.globalAlpha = 1;
-        updateSnow();
-        requestAnimationFrame(drawSnow);
-    }
 
-    function updateSnow() {
-        for(let flake of snowflakes) {
-            flake.y += flake.speed;
-            flake.x += Math.sin(flake.y / 30) * 0.5;
-            if(flake.y > canvas.height) {
-                flake.y = -10;
-                flake.x = Math.random() * canvas.width;
+        snowflakes.forEach(s => {
+            s.y += s.speed;
+            s.x += Math.sin(s.y / 60) * 0.5;
+            if (s.y > canvas.height) {
+                s.y = -10;
+                s.x = Math.random() * canvas.width;
             }
-        }
+        });
+        requestAnimationFrame(draw);
     }
-
-    drawSnow();
+    draw();
 
     window.addEventListener('resize', () => {
         canvas.width = window.innerWidth;
@@ -188,29 +195,37 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
-{% endblock banner-slider %}
+{% endblock %}
 
 {% block main-content %}
-
-<!-- Products Section -->
-<section class="container my-5 py-5" id="products">
+<section class="container py-5 mt-5" id="products">
     <div class="text-center mb-5">
         <h2 class="display-5 fw-bold" style="color:#1a1a1a;">Our Premium Products</h2>
         <p class="lead text-muted">Fresh from farm • Delivered with care</p>
     </div>
+
     <div class="row g-4">
         {% for product in products %}
         <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-            <div class="card h-100 border-0 shadow-sm">
+            <div class="card product-card h-100 border-0 shadow rounded-4 overflow-hidden">
                 {% if product.product_image %}
-                <div class="p-4 bg-light d-flex align-items-center justify-content-center" style="height:260px;">
-                    <img src="{{ product.product_image.url }}" class="img-fluid rounded-3" alt="{{ product.title }}" style="max-height:220px;object-fit:contain;">
+                <div class="p-4 bg-light d-flex justify-content-center align-items-center" style="height:260px;">
+                    <img src="{{ product.product_image.url }}" 
+                         class="img-fluid rounded-3" 
+                         alt="{{ product.title }}" 
+                         style="max-height:220px; object-fit:contain;">
                 </div>
                 {% endif %}
+
                 <div class="card-body text-center d-flex flex-column">
-                    <h5 class="card-title fw-bold mt-2 fs-5">{{ product.title }}</h5>
-                    <p class="text-success fw-bold fs-4 mb-3">৳{{ product.discounted_price }}</p>
-                    <a href="{% url 'product_detail' product.id %}" class="btn btn-primary mt-auto rounded-pill">View Details</a>
+                    <h5 class="card-title fw-bold fs-5 mb-2">{{ product.title }}</h5>
+                    <p class="text-success fw-bold fs-3 mb-3">৳{{ product.discounted_price }}</p>
+
+                    <!-- SMALL & ELEGANT BUTTON -->
+                    <a href="{% url 'product_detail' product.id %}" 
+                       class="btn btn-success btn-sm rounded-pill px-4 py-2 mt-auto fw-medium shadow-sm">
+                        View Details
+                    </a>
                 </div>
             </div>
         </div>
@@ -223,85 +238,15 @@ document.addEventListener('DOMContentLoaded', function() {
 </section>
 
 <!-- About Section -->
-<section class="container my-5 py-5" id="about">
-    <div class="text-center mb-5">
-        <h1 class="display-4 fw-bold" style="color:#1a1a1a;">About Daily Product</h1>
-        <p class="lead text-muted col-lg-8 mx-auto">
-            Proudly serving pure, fresh dairy from the heart of Bangladesh since 2025
-        </p>
-    </div>
-    <div class="row g-5 align-items-center">
+<section class="container py-5 my-5" id="about">
+    <div class="row align-items-center g-5">
         <div class="col-lg-6">
             <img src="{% static 'app/images/about.png' %}" class="img-fluid rounded-4 shadow-lg" alt="Our Farm">
         </div>
         <div class="col-lg-6">
-            <h3 class="fw-bold mb-4" style="color:#2E8B57;">From Our Farms to Your Home</h3>
-            <p class="lead text-muted mb-4">
-                We partner directly with local Bangladeshi farmers to bring you the freshest milk, curd, paneer, cheese, and ice cream — naturally produced, ethically sourced, and delivered with love.
-            </p>
-            <div class="accordion accordion-flush" id="aboutAccordion">
-                <div class="accordion-item border-bottom border-light">
-                    <h2 class="accordion-header">
-                        <button class="accordion-button fw-semibold text-dark" type="button" data-bs-toggle="collapse" data-bs-target="#mission">Our Mission</button>
-                    </h2>
-                    <div id="mission" class="accordion-collapse collapse show">
-                        <div class="accordion-body text-muted">Deliver farm-fresh dairy to every Bangladeshi home with trust and quality.</div>
-                    </div>
-                </div>
-                <div class="accordion-item border-bottom border-light">
-                    <h2 class="accordion-header">
-                        <button class="accordion-button collapsed fw-semibold text-dark" type="button" data-bs-toggle="collapse" data-bs-target="#vision">Our Vision</button>
-                    </h2>
-                    <div id="vision" class="accordion-collapse collapse">
-                        <div class="accordion-body text-muted">To be Bangladesh's most trusted and loved dairy brand.</div>
-                    </div>
-                </div>
-            </div>
+            <h2 class="fw-bold mb-4" style="color:#2E8B57;">From Farm to Your Doorstep</h2>
+            <p class="lead text-muted">We bring you the purest milk, yogurt, ghee, and cheese directly from trusted Bangladeshi farms — fresh, natural, and delivered daily.</p>
         </div>
     </div>
 </section>
-
-<!-- Contact Section -->
-<section class="container my-5 py-5" id="contact">
-    <div class="text-center mb-5">
-        <h2 class="display-5 fw-bold" style="color:#1a1a1a;">Get in Touch</h2>
-        <p class="lead text-muted">We’re here for you 24/7</p>
-    </div>
-    <div class="row g-5">
-        <div class="col-lg-6">
-            <div class="card border-0 shadow-lg h-100">
-                <div class="card-body p-5">
-                    <form method="POST" action="{% url 'contact' %}">
-                        {% csrf_token %}
-                        <div class="mb-4">
-                            <input type="text" name="name" class="form-control form-control-lg rounded-pill" placeholder="Your Name" required>
-                        </div>
-                        <div class="mb-4">
-                            <input type="email" name="email" class="form-control form-control-lg rounded-pill" placeholder="Your Email" required>
-                        </div>
-                        <div class="mb-4">
-                            <input type="text" name="subject" class="form-control form-control-lg rounded-pill" placeholder="Subject" required>
-                        </div>
-                        <div class="mb-4">
-                            <textarea name="message" rows="5" class="form-control form-control-lg rounded-3" placeholder="Your Message" required></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary btn-lg w-100 rounded-pill shadow">Send Message</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-6">
-            <div class="card border-0 shadow-lg h-100">
-                <div class="card-body p-5">
-                    <h4 class="fw-bold mb-4" style="color:#2E8B57;">Contact Information</h4>
-                    <p class="mb-3"><strong>Email:</strong> <a href="mailto:sharatacharjee6@gmail.com">sharatacharjee6@gmail.com</a></p>
-                    <p class="mb-3"><strong>Phone:</strong> +880 1783 720 914</p>
-                    <p class="mb-3"><strong>Address:</strong> Dhaka, Bangladesh</p>
-                    <p class="text-muted mt-4">We reply within 2 hours • 7 days a week</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-{% endblock main-content %}
+{% endblock %}

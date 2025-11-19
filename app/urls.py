@@ -1,8 +1,12 @@
 from django.urls import path
 from . import views
 from django.contrib.auth import views as auth_views
+from django.urls import path
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
+    path('logout/', auth_views.LogoutView.as_view(next_page='home'), name='logout'),
+     
     # Home Page
     path('', views.home, name='home'),
 
@@ -30,7 +34,7 @@ urlpatterns = [
 
     # Authentication
     path('login/', auth_views.LoginView.as_view(template_name='app/login.html'), name='login'),
-    path('logout/', auth_views.LogoutView.as_view(next_page='home'), name='logout'),
+    
     path('register/', views.register, name='register'),
     path('password_reset/', auth_views.PasswordResetView.as_view(), name='password_reset'),
 
@@ -49,6 +53,9 @@ urlpatterns = [
     path('callbacks/bkash/', views.bkash_callback, name='bkash_callback'),
     path('callbacks/nagad/', views.nagad_callback, name='nagad_callback'),
     path('buy/<int:pk>/', views.buy_now, name='buy_now'),
+    path('admin-dashboard/', views.admin_dashboard, name='admin_dashboard'),
+    path('logout/', auth_views.LogoutView.as_view(next_page='home'), name='logout'),
+
     
 
 

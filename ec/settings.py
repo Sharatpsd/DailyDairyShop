@@ -58,6 +58,8 @@ INSTALLED_APPS = [
     'app',
     'cloudinary',
     'cloudinary_storage',
+    'adminpanel',
+    
 ]
 
 # ---------------- Cloudinary Configuration ----------------
