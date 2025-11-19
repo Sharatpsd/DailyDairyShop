@@ -73,7 +73,7 @@ Perfect for small dairy businesses, startups, or learning full-stack Django deve
 | Cloudinary       | Latest      | Image Hosting & Management  |
 | SQLite           | Default     | Development Database        |
 | HTML5 / CSS3 / JS| Modern      | Frontend                    |
-# Daily Dairy Shop – Django Web Application
+
 
 ## 📌 Project Structure
 
