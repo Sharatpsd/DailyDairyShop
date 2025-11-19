@@ -73,8 +73,11 @@ Perfect for small dairy businesses, startups, or learning full-stack Django deve
 | Cloudinary       | Latest      | Image Hosting & Management  |
 | SQLite           | Default     | Development Database        |
 | HTML5 / CSS3 / JS| Modern      | Frontend                    |
+# Daily Dairy Shop – Django Web Application
 
-## Project Structure
+## 📌 Project Structure
+
+```
 DailyDairyShop/
 │
 ├── adminpanel/
@@ -102,43 +105,83 @@ DailyDairyShop/
 ├── media/
 ├── manage.py
 └── README.md
+```
 
-## Installation & Setup
+---
 
-### 1. Clone the Repository
+## ⚙️ Installation & Setup
 
+### **1. Clone the Repository**
+
+```bash
 git clone https://github.com/Sharatpsd/DailyDairyShop.git
 cd DailyDairyShop
+```
+
+### **2. Install Dependencies**
+
+```bash
 pip install -r requirements.txt
-5. Run Migrations & Create Superuser
-Bashpython manage.py makemigrations
+```
+
+### **3. Run Migrations & Create Superuser**
+
+```bash
+python manage.py makemigrations
 python manage.py migrate
-python manage.py createsuper newcom
-6. Start Server
-Bashpython manage.py runserver
-Access URLs
+python manage.py createsuperuser
+```
 
-Homepage: http://127.0.0.1:8000
-Django Admin: http://127.0.0.1:8000/admin
-Custom Admin Dashboard: http://127.0.0.1:8000/adminpanel/
+### **4. Start the Server**
 
+```bash
+python manage.py runserver
+```
 
-Future Enhancements
+---
 
- User Registration & Login
- Wishlist System
- Payment Gateway (bKash, Nagad, SSLCommerz)
- Order Tracking Page
- Email/SMS Notifications
- PDF Invoice Generation
- Multi-language (Bangla + English)
+## 🌐 Access URLs
 
+| Page                   | URL                                                                    |
+| ---------------------- | ---------------------------------------------------------------------- |
+| Homepage               | [http://127.0.0.1:8000](http://127.0.0.1:8000)                         |
+| Django Admin           | [http://127.0.0.1:8000/admin](http://127.0.0.1:8000/admin)             |
+| Custom Admin Dashboard | [http://127.0.0.1:8000/adminpanel/](http://127.0.0.1:8000/adminpanel/) |
 
-Author
-Sharat Acharja Mugdho
+---
+
+## 🚀 Features
+
+* Admin Dashboard
+* Product & Category Management
+* Customer & Order Handling
+* Frontend for Users to Browse Products
+* Secure Authentication
+* Fully Template-Based UI
+* SQLite Database (default)
+
+---
+
+## 🎯 Future Enhancements
+
+* 🔹 User Registration & Login
+* 🔹 Wishlist System
+* 🔹 Payment Gateway (bKash, Nagad, SSLCommerz)
+* 🔹 Order Tracking Page
+* 🔹 Email/SMS Notifications
+* 🔹 PDF Invoice Generation
+* 🔹 Multi-language (Bangla + English)
+
+---
+
+## 👨‍💻 Author
+
+**Sharat Acharja Mugdho**
 Computer Science & Engineering
 Green University of Bangladesh
 
-GitHub: https://github.com/Sharatpsd
-Email: sharatacharjee6@gmail.com
-Portfolio: https://mugdho-portfolio.netlify.app/
+* GitHub: [https://github.com/Sharatpsd](https://github.com/Sharatpsd)
+* Email: [sharatacharjee6@gmail.com](mailto:sharatacharjee6@gmail.com)
+* Portfolio: [https://mugdho-portfolio.netlify.app/](https://mugdho-portfolio.netlify.app/)
+
+---
