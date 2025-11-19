@@ -74,81 +74,34 @@ Perfect for small dairy businesses, startups, or learning full-stack Django deve
 | SQLite           | Default     | Development Database        |
 | HTML5 / CSS3 / JS| Modern      | Frontend                    |
 
----
+## Project Structure
 DailyDairyShop/
 │
-├── adminpanel/                     # Custom Admin App
-│   ├── migrations/
-│   │   ├── 0001_initial.py
-│   │   └── __init__.py
-│   ├── templates/
-│   │   └── adminpanel/
-│   │       ├── dashboard_home.html
-│   │       ├── add_product.html
-│   │       ├── products.html
-│   │       ├── categories.html
-│   │       ├── orders.html
-│   │       └── base_admin.html
-│   ├── __init__.py
-│   ├── admin.py
-│   ├── apps.py
-│   ├── models.py
-│   ├── tests.py
+├── adminpanel/
+│   ├── templates/adminpanel/
+│   │   ├── dashboard_home.html
+│   │   ├── products.html
+│   │   ├── categories.html
+│   │   └── ...
 │   ├── urls.py
-│   └── views.py
+│   ├── views.py
+│   └── models.py
 │
-├── app/                                 # Main Customer App (your current app)
-│   ├── migrations/
-│   │   ├── 0001_initial.py
-│   │   └── __init__.py
-│   ├── templates/
-│   │   └── app/
-│   │       ├── base.html
-│   │       ├── home.html
-│   │       ├── product_detail.html
-│   │       ├── cart.html
-│   │       └── checkout.html
-│   ├── static/
-│   │   └── app/
-│   │       ├── css/
-│   │       │   └── style.css
-│   │       ├── js/
-│   │       │   └── script.js
-│   │       └── images/
-│   │           └── banner/
-│   ├── __init__.py
-│   ├── admin.py
-│   ├── apps.py
-│   ├── models.py
-│   ├── tests.py
+├── customer/
+│   ├── templates/customer/
 │   ├── urls.py
-│   └── views.py
+│   ├── views.py
+│   └── models.py
 │
-├── DailyDairyShop/                      # Main Project Settings
-│   ├── __init__.py
-│   ├── asgi.py
+├── DailyDairyShop/
 │   ├── settings.py
 │   ├── urls.py
 │   └── wsgi.py
 │
-├── media/                               # Uploaded Images (via Cloudinary or local)
-│   └── products/
-│
-├── static/                              # Global Static Files
-│   ├── css/
-│   ├── js/
-│   └── images/
-│
-├── templates/                           # Global Templates (optional)
-│   └── base.html
-│
-├── .gitignore
+├── static/
+├── media/
 ├── manage.py
-├── requirements.txt
-├── README.md
-└── LICENSE
-
----
+└── README.md
 
 ## Installation & Setup
 
