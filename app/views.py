@@ -114,7 +114,7 @@ def add_to_wishlist(request, product_id):
         messages.info(request, f"{product.title} is already in your wishlist.")
     else:
         messages.success(request, f"{product.title} added to your wishlist.")
-    return redirect('home')
+    return redirect('wishlist')
 
 
 @login_required

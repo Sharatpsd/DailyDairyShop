@@ -5,7 +5,6 @@
 
 {% block main-content %}
 <style>
-    /* Custom CSS for Professional Wishlist */
     .wishlist-hero {
         background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
         color: white;
@@ -13,141 +12,86 @@
         border-radius: 15px;
         text-align: center;
         margin-bottom: 30px;
-        box-shadow: 0 10px 30px rgba(255, 107, 107, 0.2);
     }
     .wishlist-card {
         border: none;
         border-radius: 15px;
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(255, 107, 107, 0.05);
-        transition: all 0.3s ease;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+        transition: 0.3s ease;
         overflow: hidden;
-        background: linear-gradient(145deg, #ffffff 0%, #fafbff 100%);
+        background: #fff;
         height: 100%;
-    }
-    .wishlist-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12), 0 6px 18px rgba(255, 107, 107, 0.08);
     }
     .wishlist-image {
         height: 200px;
+        width: 100%;
         object-fit: contain;
         background: #f8f9fa;
         padding: 20px;
-        transition: all 0.3s ease;
     }
-    .wishlist-card:hover .wishlist-image {
-        transform: scale(1.05);
-    }
-    .btn-wishlist {
-        border-radius: 25px;
-        padding: 8px 16px;
-        font-size: 0.875rem;
-        font-weight: 600;
-        transition: all 0.3s ease;
-        margin: 2px;
-        width: 100%;
-    }
-    .btn-add-cart {
-        background: linear-gradient(45deg, #007bff, #0056b3);
-        border: none;
-        color: white;
-    }
-    .btn-add-cart:hover {
-        transform: scale(1.05);
-        box-shadow: 0 3px 10px rgba(0, 123, 255, 0.3);
-    }
-    .btn-remove-wish {
-        background: linear-gradient(45deg, #dc3545, #c82333);
-        border: none;
-        color: white;
-    }
-    .btn-remove-wish:hover {
-        transform: scale(1.05);
-        box-shadow: 0 3px 10px rgba(220, 53, 69, 0.3);
-    }
-    .btn-buy-now {
-        background: linear-gradient(45deg, #28a745, #20c997);
-        border: none;
-        color: white;
-        width: 100%;
-        margin-top: 5px;
-    }
-    .btn-buy-now:hover {
-        transform: scale(1.05);
-        box-shadow: 0 3px 10px rgba(40, 167, 69, 0.3);
-    }
-    .empty-wishlist {
-        text-align: center;
-        padding: 80px 20px;
-        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-        border-radius: 15px;
-        margin-top: 20px;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-    }
-    .btn-shop-wish {
-        background: linear-gradient(45deg, #007bff, #0056b3);
-        border: none;
-        border-radius: 50px;
-        padding: 12px 30px;
-        font-weight: 600;
-        color: white;
-        transition: all 0.3s ease;
-    }
-    .btn-shop-wish:hover {
-        transform: scale(1.05);
-        box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
-    }
+    .btn-wishlist { border-radius: 25px; width: 100%; margin: 2px 0; }
+    .btn-add-cart { background: #007bff; color: white; }
+    .btn-buy-now { background: #28a745; color: white; }
+    .btn-remove-wish { background: #dc3545; color: white; }
 </style>
 
 <div class="container my-5">
-    <!-- Hero Section -->
     <div class="wishlist-hero">
         <h2 class="fw-bold mb-3"><i class="bi bi-heart-fill me-2"></i>My Wishlist</h2>
-        <p class="lead mb-0">Your saved dairy favorites.</p>
+        <p>Your saved dairy favorites.</p>
     </div>
 
     {% if wishlist_items %}
         <div class="row g-4">
+
             {% for item in wishlist_items %}
             <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                <div class="wishlist-card h-100">
-                    <img src="{{ item.product.product_image.url }}" class="wishlist-image w-100" alt="{{ item.product.title }}">
+                <div class="wishlist-card">
+
+                    <!-- FIXED IMAGE PATH -->
+                    {% if item.product.image %}
+                        <img src="{{ item.product.image.url }}" class="wishlist-image" alt="{{ item.product.title }}">
+                    {% else %}
+                        <img src="{% static 'app/images/no-image.png' %}" class="wishlist-image" alt="No Image">
+                    {% endif %}
+
                     <div class="card-body text-center p-3">
-                        <h5 class="card-title fw-bold mb-2">{{ item.product.title }}</h5>
-                        <p class="text-success fw-semibold mb-3">${{ item.product.discounted_price|floatformat:2 }}</p>
-                        <p class="text-muted small mb-3">{{ item.product.description|truncatewords:10 }}</p>
+                        <h5 class="fw-bold mb-2">{{ item.product.title }}</h5>
+                        <p class="text-success fw-semibold mb-3">৳{{ item.product.discounted_price }}</p>
 
-                        <!-- Safe Add to Cart Form (POST) -->
-                        <form method="POST" action="{% url 'add_to_cart' item.product.id %}" class="d-inline mb-2">
+                        <!-- Add to Cart -->
+                        <form method="POST" action="{% url 'add_to_cart' item.product.id %}">
                             {% csrf_token %}
-                            <input type="hidden" name="quantity" value="1">
-                            <button type="submit" class="btn btn-add-cart btn-wishlist"><i class="bi bi-cart-plus me-1"></i>Add to Cart</button>
+                            <button class="btn btn-add-cart btn-wishlist">
+                                <i class="bi bi-cart-plus"></i> Add to Cart
+                            </button>
                         </form>
 
-                        <!-- Safe Buy Now Form (POST - Adds to cart and redirects to checkout) -->
-                        <form method="POST" action="{% url 'buy_now' item.product.id %}" class="d-inline mb-2">
-                            {% csrf_token %}
-                            <input type="hidden" name="quantity" value="1">
-                            <button type="submit" class="btn btn-buy-now btn-wishlist"><i class="bi bi-lightning-charge me-1"></i>Buy Now</button>
-                        </form>
+                        <!-- Buy Now → Takes user to Buy Page -->
+                        <a href="{% url 'buy_now' item.product.id %}" class="btn btn-buy-now btn-wishlist">
+                            <i class="bi bi-lightning-charge"></i> Buy Now
+                        </a>
 
-                        <!-- Safe Remove from Wishlist Form (POST) -->
-                        <form method="POST" action="{% url 'remove_from_wishlist' item.id %}" class="d-inline">
+                        <!-- Remove from Wishlist -->
+                        <form method="POST" action="{% url 'remove_from_wishlist' item.id %}">
                             {% csrf_token %}
-                            <button type="submit" class="btn btn-remove-wish btn-wishlist" onclick="return confirm('Remove from wishlist?')"><i class="bi bi-heartbreak me-1"></i>Remove</button>
+                            <button class="btn btn-remove-wish btn-wishlist" onclick="return confirm('Remove?')">
+                                <i class="bi bi-heartbreak"></i> Remove
+                            </button>
                         </form>
                     </div>
+
                 </div>
             </div>
             {% endfor %}
+
         </div>
     {% else %}
-        <div class="empty-wishlist">
-            <i class="bi bi-heart fs-1 text-muted mb-3"></i>
-            <h4 class="text-muted mb-3">Your wishlist is empty.</h4>
-            <p class="text-muted mb-4">Start adding your favorite dairy products! </p>
-            <a href="{% url 'home' %}" class="btn btn-shop-wish btn-lg">Shop Now</a>
+        <div class="text-center py-5">
+            <h4>Your wishlist is empty.</h4>
+            <a href="{% url 'home' %}" class="btn btn-primary mt-3">Shop Now</a>
         </div>
     {% endif %}
 </div>
+
 {% endblock %}

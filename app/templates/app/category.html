@@ -1,90 +1,150 @@
 {% extends 'app/base.html' %}
 {% load static %}
 
-{% block title %}Category - {{ val|title }}{% endblock title %}
+{% block title %}Category - {{ val|title }}{% endblock %}
 
 {% block main-content %}
 <div class="container my-5 py-4">
 
-    <!-- Elegant Category Header -->
+    <!-- Category Header -->
     <div class="text-center mb-5">
-        <h2 class="display-5 fw-bold mb-3" style="color: #212529;">
+        <h2 class="display-5 fw-bold mb-3" style="color:#212529;">
             {{ val|title }}
         </h2>
         <p class="lead text-muted col-lg-8 mx-auto">
-            Explore our premium selection of fresh, farm-sourced {{ val|lower }} delivered straight to your door.
+            Explore our fresh & premium {{ val|lower }} products.
         </p>
-        <div class="d-inline-block mt-3">
-            <span class="badge bg-light text-dark border px-4 py-2 fs-6">
-                <i class="fas fa-box-open me-2"></i>
-                {{ products|length }} Product{{ products|length|pluralize }}
-            </span>
-        </div>
+        <span class="badge bg-light text-dark border px-4 py-2 fs-6">
+            {{ products|length }} Product{{ products|length|pluralize }}
+        </span>
     </div>
 
     <!-- Products Grid -->
     <div class="row g-4">
         {% for product in products %}
         <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-            <div class="card h-100 border-0 shadow-sm transition-all">
-                {% if product.product_image %}
-                <div class="p-3 bg-light rounded-top d-flex align-items-center justify-content-center" style="height: 240px;">
-                    <img src="{{ product.product_image.url }}"
-                         class="card-img-top img-fluid"
-                         alt="{{ product.title }}"
-                         style="max-height: 200px; object-fit: contain; transition: transform 0.4s ease;">
-                </div>
-                {% endif %}
 
-                <div class="card-body text-center d-flex flex-column">
-                    <h5 class="card-title fw-bold mb-2" style="color: #212529;">
-                        {{ product.title }}
+            <div class="daraz-card">
+
+                <!-- BG IMAGE PART (Corrected) -->
+                <div class="daraz-card-img"
+                     {% if product.image %}
+                         style="background-image: url('{{ product.image.url }}');"
+                     {% else %}
+                         style="background-color:#f8f9fa;"
+                     {% endif %}
+                ></div>
+
+                <!-- TEXT PART -->
+                <div class="daraz-card-body">
+                    <h5 class="daraz-title">
+                        {{ product.title|truncatechars:45 }}
                     </h5>
-                    <p class="text-muted small mb-3 flex-grow-1">
-                        {{ product.description|truncatechars:80 }}
+
+                    <p class="daraz-price">
+                        ৳{{ product.discounted_price }}
+                        {% if product.original_price and product.original_price > product.discounted_price %}
+                        <span class="daraz-old-price">
+                            ৳{{ product.original_price }}
+                        </span>
+                        {% endif %}
                     </p>
-                    <div class="mt-auto">
-                        <p class="fw-bold fs-4 mb-3" style="color: #2E8B57;">
-                            ৳{{ product.discounted_price }}
-                            {% if product.original_price > product.discounted_price %}
-                            <del class="text-muted fs-6 ms-2">৳{{ product.original_price }}</del>
-                            {% endif %}
-                        </p>
-                        <a href="{% url 'product_detail' product.pk %}"
-                           class="btn btn-primary w-100">
-                            View Details
-                        </a>
-                    </div>
+
+                    <a href="{% url 'product_detail' product.pk %}"
+                       class="daraz-btn">
+                        View Details
+                    </a>
                 </div>
+
             </div>
+
         </div>
+
         {% empty %}
         <div class="col-12 text-center py-5">
-            <div class="py-5">
-                <i class="fas fa-box-open fa-3x text-muted mb-4"></i>
-                <p class="fs-4 text-muted">No products available in this category yet.</p>
-                <a href="{% url 'home' %}" class="btn btn-outline-primary mt-3">Explore All Products</a>
-            </div>
+            <i class="fas fa-box-open fa-3x text-muted mb-4"></i>
+            <p class="fs-4 text-muted">No products available in this category yet.</p>
+            <a href="{% url 'home' %}" class="btn btn-outline-success mt-3">
+                Explore All Products
+            </a>
         </div>
         {% endfor %}
     </div>
 </div>
 
-<!-- Minimal Custom Styles for Category Page -->
+<!-- Daraz Style CSS -->
 <style>
-    .transition-all {
-        transition: all 0.35s ease;
-    }
-    .card:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12) !important;
-    }
-    .card:hover img {
-        transform: scale(1.08);
-    }
-    .badge {
-        border: 1.5px solid #e9ecef;
-        letter-spacing: 0.5px;
-    }
+.daraz-card {
+    background: #fff;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid #eee;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+    transition: all 0.3s ease;
+}
+
+.daraz-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+}
+
+.daraz-card-img {
+    width: 100%;
+    height: 190px;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: #ffffff;
+}
+
+.daraz-card-body {
+    padding: 10px 12px 15px 12px;
+}
+
+.daraz-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #222;
+    min-height: 38px;
+}
+
+.daraz-price {
+    margin-top: 6px;
+    margin-bottom: 8px;
+    font-size: 18px;
+    font-weight: 700;
+    color: #ff5e00;
+}
+
+.daraz-old-price {
+    font-size: 13px;
+    color: #999;
+    text-decoration: line-through;
+    margin-left: 4px;
+}
+
+.daraz-btn {
+    display: block;
+    width: 100%;
+    text-align: center;
+    background: #0B8A40;
+    color: #fff;
+    border-radius: 6px;
+    padding: 7px 0;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: 0.25s ease;
+}
+
+.daraz-btn:hover {
+    background: #046b2a;
+    color: #fff;
+}
+
+@media(max-width:768px){
+    .daraz-card-img { height: 160px; }
+}
 </style>
-{% endblock main-content %}
+
+{% endblock %}

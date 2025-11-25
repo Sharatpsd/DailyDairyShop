@@ -8,7 +8,6 @@
     <div class="row justify-content-center">
         <div class="col-md-8 col-lg-6">
 
-            <!-- Simple Clean Card -->
             <div class="card border-success">
                 <div class="card-header bg-success text-white text-center py-3">
                     <h4 class="mb-0">Complete Your Order</h4>
@@ -38,43 +37,51 @@
 
                         <div class="mb-3">
                             <label class="form-label">Your Full Name</label>
-                            <input type="text" name="name" class="form-control" required>
+                            <input type="text" name="name" class="form-control" style="font-size:16px;" required>
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label">Phone Number</label>
-                            <input type="text" name="phone" class="form-control" placeholder=" " maxlength="11" required>
+                            <input type="text" name="phone" class="form-control" style="font-size:16px;" maxlength="11" required>
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label">Full Delivery Address</label>
-                            <textarea name="address" class="form-control" rows="3" placeholder="House/Road, Area, Thana, District" required></textarea>
+                            <textarea name="address" class="form-control" style="font-size:16px;" rows="3"
+                                      placeholder="House/Road, Area, Thana, District" required></textarea>
                         </div>
 
+                        <!-- Payment Method -->
                         <div class="mb-3">
                             <label class="form-label">Payment Method</label>
-                            <select name="payment_method" class="form-select" required>
+                            <select name="payment_method" class="form-select" style="font-size:16px;" required>
                                 <option value="" disabled selected>Select payment method</option>
                                 <option value="Bkash">bKash - 01783-720914</option>
                                 <option value="Nagad">Nagad - 01783-720914</option>
                                 <option value="Rocket">Rocket - 01783-720914</option>
-                                <option value="COD">Cash on Delivery </option>
+                                <option value="COD">Cash on Delivery</option>
                             </select>
                         </div>
 
-                        <!-- Only show for online payment -->
+                        <!-- Professional Instruction Line -->
+                        <div class="alert alert-warning text-center fw-semibold mb-3">
+                            Please send the payment to <strong>01783-720914</strong>  
+                            <br>(Available on bKash, Nagad, Rocket)  
+                            <br>After sending, select your payment method above.
+                        </div>
+
+                        <!-- TrxID Field (Online payment only) -->
                         <div class="mb-3" id="trxid_field">
                             <label class="form-label">Transaction ID / Last 4 Digits</label>
-                            <input type="text" name="last4digit" class="form-control" placeholder="e.g. 1234 or full TrxID" maxlength="20">
+                            <input type="text" name="last4digit" class="form-control" style="font-size:16px;" maxlength="20">
                             <small class="text-muted">Leave blank if you choose Cash on Delivery</small>
                         </div>
 
-                        <!-- Total Amount -->
+                        <!-- Total -->
                         <div class="alert alert-success text-center py-3 mb-4">
                             <h5 class="mb-0">Total Amount: ৳{{ product.discounted_price }}</h5>
                         </div>
 
-                        <!-- Submit Button -->
                         <button type="submit" class="btn btn-success w-100 btn-lg">
                             Confirm Order
                         </button>
@@ -82,9 +89,10 @@
 
                     <div class="text-center mt-4">
                         <small class="text-muted">
-                            We will call you within 5 minutes to confirm your order
+                            We will call you within 5 minutes to confirm your order.
                         </small>
                     </div>
+
                 </div>
             </div>
 
@@ -92,7 +100,7 @@
     </div>
 </div>
 
-<!-- Simple JavaScript: Hide TrxID field when COD selected -->
+<!-- JS: hide/show TrxID -->
 <script>
 document.querySelector('select[name="payment_method"]')?.addEventListener('change', function() {
     const trxField = document.getElementById('trxid_field');
@@ -105,7 +113,6 @@ document.querySelector('select[name="payment_method"]')?.addEventListener('chang
     }
 });
 
-// Auto hide on page load if COD is pre-selected (optional)
 window.addEventListener('load', () => {
     const select = document.querySelector('select[name="payment_method"]');
     if (select && select.value === 'COD') {
@@ -113,4 +120,5 @@ window.addEventListener('load', () => {
     }
 });
 </script>
+
 {% endblock %}
