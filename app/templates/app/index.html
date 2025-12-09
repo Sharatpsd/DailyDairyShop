@@ -5,43 +5,83 @@
 
 {# =================== HERO / BANNER =================== #}
 {% block banner-slider %}
-<section class="welcome-header d-flex flex-column justify-content-center align-items-center text-center text-white">
-    <h1 class="welcome-title fw-bold mb-3">
-        Welcome to Daily Dairy Shop
-    </h1>
-    <p class="welcome-subtitle mb-4">
-        Fresh milk, curd & dairy delivered every morning
-    </p>
-    <a href="#products" class="btn btn-success btn-lg rounded-pill px-4 py-2">
-        Shop Now
-    </a>
+<section class="welcome-header d-flex flex-column justify-content-center align-items-center text-center text-white position-relative overflow-hidden">
+    <!-- Subtle floating particles (mobile-friendly) -->
+    <div class="floating-particles">
+        <span></span><span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span>
+    </div>
+
+    <div class="hero-content">
+        <h1 class="welcome-title fw-bold mb-3 reveal-up">
+            Welcome to Daily Dairy Shop
+        </h1>
+        <p class="welcome-subtitle mb-4 reveal-up delay-1">
+            Fresh milk, curd & dairy delivered every morning
+        </p>
+        <a href="#products" class="btn btn-success btn-lg rounded-pill px-4 py-2 reveal-up delay-2">
+            Shop Now
+        </a>
+    </div>
 </section>
 
 <style>
-/* ---------- HERO SECTION (MOBILE FRIENDLY) ---------- */
 .welcome-header {
     min-height: 55vh;
     background: radial-gradient(circle at top left, #38a169 0, #0f2027 40%, #203a43 70%, #2c5364 100%);
-    width: 100%;
     padding: 32px 16px;
+    position: relative;
 }
 
-/* fluid font size for better mobile view */
-.welcome-title {
-    font-size: clamp(1.9rem, 4vw, 2.8rem);
-    line-height: 1.2;
+/* Ultra-light floating particles - works perfectly on mobile */
+.floating-particles {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
 }
-.welcome-subtitle {
-    font-size: clamp(0.95rem, 2.4vw, 1.2rem);
-    max-width: 480px;
+.floating-particles span {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: rgba(255,255,255,0.4);
+    border-radius: 50%;
+    animation: floatUp 18s infinite linear;
+}
+.floating-particles span:nth-child(1) { left: 10%; animation-delay: 0s; }
+.floating-particles span:nth-child(2) { left: 20%; animation-delay: 3s; }
+.floating-particles span:nth-child(3) { left: 35%; animation-delay: 7s; }
+.floating-particles span:nth-child(4) { left: 50%; animation-delay: 12s; }
+.floating-particles span:nth-child(5) { left: 65%; animation-delay: 5s; }
+.floating-particles span:nth-child(6) { left: 80%; animation-delay: 9s; }
+.floating-particles span:nth-child(7) { left: 90%; animation-delay: 2s; }
+.floating-particles span:nth-child(8) { left: 15%; animation-delay: 15s; }
+
+@keyframes floatUp {
+    0% { transform: translateY(100vh) scale(0); opacity: 0; }
+    10% { opacity: 0.6; }
+    90% { opacity: 0.3; }
+    100% { transform: translateY(-100px) scale(1); opacity: 0; }
 }
 
-/* Mobile tweaks */
+/* Smooth reveal animations - mobile optimized */
+.reveal-up {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: all 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.reveal-up.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+.delay-1 { transition-delay: 0.2s; }
+.delay-2 { transition-delay: 0.4s; }
+
+.welcome-title { font-size: clamp(1.9rem, 4vw, 2.8rem); }
+.welcome-subtitle { font-size: clamp(0.95rem, 2.4vw, 1.2rem); max-width: 480px; }
+
 @media (max-width: 768px) {
-    .welcome-header {
-        min-height: 45vh;
-        padding: 24px 12px;
-    }
+    .welcome-header { min-height: 45vh; padding: 24px 12px; }
 }
 </style>
 {% endblock %}
@@ -52,8 +92,7 @@
 
 {# ---------- PRODUCTS SECTION ---------- #}
 <section class="container py-5 mt-4" id="products">
-
-    <div class="text-center mb-4 mb-md-5">
+    <div class="text-center mb-4 mb-md-5 reveal-fade">
         <h2 class="h3 fw-bold mb-1">Our Premium Products</h2>
         <p class="text-muted mb-0">Fresh • Natural • Delivered with care</p>
     </div>
@@ -61,37 +100,24 @@
     <div class="row g-3 g-sm-4">
         {% for product in products %}
         <div class="col-6 col-md-4 col-lg-3">
-            <div class="card product-card h-100 border-0 shadow-sm rounded-4 overflow-hidden">
-
-                {# PRODUCT IMAGE #}
+            <div class="card product-card h-100 border-0 shadow-sm rounded-4 overflow-hidden reveal-scale">
                 {% if product.image %}
                 <div class="product-image-box bg-light d-flex justify-content-center align-items-center">
-                    <img src="{{ product.image.url }}"
-                         loading="lazy"
-                         class="product-image"
-                         alt="{{ product.title }}">
+                    <img src="{{ product.image.url }}" loading="lazy" class="product-image" alt="{{ product.title }}">
                 </div>
                 {% endif %}
 
-                {# PRODUCT TEXT #}
                 <div class="card-body text-center d-flex flex-column px-3 pb-3 pt-2">
-                    <h5 class="fw-semibold mb-1 product-title">
-                        {{ product.title }}
-                    </h5>
-                    <p class="text-success fw-bold fs-6 fs-md-5 mb-3">
-                        ৳{{ product.discounted_price }}
-                    </p>
-
-                    <a href="{% url 'product_detail' product.id %}"
-                       class="btn btn-success btn-sm rounded-pill px-3 py-2 mt-auto">
+                    <h5 class="fw-semibold mb-1 product-title">{{ product.title }}</h5>
+                    <p class="text-success fw-bold fs-6 fs-md-5 mb-3">৳{{ product.discounted_price }}</p>
+                    <a href="{% url 'product_detail' product.id %}" class="btn btn-success btn-sm rounded-pill px-3 py-2 mt-auto btn-hover">
                         View Details
                     </a>
                 </div>
-
             </div>
         </div>
         {% empty %}
-        <div class="col-12 text-center py-5">
+        <div class="col-12 text-center py-5 reveal-fade">
             <p class="text-muted fs-5">No products available right now.</p>
         </div>
         {% endfor %}
@@ -99,126 +125,103 @@
 </section>
 
 <style>
-/* ---------- PRODUCT CARD / GRID ---------- */
-.product-image-box {
-    height: 200px;
-    padding: 12px;
-}
-
+.product-image-box { height: 200px; padding: 12px; }
 .product-image {
     max-height: 180px;
     width: auto;
     object-fit: contain;
-    transition: transform 0.3s ease-in-out;
+    transition: transform 0.45s ease;
     border-radius: 10px;
 }
 
-.product-title {
-    font-size: 0.95rem;
-}
-
-/* Card hover only for larger screens */
+/* Premium hover + reveal */
 .product-card {
-    transition: 0.25s ease;
+    transition: all 0.35s ease;
     border-radius: 20px !important;
 }
-@media (min-width: 768px) {
-    .product-card:hover .product-image {
-        transform: scale(1.06);
-    }
-    .product-card:hover {
-        transform: translateY(-6px);
-        box-shadow: 0 12px 26px rgba(46,139,87,0.18);
-    }
+.product-card:hover .product-image { transform: scale(1.08); }
+.product-card:hover { transform: translateY(-8px); box-shadow: 0 16px 32px rgba(46,139,87,0.2); }
+
+/* Button micro-interaction */
+.btn-hover {
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+.btn-hover::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 0; height: 0;
+    background: rgba(255,255,255,0.3);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+.btn-hover:active::after {
+    width: 300px; height: 300px;
 }
 
-/* Mobile tweaks */
+/* Reveal animations */
+.reveal-scale {
+    opacity: 0;
+    transform: scale(0.9) translateY(30px);
+    transition: all 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+.reveal-scale.active { opacity: 1; transform: scale(1) translateY(0); }
+
+.reveal-fade {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.9s ease;
+}
+.reveal-fade.active { opacity: 1; transform: translateY(0); }
+
 @media (max-width: 768px) {
-    .product-image-box {
-        height: 170px;
-        padding: 8px;
-    }
-    .product-image {
-        max-height: 150px;
-    }
+    .product-image-box { height: 170px; padding: 8px; }
+    .product-image { max-height: 150px; }
 }
 </style>
 
 
-{# ---------- ABOUT SECTION (IMPROVED & MOBILE FRIENDLY) ---------- #}
+{# ---------- ABOUT SECTION ---------- #}
 <section class="container py-5 my-4" id="about">
     <div class="row g-4 g-lg-5 align-items-center">
+        <div class="col-12 col-lg-6 reveal-left">
+            <div class="about-img-wrapper position-relative">
 
-        {# IMAGE LEFT #}
-        <div class="col-12 col-lg-6">
-            <div class="about-img-wrapper">
-                <img src="{% static 'app/images/about.png' %}"
+                <!-- Updated Premium Online Image -->
+                <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1200&q=80"
                      class="img-fluid rounded-4 shadow-lg about-image"
-                     alt="Our dairy farm and fresh products"
+                     alt="Our dairy farm"
                      loading="lazy">
-                <div class="about-badge">
-                    100% Fresh • Daily Supply
-                </div>
+
+                <div class="about-badge">100% Fresh • Daily Supply</div>
             </div>
         </div>
 
-        {# CONTENT RIGHT #}
-        <div class="col-12 col-lg-6">
-            <h2 class="fw-bold mb-3" style="color:#2E8B57;">
-                From Farm to Your Home
-            </h2>
-            <p class="text-muted mb-3">
-                We bring you the freshest milk, yogurt, paneer, ghee & cheese directly from trusted
-                Bangladeshi farms — naturally produced, preservative-free, and delivered with care.
-            </p>
-            <p class="text-muted mb-4">
-                Every product is carefully handled from milking to packaging, ensuring hygiene, safety,
-                and original taste. Our team works closely with local farmers to support sustainable
-                dairy farming in Bangladesh.
-            </p>
 
-            {# SMALL FEATURE LIST #}
+        <div class="col-12 col-lg-6 reveal-right">
+            <h2 class="fw-bold mb-3" style="color:#2E8B57;">From Farm to Your Home</h2>
+            <p class="text-muted mb-3">We bring you the freshest milk, yogurt, paneer, ghee & cheese directly from trusted Bangladeshi farms — naturally produced, preservative-free, and delivered with care.</p>
+            <p class="text-muted mb-4">Every product is carefully handled from milking to packaging, ensuring hygiene, safety, and original taste.</p>
+
             <div class="row g-3 mb-4">
-                <div class="col-6">
-                    <div class="about-feature">
-                        <span class="about-icon">🥛</span>
-                        <div>
-                            <h6 class="mb-1 fw-semibold">Pure Ingredients</h6>
-                            <small class="text-muted">No added preservatives</small>
-                        </div>
-                    </div>
+                <div class="col-6 reveal-up delay-1">
+                    <div class="about-feature"><span class="about-icon">Milk</span><div><h6 class="mb-1 fw-semibold">Pure Ingredients</h6><small class="text-muted">No added preservatives</small></div></div>
                 </div>
-                <div class="col-6">
-                    <div class="about-feature">
-                        <span class="about-icon">⏱️</span>
-                        <div>
-                            <h6 class="mb-1 fw-semibold">Daily Delivery</h6>
-                            <small class="text-muted">Fresh every single day</small>
-                        </div>
-                    </div>
+                <div class="col-6 reveal-up delay-2">
+                    <div class="about-feature"><span class="about-icon">Clock</span><div><h6 class="mb-1 fw-semibold">Daily Delivery</h6><small class="text-muted">Fresh every single day</small></div></div>
                 </div>
-                <div class="col-6">
-                    <div class="about-feature">
-                        <span class="about-icon">🧊</span>
-                        <div>
-                            <h6 class="mb-1 fw-semibold">Cold Chain</h6>
-                            <small class="text-muted">Maintained from farm to door</small>
-                        </div>
-                    </div>
+                <div class="col-6 reveal-up delay-3">
+                    <div class="about-feature"><span class="about-icon">Ice</span><div><h6 class="mb-1 fw-semibold">Cold Chain</h6><small class="text-muted">Maintained from farm to door</small></div></div>
                 </div>
-                <div class="col-6">
-                    <div class="about-feature">
-                        <span class="about-icon">❤️</span>
-                        <div>
-                            <h6 class="mb-1 fw-semibold">Customer Care</h6>
-                            <small class="text-muted">Support 7 days a week</small>
-                        </div>
-                    </div>
+                <div class="col-6 reveal-up delay-4">
+                    <div class="about-feature"><span class="about-icon">Heart</span><div><h6 class="mb-1 fw-semibold">Customer Care</h6><small class="text-muted">Support 7 days a week</small></div></div>
                 </div>
             </div>
 
-            <a href="{% url 'contact' %}"
-               class="btn btn-outline-success rounded-pill px-4 py-2">
+            <a href="{% url 'contact' %}" class="btn btn-outline-success rounded-pill px-4 py-2 btn-hover">
                 Contact Us
             </a>
         </div>
@@ -226,30 +229,15 @@
 </section>
 
 <style>
-/* ---------- ABOUT SECTION STYLES ---------- */
-.about-img-wrapper {
-    position: relative;
-    max-width: 480px;
-    margin: 0 auto;
-}
-
-.about-image {
-    transition: 0.35s ease;
-    object-fit: cover;
-    max-height: 420px;
-    width: 100%;
-}
-
+.about-img-wrapper { position: relative; max-width: 480px; margin: 0 auto; }
+.about-image { transition: all 0.5s ease; }
 .about-img-wrapper:hover .about-image {
-    transform: translateY(-4px);
-    box-shadow: 0 22px 40px rgba(0, 0, 0, 0.18);
+    transform: translateY(-6px);
+    box-shadow: 0 25px 50px rgba(0,0,0,0.2);
 }
-
-/* Small badge on image */
 .about-badge {
     position: absolute;
-    bottom: 12px;
-    left: 12px;
+    bottom: 12px; left: 12px;
     background: rgba(46,139,87,0.95);
     color: #fff;
     padding: 6px 14px;
@@ -257,28 +245,46 @@
     font-size: 0.75rem;
     font-weight: 600;
 }
-
-/* Features */
 .about-feature {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 8px 10px;
+    display: flex; align-items: center; gap: 8px;
+    padding: 10px 12px;
     background: #f8fdf9;
-    border-radius: 12px;
+    border-radius: 14px;
     border: 1px solid #e3f2ea;
+    transition: all 0.3s ease;
 }
+.about-feature:hover { background: #e8f5ee; transform: translateY(-3px); }
+.about-icon { font-size: 1.4rem; }
 
-.about-icon {
-    font-size: 1.3rem;
+/* Directional reveals */
+.reveal-left {
+    opacity: 0;
+    transform: translateX(-50px);
+    transition: all 1s ease;
 }
-
-/* Mobile spacing */
-@media (max-width: 768px) {
-    #about {
-        padding-top: 0;
-    }
+.reveal-right {
+    opacity: 0;
+    transform: translateX(50px);
+    transition: all 1s ease;
 }
+.reveal-left.active { opacity: 1; transform: translateX(0); }
+.reveal-right.active { opacity: 1; transform: translateX(0); }
 </style>
+
+<!-- Tiny & Fast Scroll Reveal Script (mobile-optimized) -->
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const elements = document.querySelectorAll('.reveal-up, .reveal-scale, .reveal-fade, .reveal-left, .reveal-right');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+            }
+        });
+    }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
+
+    elements.forEach(el => observer.observe(el));
+});
+</script>
 
 {% endblock %}
