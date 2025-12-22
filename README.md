@@ -8,6 +8,14 @@
 [![Live Demo](https://img.shields.io/badge/Live_Demo-Online-success)](https://dailydairyshop-3.onrender.com/)
 
 ---
+git clone https://github.com/Sharatpsd/DailyDairyShop.git
+cd DailyDairyShop
+python -m venv venv
+venv\Scripts\activate
+pip install -r requirements.txt
+python manage.py migrate
+python manage.py runserver
+
 
 ## Project Overview
 
