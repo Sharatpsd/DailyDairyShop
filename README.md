@@ -7,8 +7,6 @@
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Live Demo](https://img.shields.io/badge/Live_Demo-Online-success)](https://dailydairyshop-3.onrender.com/)
 
----
-
 ## Project Overview
 
 **Daily Dairy Shop** is a fully functional **e-commerce web application** built with **Django** for selling fresh dairy products online (milk, curd, ghee, paneer, cheese, ice cream, etc.).
