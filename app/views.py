@@ -312,8 +312,9 @@ def checkout_start(request, order_id, gateway='bkash'):
         messages.error(request, "Unsupported payment method.")
         return redirect('home')
 
-def buy_now(request, pk):
-    product = Product.objects.get(id=pk)
+def buy_now(request, product_id):
+    product = Product.objects.get(id=product_id)
+
 
     if request.method == "POST":
         name = request.POST.get("name")

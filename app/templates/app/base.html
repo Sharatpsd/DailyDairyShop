@@ -187,7 +187,7 @@
               <li><a class="dropdown-item" href="{% url 'category' 'CR' %}">Curd</a></li>
               <li><a class="dropdown-item" href="{% url 'category' 'PN' %}">Paneer</a></li>
               <li><a class="dropdown-item" href="{% url 'category' 'CZ' %}">Cheese</a></li>
-              <  <li><a class="dropdown-item" href="{% url 'category' 'IC' %}">Ice-cream</a></li>
+              <li><a class="dropdown-item" href="{% url 'category' 'IC' %}">Ice-cream</a></li>
             </ul>
           </li>
 
@@ -226,15 +226,15 @@
             <ul class="dropdown-menu dropdown-menu-end">
              
               <li><hr class="dropdown-divider"></li>
-              <form method="POST" action="{% url 'logout' %}">
-    {% csrf_token %}
-    <button type="submit" class="btn btn-danger">Logout</button>
+              <form method="POST" action="{% url 'account_logout' %}">
+  {% csrf_token %}
+  <button type="submit" class="btn btn-danger">Logout</button>
 </form>
 
             </ul>
           </div>
           {% else %}
-          <a class="nav-pill" href="{% url 'login' %}">Login</a>
+          <a class="nav-pill" href="{% url 'account_login' %}">Login</a>
           <a class="nav-pill" href="{% url 'register' %}">Register</a>
           {% endif %}
 
