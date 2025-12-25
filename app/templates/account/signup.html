@@ -1,12 +1,14 @@
 {% extends "app/base.html" %}
 {% load static %}
 {% load socialaccount %}
+{% load i18n %}
+{% load account %}
 
-{% block title %}Sign In{% endblock %}
+{% block title %}Create Account{% endblock %}
 
 {% block main-content %}
 <style>
-  .login-card {
+  .signup-card {
     max-width: 480px;
     margin: 0 auto;
     border-radius: 22px;
@@ -15,14 +17,14 @@
     overflow: hidden;
   }
 
-  .login-hero {
+  .signup-hero {
     background: linear-gradient(135deg, #28a745, #0d6efd);
     color: #fff;
     padding: 28px 20px;
     text-align: center;
   }
 
-  .login-hero h2 {
+  .signup-hero h2 {
     margin-bottom: 6px;
   }
 
@@ -72,56 +74,75 @@
 </style>
 
 <div class="container my-5">
-  <div class="login-card">
+  <div class="signup-card">
     
     <!-- Header -->
-    <div class="login-hero">
-      <h2 class="fw-bold">Welcome Back</h2>
-      <p class="small mb-0">Sign in to continue</p>
+    <div class="signup-hero">
+      <h2 class="fw-bold">Join Us Today</h2>
+      <p class="small mb-0">Create your account to get started</p>
     </div>
 
     <!-- Body -->
     <div class="card-body p-4">
 
-      <!-- GOOGLE LOGIN -->
+      <!-- GOOGLE SIGNUP -->
       <a href="{% provider_login_url 'google' %}" class="google-btn mb-3">
         <img src="https://developers.google.com/identity/images/g-logo.png" width="20" alt="Google">
-        Sign in with Google
+        Sign up with Google
       </a>
 
       <div class="divider">OR</div>
 
-      <!-- EMAIL / PASSWORD LOGIN -->
-      <form method="POST" action="{% url 'account_login' %}">
+      <!-- EMAIL / PASSWORD SIGNUP -->
+      <form method="POST" action="{% url 'account_signup' %}">
         {% csrf_token %}
 
+        {{ form.non_field_errors }}
+
         <div class="form-floating mb-3">
-          <input type="email" name="login" class="form-control" placeholder="Email address" required>
+          <input type="email" name="email" class="form-control {% if form.email.errors %}is-invalid{% endif %}" 
+                 placeholder="Email address" value="{{ form.email.value|default:'' }}" required>
           <label>Email address</label>
+          {% if form.email.errors %}
+            <div class="invalid-feedback">
+              {% for error in form.email.errors %}{{ error }}{% endfor %}
+            </div>
+          {% endif %}
         </div>
 
         <div class="form-floating mb-3">
-          <input type="password" name="password" class="form-control" placeholder="Password" required>
+          <input type="password" name="password1" class="form-control {% if form.password1.errors %}is-invalid{% endif %}" 
+                 placeholder="Password" required>
           <label>Password</label>
+          {% if form.password1.errors %}
+            <div class="invalid-feedback">
+              {% for error in form.password1.errors %}{{ error }}{% endfor %}
+            </div>
+          {% endif %}
+        </div>
+
+        <div class="form-floating mb-3">
+          <input type="password" name="password2" class="form-control {% if form.password2.errors %}is-invalid{% endif %}" 
+                 placeholder="Confirm Password" required>
+          <label>Confirm Password</label>
+          {% if form.password2.errors %}
+            <div class="invalid-feedback">
+              {% for error in form.password2.errors %}{{ error }}{% endfor %}
+            </div>
+          {% endif %}
         </div>
 
         <button type="submit" class="btn btn-success w-100 rounded-pill py-2">
-          Sign In
+          Create Account
         </button>
       </form>
 
       <!-- Footer links -->
       <div class="text-center mt-4">
         <p class="mb-1 small">
-          Don’t have an account?
-          <a href="{% url 'account_signup' %}" class="fw-semibold text-decoration-none">
-
-            Create one
-          </a>
-        </p>
-        <p class="small mb-0">
-          <a href="{% url 'password_reset' %}" class="text-muted text-decoration-none">
-            Forgot your password?
+          Already have an account?
+          <a href="{% url 'account_login' %}" class="fw-semibold text-decoration-none">
+            Sign in here
           </a>
         </p>
       </div>

@@ -9,6 +9,15 @@ import cloudinary
 import cloudinary.uploader
 import cloudinary.api
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+EMAIL_HOST_USER = 'sharatacharjee6@gmail.com'
+EMAIL_HOST_PASSWORD = 'iyxrzfhdjoxvguhq'  # ⚠️ no spaces
+DEFAULT_FROM_EMAIL = 'Daily Dairy Shop <sharatacharjee6@gmail.com>'
+
 
 
 
