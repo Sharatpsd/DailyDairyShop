@@ -18,19 +18,23 @@ Perfect for small dairy businesses, startups, or learning full-stack Django deve
 **Live Demo:** [https://dailydairyshop-3.onrender.com](https://dailydairyshop-3.onrender.com)
 
 ---
-
 ## Screenshots
 
 | Homepage (Welcome Slider) | Product Catalog |
 |---------------------------|-----------------|
-| ![Homepage](https://drive.google.com/uc?export=view&id=1LxSJOdhit21L8JFtIalRXAnwOVhBCa7Z) | ![Products](https://drive.google.com/uc?id=1RjvFzhSXO2ouvDsT0qZEksyXlT5put4V) |
+| ![Homepage](https://drive.google.com/uc?export=view&id=1LxSJOdhit21L8JFtIalRXAnwOVhBCa7Z) | ![Products](https://drive.google.com/uc?export=view&id=1RjvFzhSXO2ouvDsT0qZEksyXlT5put4V) |
 
 | Product Details | Admin Dashboard |
 |------------------|------------------|
-| ![Product Detail](https://drive.google.com/uc?id=1llCnC_9ki7UzG9HQdpX7iOJ-7cVxiO_t) | ![Admin](https://drive.google.com/uc?id=15fXBZQVgPwkHdmwQmGjDs6mIrU-bIkcl) |
+| ![Product Detail](https://drive.google.com/uc?export=view&id=1llCnC_9ki7UzG9HQdpX7iOJ-7cVxiO_t) | ![Admin](https://drive.google.com/uc?export=view&id=15fXBZQVgPwkHdmwQmGjDs6mIrU-bIkcl) |
 
----
+| Wishlist | Add To Cart |
+|----------|-------------|
+| ![Wishlist](https://drive.google.com/uc?export=view&id=1-iQe97e8iGU8WfpAjZIUObV5fn8pzs-k) | ![Add To Cart](https://drive.google.com/uc?export=view&id=1R4CN7bCc7RpOdbISid1UkPePPQk2I755) |
 
+| Order Status (Pending) |
+|-------------------------|
+| ![Order Pending](https://drive.google.com/uc?export=view&id=1l53KcOZKnVRcu_wXiFXfC6Ot1IjG93Xr) |
 ## Key Features
 
 ### Customer Features
