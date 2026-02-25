@@ -23,7 +23,7 @@ Perfect for small dairy businesses, startups, or learning full-stack Django deve
 
 | Homepage (Welcome Slider) | Product Catalog |
 |---------------------------|-----------------|
-| ![Homepage](https://drive.google.com/file/d/1LxSJOdhit21L8JFtIalRXAnwOVhBCa7Z/view?usp=sharing) | ![Products](https://drive.google.com/uc?id=1RjvFzhSXO2ouvDsT0qZEksyXlT5put4V) |
+| ![Homepage](https://drive.google.com/uc?export=view&id=1LxSJOdhit21L8JFtIalRXAnwOVhBCa7Z) | ![Products](https://drive.google.com/uc?id=1RjvFzhSXO2ouvDsT0qZEksyXlT5put4V) |
 
 | Product Details | Admin Dashboard |
 |------------------|------------------|
