@@ -9,250 +9,717 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
+  <!-- Premium Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600;1,700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
   <!-- Custom CSS -->
   <link rel="stylesheet" href="{% static 'app/css/owl.carousel.min.css' %}">
   <link rel="stylesheet" href="{% static 'app/css/all.min.css' %}">
   <link rel="stylesheet" href="{% static 'app/css/style.css' %}">
 
+  <title>Daily Dairy Shop | {% block title %}Home{% endblock %}</title>
+
   <style>
-    :root {
-      --green: #2E8B57;
-      --green-dark: #1e6b42;
-      --light: #f8fff9;
-    }
+  /* ═══════════════════════════════════════════════════════
+     DESIGN TOKENS
+  ═══════════════════════════════════════════════════════ */
+  :root {
+    --ink:        #0b1a0e;
+    --forest:     #143d1f;
+    --fern:       #1e6b3a;
+    --sage:       #4a9e6b;
+    --mint:       #a8e6c0;
+    --cream:      #faf7f0;
+    --ivory:      #f4f1ea;
+    --gold:       #c8a96e;
+    --gold-light: #e8d5a8;
+    --latte:      #e2dcd0;
+    --white:      #ffffff;
+    --muted:      #7a8a7a;
+    --border:     rgba(200,169,110,0.18);
 
-    body {
-      background: linear-gradient(135deg, #f8fdf9 0%, #f0f8f4 100%);
-      background-attachment: fixed;
-      font-family: 'Georgia', 'Times New Roman', serif;
-      min-height: 100vh;
-      color: #212529;
-    }
+    --ff-display: 'Cormorant Garamond', Georgia, serif;
+    --ff-body:    'Outfit', system-ui, sans-serif;
+    --ease:       cubic-bezier(0.22, 1, 0.36, 1);
+    --r-pill:     999px;
 
-    .navbar {
-      background: white !important;
-      padding: 0.85rem 0;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.07);
-      border-bottom: 1px solid #eef7f1;
-      position: sticky;
-      top: 0;
-      z-index: 1030;
-    }
+    --sh-sm:  0 2px 14px rgba(11,26,14,.07);
+    --sh-md:  0 8px 32px rgba(11,26,14,.11);
+    --sh-lg:  0 20px 52px rgba(11,26,14,.16);
+    --sh-gold: 0 6px 24px rgba(200,169,110,.25);
+  }
 
-    .navbar {
-    transition: background 0.3s ease, box-shadow 0.3s ease;
-}
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
 
-.navbar.scrolled {
-    background: rgba(255,255,255,0.98) !important;
-    backdrop-filter: blur(10px);
-    box-shadow: 0 4px 10px rgba(0,0,0,0.10);
-}
+  body {
+    font-family: var(--ff-body);
+    background: var(--cream);
+    color: var(--ink);
+    min-height: 100vh;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
 
+  /* ═══════════════════════════════════════════════════════
+     TOP ANNOUNCEMENT BAR
+  ═══════════════════════════════════════════════════════ */
+  .top-bar {
+    position: relative;
+    z-index: 1040;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    background: linear-gradient(90deg, #071208 0%, #143d1f 35%, #1e6b3a 65%, #143d1f 85%, #071208 100%);
+    background-size: 300% 100%;
+    animation: topBarMove 10s linear infinite;
+  }
+  @keyframes topBarMove {
+    0%   { background-position: 100% 0; }
+    100% { background-position:   0% 0; }
+  }
+  /* Gold shimmer line bottom */
+  .top-bar::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    animation: goldGlow 3s ease-in-out infinite;
+  }
+  @keyframes goldGlow { 0%,100% { opacity: .3; } 50% { opacity: 1; } }
 
-    /* ALL NAVBAR PILLS */
-    .nav-pill {
-      background: white;
-      color: var(--green) !important;
-      border: 2.8px solid var(--green);
-      border-radius: 50px;
-      padding: 0.55rem 1.7rem;
-      font-weight: 600;
-      font-size: 0.95rem;
-      min-height: 44px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 7px;
-      transition: all 0.35s ease;
-      box-shadow: 0 4px 15px rgba(46,139,87,0.18);
-      text-decoration: none !important;
-      white-space: nowrap;
-    }
+  .top-bar__track {
+    display: flex; align-items: center; gap: 28px;
+    white-space: nowrap; padding: 0 24px;
+  }
+  /* Mobile marquee */
+  .top-bar__track--mobile {
+    animation: marquee 20s linear infinite;
+  }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
 
-    .nav-pill:hover,
-    .nav-pill.active {
-      background: var(--green) !important;
-      color: white !important;
-      transform: translateY(-4px);
-      box-shadow: 0 12px 28px rgba(46,139,87,0.35);
-    }
+  .top-bar__item {
+    display: inline-flex; align-items: center; gap: 7px;
+    font-family: var(--ff-body);
+    font-size: .68rem; font-weight: 700;
+    letter-spacing: 1.1px; text-transform: uppercase;
+    color: var(--gold-light); flex-shrink: 0;
+  }
+  .top-bar__item i { color: var(--gold); font-size: .8rem; }
+  .top-bar__sep { display: inline-block; width: 1px; height: 13px; background: rgba(200,169,110,.28); flex-shrink: 0; }
 
-    .nav-link.active { background: var(--green) !important; color: white !important; }
+  /* ═══════════════════════════════════════════════════════
+     NAVBAR
+  ═══════════════════════════════════════════════════════ */
+  .navbar {
+    position: sticky;
+    top: 0; z-index: 1035;
+    background: rgba(250,247,240,0.97) !important;
+    border-bottom: 1px solid var(--border);
+    box-shadow: var(--sh-sm);
+    padding: 0 !important;
+    transition: background .4s var(--ease), box-shadow .4s var(--ease);
+  }
+  .navbar.scrolled {
+    background: rgba(250,247,240,0.85) !important;
+    backdrop-filter: blur(22px) saturate(1.5);
+    -webkit-backdrop-filter: blur(22px) saturate(1.5);
+    box-shadow: 0 6px 36px rgba(11,26,14,.13);
+    border-bottom-color: rgba(200,169,110,.3);
+  }
+  /* Gold hairline on scroll */
+  .navbar::after {
+    content: '';
+    position: absolute; bottom: -1px; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), var(--gold-light), var(--gold), transparent);
+    opacity: 0; pointer-events: none;
+    transition: opacity .4s var(--ease);
+  }
+  .navbar.scrolled::after { opacity: 1; }
 
-    /* SEARCH FORM - PERFECT ICON */
-    .search-form {
-      position: relative;
-      width: 270px;
-    }
+  .navbar .container-fluid { padding: .85rem 1.5rem; gap: 10px; }
 
-    .search-form .form-control {
-      height: 44px;
-      border-radius: 50px;
-      padding: 0 1.4rem 0 1.4rem;
-      border: 2.8px solid var(--green);
-      font-size: 0.95rem;
-      background: white;
-      box-shadow: 0 4px 15px rgba(46,139,87,0.15);
-    }
+  /* ── LOGO ── */
+  .navbar-brand {
+    display: flex; align-items: center; gap: 11px;
+    text-decoration: none; flex-shrink: 0; padding: 0;
+  }
+  .nb-logo-ring {
+    position: relative; flex-shrink: 0; width: 50px; height: 50px;
+  }
+  /* Rotating gold conic ring */
+  .nb-logo-ring::before {
+    content: '';
+    position: absolute; inset: -3px; border-radius: 50%;
+    background: conic-gradient(
+      from 0deg,
+      transparent 0deg,
+      var(--gold) 60deg,
+      var(--gold-light) 120deg,
+      var(--gold) 180deg,
+      transparent 240deg,
+      transparent 360deg
+    );
+    animation: logoSpin 7s linear infinite;
+    opacity: .75;
+  }
+  @keyframes logoSpin { to { transform: rotate(360deg); } }
+  .nb-logo-img {
+    position: relative; z-index: 1;
+    width: 50px; height: 50px; border-radius: 50%;
+    object-fit: cover;
+    border: 2.5px solid var(--white);
+    box-shadow: var(--sh-md);
+    transition: transform .45s var(--ease);
+  }
+  .navbar-brand:hover .nb-logo-img { transform: scale(1.08) rotate(4deg); }
 
-    .search-form .form-control:focus {
-      border-color: var(--green);
-      box-shadow: 0 0 0 0.2rem rgba(46,139,87,0.25);
-    }
+  .nb-logo-copy { line-height: 1.1; }
+  .nb-logo-copy strong {
+    display: block;
+    font-family: var(--ff-display);
+    font-size: 1.06rem; font-weight: 700;
+    color: var(--forest); letter-spacing: -.2px;
+    transition: color .25s;
+  }
+  .nb-logo-copy small {
+    font-size: .59rem; font-weight: 700;
+    letter-spacing: 1.8px; text-transform: uppercase;
+    color: var(--gold);
+  }
+  .navbar-brand:hover .nb-logo-copy strong { color: var(--ink); }
 
-    .search-form button {
-      position: absolute;
-      top: 0;
-      right: 0;
-      height: 44px;
-      width: 44px;
-      border-radius: 50%;
-      background: var(--green);
-      color: white;
-      border: none;
-      font-size: 1.1rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 15px rgba(46,139,87,0.25);
-    }
+  /* ── NAV LINKS ── */
+  .navbar-nav { gap: 2px; }
+  .navbar-nav .nav-link {
+    font-family: var(--ff-body);
+    font-size: .875rem; font-weight: 600;
+    color: var(--ink) !important;
+    padding: .5rem .95rem !important;
+    border-radius: 11px; letter-spacing: .1px;
+    position: relative;
+    transition: color .25s var(--ease), background .25s var(--ease);
+  }
+  .navbar-nav .nav-link::after {
+    content: '';
+    position: absolute; bottom: 5px; left: .95rem; right: .95rem;
+    height: 1.5px; background: var(--forest); border-radius: 2px;
+    transform: scaleX(0); transform-origin: left;
+    transition: transform .3s var(--ease);
+  }
+  .navbar-nav .nav-link:hover::after,
+  .navbar-nav .nav-link.active-link::after { transform: scaleX(1); }
+  .navbar-nav .nav-link:hover { color: var(--forest) !important; background: rgba(20,61,31,.06); }
+  .navbar-nav .nav-link.active-link { color: var(--forest) !important; background: rgba(20,61,31,.09); }
 
-    .search-form button:hover {
-      background: var(--green-dark);
-      transform: scale(1.05);
-    }
+  /* Dropdown chevron */
+  .navbar-nav .dropdown-toggle::after {
+    display: inline-block; border: none;
+    font-family: 'bootstrap-icons'; content: '\F282';
+    font-size: .64rem; vertical-align: middle; margin-left: 3px;
+    transition: transform .3s var(--ease);
+  }
+  .navbar-nav .dropdown.show .dropdown-toggle::after { transform: rotate(180deg); }
 
-    .badge-notif {
-      font-size: 0.68rem;
-      padding: 0.25em 0.6em;
-    }
+  /* ── DROPDOWN ── */
+  .dropdown-menu {
+    border: 1px solid var(--border) !important;
+    border-radius: 18px !important;
+    box-shadow: var(--sh-lg) !important;
+    padding: .55rem .45rem !important;
+    margin-top: 10px !important;
+    background: rgba(252,250,246,.97) !important;
+    backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+    min-width: 196px;
+    animation: dropIn .22s var(--ease);
+  }
+  @keyframes dropIn {
+    from { opacity: 0; transform: translateY(-10px) scale(.96); }
+    to   { opacity: 1; transform: translateY(0)   scale(1); }
+  }
+  .dropdown-item {
+    font-family: var(--ff-body);
+    font-size: .865rem; font-weight: 500;
+    color: var(--ink) !important;
+    padding: .58rem 1rem !important;
+    border-radius: 11px !important;
+    margin: 1px 0;
+    display: flex; align-items: center; gap: 9px;
+    transition: background .2s var(--ease), transform .2s var(--ease), color .2s;
+  }
+  .dropdown-item:hover {
+    background: rgba(20,61,31,.07) !important;
+    color: var(--forest) !important;
+    transform: translateX(4px);
+  }
+  .dropdown-item .di-icon { font-size: 1rem; width: 22px; text-align: center; flex-shrink: 0; }
+  .dropdown-divider { border-color: var(--border) !important; margin: .4rem .55rem !important; }
 
-    .dropdown-menu {
-      border: none;
-      border-radius: 16px;
-      box-shadow: 0 15px 40px rgba(0,0,0,0.12);
-      padding: 0.7rem 0;
-      margin-top: 10-tenpx;
-    }
+  /* ── ACTION BUTTONS ── */
+  .nb-btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: var(--ff-body);
+    font-size: .825rem; font-weight: 700;
+    padding: .5rem 1.1rem;
+    border-radius: var(--r-pill);
+    text-decoration: none;
+    border: 1.5px solid transparent;
+    white-space: nowrap; letter-spacing: .15px;
+    transition: all .3s var(--ease);
+    cursor: pointer; position: relative; overflow: hidden;
+  }
+  /* Shine sweep */
+  .nb-btn::before {
+    content: '';
+    position: absolute; top: 0; left: -80%;
+    width: 55%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,.22), transparent);
+    transform: skewX(-18deg);
+    transition: left .5s ease;
+  }
+  .nb-btn:hover::before { left: 145%; }
 
-    .dropdown-item {
-      padding: 0.65rem 1.5rem;
-      border-radius: 12px;
-      margin: 0.2rem 1rem;
-      font-weight: 500;
-    }
+  .nb-btn--ghost {
+    color: var(--forest); border-color: rgba(20,61,31,.28);
+    background: transparent;
+  }
+  .nb-btn--ghost:hover {
+    background: var(--forest); color: var(--white) !important;
+    border-color: var(--forest); transform: translateY(-2px);
+    box-shadow: 0 7px 22px rgba(20,61,31,.26);
+  }
+  .nb-btn--solid {
+    background: var(--forest); color: var(--gold-light) !important;
+    border-color: var(--forest);
+    box-shadow: 0 4px 16px rgba(20,61,31,.22);
+  }
+  .nb-btn--solid:hover {
+    background: var(--ink); border-color: var(--ink);
+    color: var(--gold-light) !important; transform: translateY(-2px);
+    box-shadow: 0 10px 28px rgba(11,26,14,.35);
+  }
+  .nb-btn--admin {
+    background: linear-gradient(135deg, #1a3d22, #0b1a0e);
+    color: var(--gold-light) !important;
+    border-color: rgba(200,169,110,.3);
+    box-shadow: 0 3px 14px rgba(11,26,14,.22);
+  }
+  .nb-btn--admin:hover {
+    color: var(--gold-light) !important; transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(11,26,14,.38);
+  }
 
-    .dropdown-item:hover {
-      background: var(--light);
-      color: var(--green);
-    }
+  /* Cart badge */
+  .nb-cart-wrap { position: relative; }
+  .nb-cart-badge {
+    position: absolute; top: -6px; right: -5px;
+    width: 18px; height: 18px; border-radius: 50%;
+    background: #dc2626; color: #fff;
+    font-size: .56rem; font-weight: 800;
+    display: flex; align-items: center; justify-content: center;
+    border: 2px solid var(--white);
+    box-shadow: 0 2px 8px rgba(220,38,38,.4);
+    animation: badgePop .4s var(--ease);
+  }
+  @keyframes badgePop { 0%{transform:scale(0)} 70%{transform:scale(1.25)} 100%{transform:scale(1)} }
 
-    .footer {
-      background: #f8f9fa;
-      padding: 4rem 0 3rem;
-      margin-top: 8rem;
-      border-top: 1px solid #e9ecef;
-    }
+  /* User chip */
+  .nb-user-chip {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: .825rem; font-weight: 600;
+    padding: .4rem 1rem .4rem .4rem;
+    border-radius: var(--r-pill);
+    background: rgba(20,61,31,.07);
+    border: 1.5px solid rgba(20,61,31,.16);
+    color: var(--forest); text-decoration: none; cursor: pointer;
+    transition: all .28s var(--ease);
+  }
+  .nb-user-chip:hover { background: rgba(20,61,31,.12); border-color: rgba(20,61,31,.28); color: var(--forest); }
+  .nb-avatar {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--forest), var(--fern));
+    color: var(--gold-light);
+    font-size: .7rem; font-weight: 800;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; box-shadow: 0 2px 8px rgba(20,61,31,.25);
+  }
+  .nb-user-chip .bi-chevron-down { font-size: .6rem; transition: transform .28s var(--ease); }
+  .nb-user-chip.open .bi-chevron-down { transform: rotate(180deg); }
+
+  /* Search */
+  .nb-search { position: relative; width: 226px; flex-shrink: 0; }
+  .nb-search input {
+    width: 100%; height: 40px;
+    border: 1.5px solid rgba(20,61,31,.22);
+    border-radius: var(--r-pill);
+    padding: 0 48px 0 18px;
+    font-family: var(--ff-body); font-size: .84rem;
+    background: rgba(20,61,31,.04); color: var(--ink);
+    transition: all .3s var(--ease); outline: none;
+  }
+  .nb-search input::placeholder { color: var(--muted); }
+  .nb-search input:focus {
+    border-color: var(--fern); background: var(--white);
+    box-shadow: 0 0 0 3.5px rgba(20,61,31,.09);
+  }
+  .nb-search button {
+    position: absolute; top: 4px; right: 4px;
+    width: 32px; height: 32px; border-radius: 50%;
+    background: var(--forest); color: var(--white);
+    border: none; font-size: .88rem;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; transition: all .28s var(--ease);
+    box-shadow: 0 3px 10px rgba(20,61,31,.25);
+  }
+  .nb-search button:hover { background: var(--ink); transform: scale(1.08); }
+
+  /* Mobile toggler */
+  .navbar-toggler {
+    border: 1.5px solid rgba(20,61,31,.22) !important;
+    border-radius: 11px !important;
+    padding: .45rem .65rem !important;
+    transition: all .25s; margin-left: auto;
+  }
+  .navbar-toggler:hover { background: rgba(20,61,31,.07); }
+  .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(20,61,31,0.8)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
+  }
+
+  @media (max-width: 991px) {
+    .navbar .container-fluid { flex-wrap: wrap; padding: .75rem 1rem; }
+    .navbar-collapse { border-top: 1px solid rgba(200,169,110,.12); padding-top: .75rem; margin-top: .5rem; }
+    .nb-search { width: 100%; margin-top: .5rem; }
+    .nb-btn { font-size: .8rem; padding: .45rem .9rem; }
+    .d-flex.align-items-center { flex-wrap: wrap; }
+  }
+
+  /* ═══════════════════════════════════════════════════════
+     FOOTER
+  ═══════════════════════════════════════════════════════ */
+  .site-footer {
+    background: linear-gradient(165deg, #071208 0%, #0e2210 35%, #122d18 65%, #071208 100%);
+    color: rgba(255,255,255,.55);
+    font-family: var(--ff-body);
+    padding-top: 64px;
+    position: relative; overflow: hidden;
+  }
+  /* Grain texture */
+  .site-footer::before {
+    content: '';
+    position: absolute; inset: 0; pointer-events: none; opacity: .035;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 160px;
+  }
+  /* Gold dot grid */
+  .site-footer::after {
+    content: '';
+    position: absolute; inset: 0; pointer-events: none;
+    background: url("data:image/svg+xml,%3Csvg width='44' height='44' viewBox='0 0 44 44' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='22' cy='22' r='2.5' fill='%23c8a96e' fill-opacity='0.045'/%3E%3C/svg%3E");
+  }
+
+  .footer-body { position: relative; z-index: 1; }
+
+  /* Brand */
+  .ft-brand { max-width: 290px; }
+  .ft-brand-logo { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+  .ft-brand-logo img {
+    width: 54px; height: 54px; border-radius: 50%;
+    border: 2px solid rgba(200,169,110,.35);
+    object-fit: cover; box-shadow: var(--sh-md);
+  }
+  .ft-brand-logo strong {
+    display: block; font-family: var(--ff-display);
+    font-size: 1.1rem; font-weight: 700; color: var(--gold-light);
+  }
+  .ft-brand-logo small {
+    font-size: .6rem; font-weight: 700;
+    letter-spacing: 1.8px; text-transform: uppercase;
+    color: rgba(200,169,110,.55);
+  }
+  .ft-brand p { font-size: .875rem; line-height: 1.72; color: rgba(255,255,255,.46); }
+
+  /* Social */
+  .ft-social { display: flex; gap: 9px; margin-top: 20px; }
+  .ft-social a {
+    width: 38px; height: 38px; border-radius: 11px;
+    background: rgba(255,255,255,.05);
+    border: 1px solid rgba(200,169,110,.16);
+    display: flex; align-items: center; justify-content: center;
+    color: rgba(255,255,255,.45); font-size: 1.05rem;
+    text-decoration: none; transition: all .3s var(--ease);
+  }
+  .ft-social a:hover {
+    background: rgba(200,169,110,.16); color: var(--gold-light);
+    transform: translateY(-4px);
+    border-color: rgba(200,169,110,.32); box-shadow: var(--sh-gold);
+  }
+
+  /* Col title */
+  .ft-col-title {
+    font-size: .68rem; font-weight: 800;
+    letter-spacing: 2.2px; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 18px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .ft-col-title::after {
+    content: ''; flex: 1; height: 1px;
+    background: linear-gradient(90deg, rgba(200,169,110,.3), transparent);
+  }
+
+  /* Links */
+  .ft-links { list-style: none; padding: 0; margin: 0; }
+  .ft-links li { margin-bottom: 9px; }
+  .ft-links a {
+    font-size: .875rem; color: rgba(255,255,255,.48);
+    text-decoration: none;
+    display: inline-flex; align-items: center; gap: 8px;
+    transition: all .25s var(--ease);
+  }
+  .ft-links .arr { font-size: .72rem; color: var(--gold); transition: transform .25s var(--ease); }
+  .ft-links a:hover { color: var(--gold-light); }
+  .ft-links a:hover .arr { transform: translateX(4px); }
+
+  /* Contact */
+  .ft-contact { list-style: none; padding: 0; margin: 0; }
+  .ft-contact li {
+    display: flex; align-items: flex-start; gap: 11px;
+    margin-bottom: 12px; font-size: .875rem; color: rgba(255,255,255,.48);
+  }
+  .ft-ci {
+    width: 30px; height: 30px; border-radius: 9px; flex-shrink: 0; margin-top: 1px;
+    background: rgba(200,169,110,.1); border: 1px solid rgba(200,169,110,.18);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--gold); font-size: .88rem;
+  }
+  .ft-contact a { color: rgba(255,255,255,.48); text-decoration: none; transition: color .22s; }
+  .ft-contact a:hover { color: var(--gold-light); }
+
+  /* Newsletter */
+  .ft-newsletter {
+    display: flex; max-width: 280px; margin-top: 6px;
+    border-radius: 12px; overflow: hidden;
+    box-shadow: 0 4px 18px rgba(11,26,14,.25);
+  }
+  .ft-newsletter input {
+    flex: 1; height: 42px;
+    background: rgba(255,255,255,.07);
+    border: 1px solid rgba(200,169,110,.2); border-right: none;
+    padding: 0 14px; font-family: var(--ff-body); font-size: .82rem;
+    color: rgba(255,255,255,.8); outline: none; transition: border-color .25s;
+  }
+  .ft-newsletter input::placeholder { color: rgba(255,255,255,.28); }
+  .ft-newsletter input:focus { border-color: rgba(200,169,110,.4); }
+  .ft-newsletter button {
+    height: 42px; padding: 0 18px; background: var(--gold); border: none;
+    font-family: var(--ff-body); font-size: .8rem; font-weight: 800;
+    color: var(--ink); cursor: pointer; letter-spacing: .5px;
+    transition: background .25s, transform .2s;
+  }
+  .ft-newsletter button:hover { background: var(--gold-light); transform: scale(1.03); }
+
+  .ft-divider {
+    border: none; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(200,169,110,.2), transparent);
+    margin: 0;
+  }
+
+  .ft-bottom {
+    padding: 18px 0;
+    display: flex; align-items: center;
+    justify-content: space-between; flex-wrap: wrap; gap: 10px;
+  }
+  .ft-bottom p { font-size: .77rem; color: rgba(255,255,255,.28); margin: 0; }
+  .ft-bottom a { color: var(--gold); text-decoration: none; transition: color .2s; }
+  .ft-bottom a:hover { color: var(--gold-light); }
+  .ft-bottom-links {
+    display: flex; align-items: center; gap: 14px;
+    font-size: .73rem; color: rgba(255,255,255,.26);
+  }
+
+  @media (max-width: 768px) {
+    .ft-bottom { flex-direction: column; text-align: center; }
+    .ft-bottom-links { justify-content: center; }
+    .ft-newsletter { max-width: 100%; }
+    .ft-brand { max-width: 100%; }
+  }
   </style>
 
-  <title>Daily Product | {% block title %}Home{% endblock %}</title>
+  {% block extra_head %}{% endblock %}
 </head>
 <body>
-<nav class="navbar navbar-expand-lg">
+
+<!-- ═══════════════════════════════
+     TOP BAR
+═══════════════════════════════ -->
+<div class="top-bar" role="banner">
+  <!-- Desktop -->
+  <div class="top-bar__track d-none d-md-flex" style="justify-content:center;width:100%;">
+    <span class="top-bar__item"><i class="bi bi-truck-front-fill"></i>Free delivery on orders ৳500+</span>
+    <span class="top-bar__sep"></span>
+    <span class="top-bar__item"><i class="bi bi-patch-check-fill"></i>100% Natural · Zero Preservatives</span>
+    <span class="top-bar__sep"></span>
+    <span class="top-bar__item"><i class="bi bi-alarm-fill"></i>Delivered before 8 AM every day</span>
+    <span class="top-bar__sep"></span>
+    <span class="top-bar__item"><i class="bi bi-award-fill"></i>Trusted by 10,000+ families</span>
+  </div>
+  <!-- Mobile marquee -->
+  <div class="top-bar__track top-bar__track--mobile d-flex d-md-none">
+    <span class="top-bar__item"><i class="bi bi-truck-front-fill"></i>Free delivery ৳500+</span>
+    <span class="top-bar__sep"></span>
+    <span class="top-bar__item"><i class="bi bi-patch-check-fill"></i>100% Natural</span>
+    <span class="top-bar__sep"></span>
+    <span class="top-bar__item"><i class="bi bi-alarm-fill"></i>By 8 AM daily</span>
+    <span class="top-bar__sep"></span>
+    <span class="top-bar__item"><i class="bi bi-award-fill"></i>10,000+ families</span>
+    <span class="top-bar__sep"></span>
+    <!-- duplicate for seamless loop -->
+    <span class="top-bar__item"><i class="bi bi-truck-front-fill"></i>Free delivery ৳500+</span>
+    <span class="top-bar__sep"></span>
+    <span class="top-bar__item"><i class="bi bi-patch-check-fill"></i>100% Natural</span>
+    <span class="top-bar__sep"></span>
+    <span class="top-bar__item"><i class="bi bi-alarm-fill"></i>By 8 AM daily</span>
+    <span class="top-bar__sep"></span>
+    <span class="top-bar__item"><i class="bi bi-award-fill"></i>10,000+ families</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════
+     NAVBAR
+═══════════════════════════════ -->
+<nav class="navbar navbar-expand-lg" id="mainNav" aria-label="Main navigation">
   <div class="container-fluid">
 
     <!-- LOGO -->
     <a class="navbar-brand" href="{% url 'home' %}">
-      <img src="{% static 'app/images/product/mugdho7.png' %}"
-           width="100" height="100"
-           alt="Daily Product"
-           class="rounded-circle shadow-sm">
+      <div class="nb-logo-ring">
+        <img src="{% static 'app/images/product/mugdho7.png' %}"
+             class="nb-logo-img" alt="Daily Dairy Shop">
+      </div>
+      <div class="nb-logo-copy">
+        <strong>Daily Dairy</strong>
+        <small>Shop · Est. 2018</small>
+      </div>
     </a>
 
-    <!-- MOBILE TOGGLER -->
-    <button class="navbar-toggler border-0"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navContent">
+    <!-- Toggler -->
+    <button class="navbar-toggler" type="button"
+            data-bs-toggle="collapse" data-bs-target="#navContent"
+            aria-controls="navContent" aria-expanded="false">
       <span class="navbar-toggler-icon"></span>
     </button>
 
     <div class="collapse navbar-collapse" id="navContent">
 
-      <!-- LEFT SIDE -->
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-2 align-items-center">
-
+      <!-- LEFT LINKS -->
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0 align-items-lg-center">
         <li class="nav-item">
-          <a class="nav-pill nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}"
+          <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active-link{% endif %}"
              href="{% url 'home' %}">Home</a>
         </li>
 
         <li class="nav-item dropdown">
-          <a class="nav-pill nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+          <a class="nav-link dropdown-toggle
+                    {% if request.resolver_match.url_name == 'category' %}active-link{% endif %}"
+             href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Products
           </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="{% url 'category' 'ML' %}">Milk</a></li>
-            <li><a class="dropdown-item" href="{% url 'category' 'CR' %}">Curd</a></li>
-            <li><a class="dropdown-item" href="{% url 'category' 'PN' %}">Paneer</a></li>
-            <li><a class="dropdown-item" href="{% url 'category' 'CZ' %}">Cheese</a></li>
-            <li><a class="dropdown-item" href="{% url 'category' 'IC' %}">Ice-cream</a></li>
+            <li><a class="dropdown-item" href="{% url 'category' 'ML' %}"><span class="di-icon">🥛</span>Milk</a></li>
+            <li><a class="dropdown-item" href="{% url 'category' 'CR' %}"><span class="di-icon">🍶</span>Curd</a></li>
+            <li><a class="dropdown-item" href="{% url 'category' 'PN' %}"><span class="di-icon">🧀</span>Paneer</a></li>
+            <li><a class="dropdown-item" href="{% url 'category' 'CZ' %}"><span class="di-icon">🧀</span>Cheese</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="{% url 'category' 'IC' %}"><span class="di-icon">🍦</span>Ice-cream</a></li>
           </ul>
         </li>
 
         <li class="nav-item">
-          <a class="nav-pill nav-link {% if request.resolver_match.url_name == 'about' %}active{% endif %}"
+          <a class="nav-link {% if request.resolver_match.url_name == 'about' %}active-link{% endif %}"
              href="{% url 'about' %}">About</a>
         </li>
-
         <li class="nav-item">
-          <a class="nav-pill nav-link {% if request.resolver_match.url_name == 'contact' %}active{% endif %}"
+          <a class="nav-link {% if request.resolver_match.url_name == 'contact' %}active-link{% endif %}"
              href="{% url 'contact' %}">Contact</a>
         </li>
-
-        <li class="nav-item">
-          <a class="nav-pill nav-link position-relative {% if request.resolver_match.url_name == 'cart' %}active{% endif %}"
-             href="{% url 'cart' %}">
-            Cart
-            {% if cart_count|default:0 > 0 %}
-              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger badge-notif">
-                {{ cart_count }}
-              </span>
-            {% endif %}
-          </a>
-        </li>
-
       </ul>
 
-      <!-- RIGHT SIDE -->
-      <div class="d-flex align-items-center gap-3">
+      <!-- RIGHT ACTIONS -->
+      <div class="d-flex align-items-center gap-2 flex-wrap mt-2 mt-lg-0">
+
+        <!-- Cart -->
+        <div class="nb-cart-wrap">
+          <a class="nb-btn nb-btn--ghost
+                    {% if request.resolver_match.url_name == 'cart' %}active{% endif %}"
+             href="{% url 'cart' %}">
+            <i class="bi bi-bag"></i>Cart
+          </a>
+          {% if cart_count|default:0 > 0 %}
+            <span class="nb-cart-badge">{{ cart_count }}</span>
+          {% endif %}
+        </div>
 
         {% if user.is_authenticated %}
 
-          <a class="nav-pill {% if request.resolver_match.url_name == 'my_orders' %}active{% endif %}"
+          <a class="nb-btn nb-btn--ghost
+                    {% if request.resolver_match.url_name == 'my_orders' %}active{% endif %}"
              href="{% url 'my_orders' %}">
-            My Orders
+            <i class="bi bi-receipt"></i>Orders
           </a>
 
           {% if user.is_staff %}
-          <a class="nav-pill {% if request.resolver_match.url_name == 'admin_dashboard' %}active{% endif %}"
+          <a class="nb-btn nb-btn--admin
+                    {% if request.resolver_match.url_name == 'admin_dashboard' %}active{% endif %}"
              href="{% url 'admin_dashboard' %}">
-            <i class="bi bi-speedometer2 me-1"></i> Admin
+            <i class="bi bi-speedometer2"></i>Admin
           </a>
           {% endif %}
 
+          <!-- User dropdown -->
           <div class="dropdown">
-            <a class="nav-pill dropdown-toggle" href="#" data-bs-toggle="dropdown">
-              Hi, {{ user.first_name|default:user.username }}
+            <a class="nb-user-chip dropdown-toggle"
+               id="userDropTrigger"
+               href="#" role="button"
+               data-bs-toggle="dropdown" aria-expanded="false">
+              <div class="nb-avatar">
+                {{ user.first_name|default:user.username|slice:":1"|upper }}
+              </div>
+              Hi, {{ user.first_name|default:user.username|truncatechars:12 }}
+              <i class="bi bi-chevron-down"></i>
             </a>
             <ul class="dropdown-menu dropdown-menu-end">
               <li>
+                <span class="dropdown-item pe-none"
+                      style="color:var(--muted);font-size:.78rem;cursor:default;pointer-events:none;">
+                  <i class="bi bi-person-circle me-2"></i>
+                  {{ user.get_full_name|default:user.username }}
+                </span>
+              </li>
+              <li><hr class="dropdown-divider"></li>
+              <li>
+                <a class="dropdown-item" href="{% url 'my_orders' %}">
+                  <span class="di-icon">📦</span>My Orders
+                </a>
+              </li>
+              {% if user.is_staff %}
+              <li>
+                <a class="dropdown-item" href="{% url 'admin_dashboard' %}">
+                  <span class="di-icon">⚙️</span>Admin Panel
+                </a>
+              </li>
+              {% endif %}
+              <li><hr class="dropdown-divider"></li>
+              <li style="padding:.45rem;">
                 <form method="POST" action="{% url 'account_logout' %}">
                   {% csrf_token %}
-                  <button type="submit" class="btn btn-danger w-100">
-                    Logout
+                  <button type="submit"
+                          style="width:100%;background:linear-gradient(135deg,#b91c1c,#7f1d1d);color:#fff;border:none;border-radius:11px;padding:.58rem 1rem;font-family:var(--ff-body);font-size:.84rem;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:opacity .2s,transform .2s;">
+                    <i class="bi bi-box-arrow-right"></i>Logout
                   </button>
                 </form>
               </li>
@@ -260,20 +727,18 @@
           </div>
 
         {% else %}
-
-          <a class="nav-pill" href="{% url 'account_login' %}">Login</a>
-          <a class="nav-pill" href="{% url 'account_signup' %}">Register</a>
-
+          <a class="nb-btn nb-btn--ghost" href="{% url 'account_login' %}">
+            <i class="bi bi-person"></i>Login
+          </a>
+          <a class="nb-btn nb-btn--solid" href="{% url 'account_signup' %}">
+            <i class="bi bi-person-plus"></i>Register
+          </a>
         {% endif %}
 
-        <!-- SEARCH BAR -->
-        <form class="search-form" method="GET" action="{% url 'search' %}">
-          <input class="form-control"
-                 type="search"
-                 placeholder="Search products..."
-                 name="query"
-                 required>
-          <button type="submit">
+        <!-- Search -->
+        <form class="nb-search" method="GET" action="{% url 'search' %}">
+          <input type="search" name="query" placeholder="Search products…" autocomplete="off" required>
+          <button type="submit" aria-label="Search">
             <i class="bi bi-search"></i>
           </button>
         </form>
@@ -284,25 +749,137 @@
 </nav>
 
 
-  {% block banner-slider %}{% endblock %}
-  {% block main-content %}{% endblock %}
+<!-- PAGE BLOCKS -->
+{% block banner-slider %}{% endblock %}
+{% block main-content %}{% endblock %}
 
-  <footer class="footer text-center py-5 mt-5">
-    <p class="mb-0 text-muted">
-      © 2025 Daily Product • Made with love in Bangladesh<br>
-      Developed by <strong>Sharat Acharja Mugdho</strong> • 
-      <a href="mailto:sharatacharjee6@gmail.com">sharatacharjee6@gmail.com</a>
-    </p>
-  </footer>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="{% static 'app/js/all.min.js' %}"></script>
-  <script src="{% static 'app/js/myscript.js' %}"></script>
+<!-- ═══════════════════════════════
+     FOOTER
+═══════════════════════════════ -->
+<footer class="site-footer" role="contentinfo">
+  <div class="container footer-body">
+    <div class="row g-5 pb-5">
 
-  <script>
-    window.addEventListener('scroll', () => {
-      document.querySelector('.navbar').classList.toggle('scrolled', window.scrollY > 80);
-    });
-  </script>
+      <!-- Brand -->
+      <div class="col-12 col-md-6 col-lg-4">
+        <div class="ft-brand">
+          <div class="ft-brand-logo">
+            <img src="{% static 'app/images/product/mugdho7.png' %}" alt="Daily Dairy Shop">
+            <div>
+              <strong>Daily Dairy Shop</strong>
+              <small>Dhaka, Bangladesh · Est. 2018</small>
+            </div>
+          </div>
+          <p>Pure milk, curd, paneer &amp; artisan dairy — from trusted Bangladeshi farms to your doorstep every single morning.</p>
+          <div class="ft-social">
+            <a href="#" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+            <a href="#" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+            <a href="#" aria-label="WhatsApp"><i class="bi bi-whatsapp"></i></a>
+            <a href="mailto:sharatacharjee6@gmail.com" aria-label="Email"><i class="bi bi-envelope-fill"></i></a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Links -->
+      <div class="col-6 col-md-3 col-lg-2">
+        <p class="ft-col-title">Quick Links</p>
+        <ul class="ft-links">
+          <li><a href="{% url 'home' %}"><i class="bi bi-chevron-right arr"></i>Home</a></li>
+          <li><a href="{% url 'about' %}"><i class="bi bi-chevron-right arr"></i>About Us</a></li>
+          <li><a href="{% url 'contact' %}"><i class="bi bi-chevron-right arr"></i>Contact</a></li>
+          <li><a href="{% url 'cart' %}"><i class="bi bi-chevron-right arr"></i>My Cart</a></li>
+          {% if user.is_authenticated %}
+          <li><a href="{% url 'my_orders' %}"><i class="bi bi-chevron-right arr"></i>My Orders</a></li>
+          {% else %}
+          <li><a href="{% url 'account_login' %}"><i class="bi bi-chevron-right arr"></i>Login</a></li>
+          <li><a href="{% url 'account_signup' %}"><i class="bi bi-chevron-right arr"></i>Register</a></li>
+          {% endif %}
+        </ul>
+      </div>
+
+      <!-- Products -->
+      <div class="col-6 col-md-3 col-lg-2">
+        <p class="ft-col-title">Products</p>
+        <ul class="ft-links">
+          <li><a href="{% url 'category' 'ML' %}"><i class="bi bi-chevron-right arr"></i>🥛 Milk</a></li>
+          <li><a href="{% url 'category' 'CR' %}"><i class="bi bi-chevron-right arr"></i>🍶 Curd</a></li>
+          <li><a href="{% url 'category' 'PN' %}"><i class="bi bi-chevron-right arr"></i>🧀 Paneer</a></li>
+          <li><a href="{% url 'category' 'CZ' %}"><i class="bi bi-chevron-right arr"></i>🧀 Cheese</a></li>
+          <li><a href="{% url 'category' 'IC' %}"><i class="bi bi-chevron-right arr"></i>🍦 Ice-cream</a></li>
+        </ul>
+      </div>
+
+      <!-- Contact + Newsletter -->
+      <div class="col-12 col-lg-4">
+        <p class="ft-col-title">Get In Touch</p>
+        <ul class="ft-contact">
+          <li><div class="ft-ci"><i class="bi bi-geo-alt-fill"></i></div><span>Dhaka, Bangladesh</span></li>
+          <li><div class="ft-ci"><i class="bi bi-telephone-fill"></i></div><span>01783720914</span></li>
+          <li>
+            <div class="ft-ci"><i class="bi bi-envelope-fill"></i></div>
+            <a href="mailto:sharatacharjee6@gmail.com">sharatacharjee6@gmail.com</a>
+          </li>
+          <li><div class="ft-ci"><i class="bi bi-clock-fill"></i></div><span>Delivery: 6–8 AM, 7 days/week</span></li>
+        </ul>
+
+        <p class="ft-col-title" style="margin-top:24px;">Newsletter</p>
+        <p style="font-size:.82rem;color:rgba(255,255,255,.36);margin-bottom:10px;">
+          Fresh deals &amp; updates — straight to your inbox.
+        </p>
+        <div class="ft-newsletter">
+          <input type="email" placeholder="Your email address…">
+          <button type="button">Subscribe</button>
+        </div>
+      </div>
+
+    </div>
+
+    <hr class="ft-divider">
+
+    <div class="ft-bottom">
+      <p>© 2025 Daily Dairy Shop · Made with ❤️ in Bangladesh ·
+         Developed by <a href="mailto:sharatacharjee6@gmail.com"><strong>Sharat Acharja Mugdho</strong></a>
+      </p>
+      <div class="ft-bottom-links">
+        <span>Privacy Policy</span>
+        <span>·</span>
+        <span>Terms of Service</span>
+        <span>·</span>
+        <span>Sitemap</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+<!-- SCRIPTS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+<script src="{% static 'app/js/all.min.js' %}"></script>
+<script src="{% static 'app/js/myscript.js' %}"></script>
+
+<script>
+(function(){
+  'use strict';
+
+  /* Sticky scroll class */
+  var nav = document.getElementById('mainNav');
+  if (nav) {
+    window.addEventListener('scroll', function(){
+      nav.classList.toggle('scrolled', window.scrollY > 55);
+    }, { passive: true });
+  }
+
+  /* User chip chevron toggle */
+  var trigger = document.getElementById('userDropTrigger');
+  if (trigger) {
+    var dd = trigger.closest('.dropdown');
+    if (dd) {
+      dd.addEventListener('show.bs.dropdown', function(){ trigger.classList.add('open'); });
+      dd.addEventListener('hide.bs.dropdown', function(){ trigger.classList.remove('open'); });
+    }
+  }
+}());
+</script>
 </body>
 </html>
