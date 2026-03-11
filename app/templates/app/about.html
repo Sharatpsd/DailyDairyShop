@@ -5,196 +5,1025 @@
 
 {% block main-content %}
 
-<!-- AOS Animation Library -->
-<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 
-<div class="container my-5 py-4">
+<style>
+  :root {
+    --cream: #FAF7F2;
+    --ivory: #F5EFE4;
+    --green-deep: #1A4D2E;
+    --green-mid: #2E7D52;
+    --green-light: #4CAF72;
+    --gold: #C9A84C;
+    --gold-light: #E8CC7A;
+    --charcoal: #1C1C1C;
+    --muted: #6B7280;
+  }
 
-    <!-- HERO SECTION -->
-    <div class="about-hero text-center mb-5" data-aos="fade-up">
-        <h1 class="display-5 fw-bold text-dark">About Us</h1>
-        <p class="lead text-muted col-lg-8 mx-auto">
-            Bringing fresh dairy from trusted Bangladeshi farms to your family — pure, natural & full of goodness.
-        </p>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--cream);
+    font-family: 'DM Sans', sans-serif;
+    color: var(--charcoal);
+    overflow-x: hidden;
+  }
+
+  /* ─── GRAIN OVERLAY ─── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.5;
+  }
+
+  /* ─── HERO ─── */
+  .about-hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-left {
+    background: var(--green-deep);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 70px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-left::before {
+    content: '';
+    position: absolute;
+    width: 500px; height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(201,168,76,0.12) 0%, transparent 70%);
+    top: -100px; left: -100px;
+  }
+
+  .hero-left::after {
+    content: '';
+    position: absolute;
+    width: 300px; height: 300px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(76,175,114,0.1) 0%, transparent 70%);
+    bottom: 50px; right: -50px;
+  }
+
+  .hero-eyebrow {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 28px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    opacity: 0;
+    animation: slideUp 0.8s ease 0.2s forwards;
+  }
+
+  .hero-eyebrow::before {
+    content: '';
+    display: block;
+    width: 40px; height: 1px;
+    background: var(--gold);
+  }
+
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3.5rem, 6vw, 6rem);
+    font-weight: 300;
+    line-height: 1.05;
+    color: #fff;
+    margin-bottom: 32px;
+    opacity: 0;
+    animation: slideUp 0.9s ease 0.4s forwards;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--gold-light);
+  }
+
+  .hero-desc {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: rgba(255,255,255,0.65);
+    max-width: 380px;
+    font-weight: 300;
+    opacity: 0;
+    animation: slideUp 0.9s ease 0.6s forwards;
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 40px;
+    margin-top: 56px;
+    opacity: 0;
+    animation: slideUp 0.9s ease 0.8s forwards;
+  }
+
+  .stat-item {
+    border-left: 1px solid rgba(201,168,76,0.4);
+    padding-left: 20px;
+  }
+
+  .stat-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.8rem;
+    font-weight: 600;
+    color: var(--gold-light);
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.45);
+    margin-top: 6px;
+  }
+
+  /* ─── HERO RIGHT — ILLUSTRATION ─── */
+  .hero-right {
+    background: var(--ivory);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-right::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 60% 40%, rgba(46,125,82,0.06) 0%, transparent 70%);
+  }
+
+  .dairy-illustration {
+    width: 380px;
+    height: 480px;
+    position: relative;
+    opacity: 0;
+    animation: scaleIn 1.2s cubic-bezier(0.16,1,0.3,1) 0.5s forwards;
+  }
+
+  /* ─── FLOATING ELEMENTS ─── */
+  .float-badge {
+    position: absolute;
+    background: var(--green-deep);
+    color: #fff;
+    padding: 14px 22px;
+    border-radius: 100px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    box-shadow: 0 20px 60px rgba(26,77,46,0.3);
+    animation: float 4s ease-in-out infinite;
+  }
+
+  .float-badge-1 {
+    top: 40px; right: 30px;
+    animation-delay: 0s;
+  }
+
+  .float-badge-2 {
+    bottom: 80px; left: 20px;
+    animation-delay: 2s;
+    background: var(--gold);
+    color: var(--charcoal);
+    font-weight: 600;
+  }
+
+  .float-badge-3 {
+    top: 50%; right: -10px;
+    animation-delay: 1s;
+    background: #fff;
+    color: var(--green-deep);
+    border: 1px solid rgba(26,77,46,0.2);
+  }
+
+  /* ─── MARQUEE STRIP ─── */
+  .marquee-strip {
+    background: var(--green-deep);
+    padding: 18px 0;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .marquee-inner {
+    display: inline-flex;
+    gap: 0;
+    animation: marquee 18s linear infinite;
+  }
+
+  .marquee-item {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    font-style: italic;
+    color: rgba(255,255,255,0.7);
+    padding: 0 40px;
+    letter-spacing: 0.05em;
+  }
+
+  .marquee-dot {
+    color: var(--gold);
+    font-style: normal;
+  }
+
+  /* ─── STORY SECTION ─── */
+  .story-section {
+    padding: 120px 80px;
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 100px;
+    align-items: start;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .section-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 8rem;
+    font-weight: 300;
+    color: rgba(26,77,46,0.08);
+    line-height: 1;
+    margin-bottom: -20px;
+  }
+
+  .section-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--green-mid);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .section-label::before {
+    content: '';
+    display: block;
+    width: 30px; height: 1px;
+    background: var(--green-mid);
+  }
+
+  .story-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.5rem, 4vw, 4rem);
+    font-weight: 400;
+    line-height: 1.2;
+    color: var(--charcoal);
+    margin-bottom: 30px;
+  }
+
+  .story-title em {
+    font-style: italic;
+    color: var(--green-mid);
+  }
+
+  .story-body {
+    font-size: 1.05rem;
+    line-height: 1.9;
+    color: var(--muted);
+    font-weight: 300;
+  }
+
+  .feature-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-top: 20px;
+  }
+
+  .feature-card {
+    background: #fff;
+    border: 1px solid rgba(26,77,46,0.1);
+    border-radius: 16px;
+    padding: 28px;
+    transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+    cursor: default;
+  }
+
+  .feature-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 30px 60px rgba(26,77,46,0.12);
+    border-color: var(--green-light);
+  }
+
+  .feature-icon {
+    width: 44px; height: 44px;
+    background: linear-gradient(135deg, var(--green-deep), var(--green-mid));
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+    font-size: 1.2rem;
+  }
+
+  .feature-card h6 {
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    color: var(--charcoal);
+    margin-bottom: 8px;
+  }
+
+  .feature-card p {
+    font-size: 0.82rem;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* ─── TIMELINE ─── */
+  .timeline-section {
+    background: var(--green-deep);
+    padding: 120px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .timeline-section::before {
+    content: 'JOURNEY';
+    position: absolute;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18vw;
+    font-weight: 600;
+    color: rgba(255,255,255,0.03);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    white-space: nowrap;
+    pointer-events: none;
+  }
+
+  .timeline-header {
+    text-align: center;
+    margin-bottom: 80px;
+  }
+
+  .timeline-header .section-label {
+    justify-content: center;
+    color: var(--gold);
+  }
+
+  .timeline-header .section-label::before {
+    background: var(--gold);
+  }
+
+  .timeline-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.5rem, 4vw, 4.5rem);
+    font-weight: 300;
+    color: #fff;
+  }
+
+  .timeline-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2px;
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  .timeline-grid::before {
+    content: '';
+    position: absolute;
+    top: 28px;
+    left: 12.5%;
+    right: 12.5%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+
+  .timeline-item {
+    padding: 0 24px;
+    padding-top: 60px;
+    position: relative;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.7s cubic-bezier(0.16,1,0.3,1);
+  }
+
+  .timeline-item.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .timeline-dot {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    background: var(--gold);
+    border: 3px solid var(--green-deep);
+    box-shadow: 0 0 0 4px rgba(201,168,76,0.3);
+  }
+
+  .timeline-year {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3.5rem;
+    font-weight: 300;
+    color: var(--gold-light);
+    line-height: 1;
+    margin-bottom: 16px;
+  }
+
+  .timeline-text {
+    font-size: 0.9rem;
+    line-height: 1.7;
+    color: rgba(255,255,255,0.6);
+    font-weight: 300;
+  }
+
+  /* ─── VALUES ─── */
+  .values-section {
+    padding: 120px 80px;
+    max-width: 1400px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+
+  .values-left .story-title {
+    font-size: clamp(2rem, 3.5vw, 3.5rem);
+  }
+
+  .values-accordion {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .acc-item {
+    border: 1px solid rgba(26,77,46,0.12);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    background: #fff;
+  }
+
+  .acc-item:hover {
+    border-color: rgba(26,77,46,0.3);
+  }
+
+  .acc-header {
+    padding: 24px 28px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+  }
+
+  .acc-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    font-weight: 500;
+    color: var(--charcoal);
+  }
+
+  .acc-arrow {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: var(--green-deep);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+    color: #fff;
+    font-size: 0.9rem;
+  }
+
+  .acc-item.open .acc-arrow {
+    background: var(--gold);
+    transform: rotate(45deg);
+    color: var(--charcoal);
+  }
+
+  .acc-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s cubic-bezier(0.16,1,0.3,1);
+  }
+
+  .acc-item.open .acc-body {
+    max-height: 300px;
+  }
+
+  .acc-content {
+    padding: 0 28px 28px;
+    font-size: 0.95rem;
+    line-height: 1.8;
+    color: var(--muted);
+    font-weight: 300;
+  }
+
+  .values-list {
+    list-style: none;
+  }
+
+  .values-list li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(26,77,46,0.07);
+    font-size: 0.95rem;
+    color: var(--muted);
+  }
+
+  .values-list li:last-child { border: none; }
+
+  .value-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--green-mid);
+    flex-shrink: 0;
+  }
+
+  /* ─── CTA ─── */
+  .cta-section {
+    margin: 0 80px 120px;
+    background: var(--green-deep);
+    border-radius: 28px;
+    padding: 100px 80px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 60px;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-section::before {
+    content: '';
+    position: absolute;
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(201,168,76,0.1) 0%, transparent 60%);
+    top: -200px; right: -100px;
+  }
+
+  .cta-section::after {
+    content: '';
+    position: absolute;
+    width: 300px; height: 300px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(76,175,114,0.08) 0%, transparent 60%);
+    bottom: -80px; left: 100px;
+  }
+
+  .cta-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .cta-label::before {
+    content: '';
+    display: block;
+    width: 30px; height: 1px;
+    background: var(--gold);
+  }
+
+  .cta-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.2rem, 4vw, 4rem);
+    font-weight: 300;
+    color: #fff;
+    line-height: 1.2;
+  }
+
+  .cta-title em {
+    font-style: italic;
+    color: var(--gold-light);
+  }
+
+  .cta-desc {
+    font-size: 1rem;
+    color: rgba(255,255,255,0.55);
+    margin-top: 16px;
+    font-weight: 300;
+    max-width: 480px;
+    line-height: 1.8;
+  }
+
+  .btn-premium {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    background: var(--gold);
+    color: var(--charcoal);
+    padding: 22px 44px;
+    border-radius: 100px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+    position: relative;
+    z-index: 1;
+    box-shadow: 0 20px 60px rgba(201,168,76,0.3);
+  }
+
+  .btn-premium:hover {
+    transform: translateY(-4px) scale(1.04);
+    box-shadow: 0 30px 80px rgba(201,168,76,0.45);
+    color: var(--charcoal);
+    background: var(--gold-light);
+    text-decoration: none;
+  }
+
+  .btn-arrow {
+    width: 32px; height: 32px;
+    background: rgba(0,0,0,0.15);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease;
+  }
+
+  .btn-premium:hover .btn-arrow {
+    transform: translateX(4px);
+  }
+
+  /* ─── KEYFRAMES ─── */
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes scaleIn {
+    from { opacity: 0; transform: scale(0.92); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50%       { transform: translateY(-10px); }
+  }
+
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  @keyframes spin-slow {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 992px) {
+    .about-hero { grid-template-columns: 1fr; }
+    .hero-right { min-height: 400px; }
+    .story-section, .values-section { grid-template-columns: 1fr; gap: 40px; padding: 80px 30px; }
+    .timeline-section { padding: 80px 30px; }
+    .timeline-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
+    .timeline-grid::before { display: none; }
+    .cta-section { grid-template-columns: 1fr; margin: 0 20px 80px; padding: 60px 40px; }
+    .hero-left { padding: 80px 40px; }
+  }
+
+  @media (max-width: 576px) {
+    .hero-stats { gap: 24px; }
+    .feature-grid { grid-template-columns: 1fr; }
+    .timeline-grid { grid-template-columns: 1fr; }
+  }
+</style>
+
+<!-- ─────────────────────────────── HERO ─────────────────────────────── -->
+<section class="about-hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow">Est. 2021 · Bangladesh</div>
+    <h1 class="hero-title">
+      Pure <em>Dairy,</em><br>
+      Pure <em>Trust.</em>
+    </h1>
+    <p class="hero-desc">
+      From the green fields of Bangladesh to your breakfast table — every drop is a promise of freshness, 
+      honesty, and care.
+    </p>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <div class="stat-number">4+</div>
+        <div class="stat-label">Years of trust</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">100%</div>
+        <div class="stat-label">Preservative free</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">Daily</div>
+        <div class="stat-label">Fresh delivery</div>
+      </div>
     </div>
+  </div>
 
-    <!-- IMAGE + STORY -->
-    <div class="row g-5 align-items-center mb-5">
-        <div class="col-lg-6" data-aos="fade-right">
-            <img src="{% static 'app/images/about.png' %}"
-                 class="img-fluid rounded-4 shadow-lg about-image"
-                 alt="Fresh dairy farm Bangladesh">
-        </div>
+  <div class="hero-right">
+    <div class="dairy-illustration">
+      <!-- Premium SVG Dairy Illustration -->
+      <svg viewBox="0 0 380 480" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
+        <!-- Background circle -->
+        <circle cx="190" cy="240" r="180" fill="rgba(26,77,46,0.05)"/>
+        <circle cx="190" cy="240" r="150" fill="rgba(26,77,46,0.04)" stroke="rgba(26,77,46,0.08)" stroke-width="1"/>
 
-        <div class="col-lg-6" data-aos="fade-left">
-            <h3 class="fw-bold mb-4" style="color: #2E8B57;">Our Story</h3>
-            <p class="lead text-muted mb-4">
-                We began our journey with a passion for delivering the freshest and healthiest dairy products across Bangladesh.
-                Every bottle of milk, curd, paneer & ghee we produce comes from ethically raised cows and carefully maintained farms.
-            </p>
+        <!-- Large milk bottle -->
+        <g transform="translate(95, 60)">
+          <!-- Bottle body -->
+          <path d="M45 80 L25 100 L20 280 Q20 300 40 300 L110 300 Q130 300 130 280 L125 100 L105 80 Z" fill="white" stroke="rgba(26,77,46,0.15)" stroke-width="1.5"/>
+          <!-- Bottle neck -->
+          <rect x="52" y="30" width="46" height="52" rx="8" fill="white" stroke="rgba(26,77,46,0.15)" stroke-width="1.5"/>
+          <!-- Cap -->
+          <rect x="48" y="20" width="54" height="20" rx="10" fill="#1A4D2E"/>
+          <!-- Label area -->
+          <rect x="32" y="130" width="86" height="120" rx="8" fill="#F5EFE4" stroke="rgba(26,77,46,0.1)" stroke-width="1"/>
+          <!-- Label text lines -->
+          <rect x="45" y="148" width="60" height="3" rx="1.5" fill="rgba(26,77,46,0.5)"/>
+          <rect x="50" y="158" width="50" height="2" rx="1" fill="rgba(201,168,76,0.8)"/>
+          <!-- Leaf icon on label -->
+          <ellipse cx="75" cy="185" rx="15" ry="10" fill="rgba(46,125,82,0.15)" stroke="#2E7D52" stroke-width="1.5"/>
+          <line x1="75" y1="195" x2="75" y2="175" stroke="#2E7D52" stroke-width="1.5"/>
+          <!-- Milk fill inside bottle -->
+          <path d="M26 200 L24 280 Q24 296 40 296 L110 296 Q126 296 126 280 L124 200 Z" fill="rgba(245,239,228,0.6)"/>
+          <!-- Milk surface wave -->
+          <path d="M26 200 Q50 193 75 200 Q100 207 124 200" stroke="white" stroke-width="2" fill="none"/>
+        </g>
 
-            <div class="features-list">
-                <div class="feature-item" data-aos="fade-up">
-                    <i class="fas fa-check-circle"></i> 100% Pure & Fresh Dairy
-                </div>
-                <div class="feature-item" data-aos="fade-up">
-                    <i class="fas fa-seedling"></i> Chemical-Free & Preservative-Free Products
-                </div>
-                <div class="feature-item" data-aos="fade-up">
-                    <i class="fas fa-truck"></i> Fast Delivery Every Morning
-                </div>
-            </div>
-        </div>
+        <!-- Small butter/ghee pot -->
+        <g transform="translate(240, 180)">
+          <ellipse cx="40" cy="15" rx="38" ry="15" fill="#C9A84C" opacity="0.9"/>
+          <path d="M2 15 L5 65 Q5 80 40 80 Q75 80 75 65 L78 15 Z" fill="#E8CC7A" stroke="rgba(201,168,76,0.5)" stroke-width="1"/>
+          <ellipse cx="40" cy="15" rx="38" ry="15" fill="#C9A84C"/>
+          <text x="40" y="50" text-anchor="middle" fill="rgba(26,77,46,0.7)" font-size="8" font-family="serif" font-style="italic">ghee</text>
+        </g>
+
+        <!-- Curd bowl -->
+        <g transform="translate(50, 260)">
+          <ellipse cx="45" cy="10" rx="43" ry="10" fill="white" stroke="rgba(26,77,46,0.15)" stroke-width="1"/>
+          <path d="M2 10 L8 60 Q10 75 45 75 Q80 75 82 60 L88 10 Z" fill="white" stroke="rgba(26,77,46,0.12)" stroke-width="1"/>
+          <ellipse cx="45" cy="10" rx="43" ry="10" fill="#FAFAFA" stroke="rgba(26,77,46,0.15)" stroke-width="1"/>
+          <!-- Curd texture -->
+          <ellipse cx="45" cy="10" rx="30" ry="6" fill="rgba(245,239,228,0.8)"/>
+          <text x="45" y="45" text-anchor="middle" fill="rgba(26,77,46,0.6)" font-size="7" font-family="serif" font-style="italic">দই</text>
+        </g>
+
+        <!-- Floating leaves -->
+        <g opacity="0.6">
+          <path d="M310 100 Q330 80 340 100 Q330 120 310 100Z" fill="#2E7D52" opacity="0.4"/>
+          <path d="M320 100 L325 120" stroke="#2E7D52" stroke-width="1" opacity="0.5"/>
+          <path d="M40 160 Q55 140 65 160 Q55 180 40 160Z" fill="#2E7D52" opacity="0.3"/>
+          <path d="M52 160 L57 175" stroke="#2E7D52" stroke-width="1" opacity="0.4"/>
+          <path d="M290 350 Q310 330 320 350 Q310 370 290 350Z" fill="#4CAF72" opacity="0.3"/>
+        </g>
+
+        <!-- Gold sparkles -->
+        <g fill="#C9A84C">
+          <circle cx="55" cy="80" r="3" opacity="0.6"/>
+          <circle cx="320" cy="200" r="2" opacity="0.5"/>
+          <circle cx="280" cy="100" r="4" opacity="0.4"/>
+          <circle cx="80" cy="380" r="2.5" opacity="0.5"/>
+          <circle cx="330" cy="320" r="3" opacity="0.4"/>
+        </g>
+
+        <!-- Circular text around illustration -->
+        <circle cx="190" cy="240" r="165" fill="none" stroke="rgba(26,77,46,0.06)" stroke-width="1" stroke-dasharray="4 8"/>
+
+        <!-- Drop shape accent -->
+        <path d="M355 160 Q365 140 375 160 Q365 185 355 160Z" fill="rgba(201,168,76,0.3)"/>
+      </svg>
+
+      <!-- Floating badges -->
+      <div class="float-badge float-badge-1">🌿 100% Natural</div>
+      <div class="float-badge float-badge-2">⚡ Daily Fresh</div>
+      <div class="float-badge float-badge-3">✓ Chemical Free</div>
     </div>
+  </div>
+</section>
 
-    <!-- OUR JOURNEY TIMELINE -->
-    <div class="timeline-section my-5">
-        <h2 class="fw-bold text-center mb-4" data-aos="fade-up">Our Journey</h2>
-
-        <div class="timeline">
-            <div class="timeline-box" data-aos="fade-right">
-                <h5>2021</h5>
-                <p>We started our dairy farm with a vision to deliver clean and fresh milk.</p>
-            </div>
-            <div class="timeline-box" data-aos="fade-left">
-                <h5>2022</h5>
-                <p>Launched paneer, curd, and ghee production with premium quality control.</p>
-            </div>
-            <div class="timeline-box" data-aos="fade-right">
-                <h5>2023</h5>
-                <p>Expanded supply chain across the city ensuring faster delivery.</p>
-            </div>
-            <div class="timeline-box" data-aos="fade-left">
-                <h5>2024</h5>
-                <p>Introduced online ordering system with home delivery service.</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- VALUES ACCORDION -->
-    <div class="row justify-content-center mb-5">
-        <div class="col-lg-8">
-            <div class="accordion accordion-flush" id="valuesAccordion">
-
-                <div class="accordion-item">
-                    <h2 class="accordion-header">
-                        <button class="accordion-button fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#value1">
-                            Our Mission
-                        </button>
-                    </h2>
-                    <div id="value1" class="accordion-collapse collapse show" data-bs-parent="#valuesAccordion">
-                        <div class="accordion-body">
-                            Delivering fresh, safe and nutritious dairy products for every household in Bangladesh.
-                        </div>
-                    </div>
-                </div>
-
-                <div class="accordion-item mt-3">
-                    <h2 class="accordion-header">
-                        <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#value2">
-                            Our Vision
-                        </button>
-                    </h2>
-                    <div id="value2" class="accordion-collapse collapse" data-bs-parent="#valuesAccordion">
-                        <div class="accordion-body">
-                            Becoming the most trusted dairy brand in Bangladesh, known for quality and honesty.
-                        </div>
-                    </div>
-                </div>
-
-                <div class="accordion-item mt-3">
-                    <h2 class="accordion-header">
-                        <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#value3">
-                            Our Values
-                        </button>
-                    </h2>
-                    <div id="value3" class="accordion-collapse collapse" data-bs-parent="#valuesAccordion">
-                        <div class="accordion-body">
-                            <ul class="list-unstyled">
-                                <li><i class="fas fa-heart text-danger me-2"></i> Customer Happiness</li>
-                                <li><i class="fas fa-leaf text-success me-2"></i> Natural Products</li>
-                                <li><i class="fas fa-shield-alt text-warning me-2"></i> Trust & Transparency</li>
-                                <li><i class="fas fa-handshake text-primary me-2"></i> Ethical Farming</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div>
-
-    <!-- CTA SECTION -->
-    <div class="text-center py-5 px-4 rounded-4 contact-cta" data-aos="fade-up">
-        <h3 class="fw-bold mb-3">Want to Know More?</h3>
-        <p class="text-muted mb-4 col-lg-9 mx-auto">
-            We love connecting with our customers. If you have questions or suggestions — feel free to reach out anytime!
-        </p>
-        <a href="{% url 'contact' %}" class="btn btn-success btn-lg px-5 py-3">
-            Contact Us
-        </a>
-    </div>
-
+<!-- ─── MARQUEE ─── -->
+<div class="marquee-strip">
+  <div class="marquee-inner">
+    <span class="marquee-item">Fresh Milk <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">Pure Ghee <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">Homemade Paneer <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">Natural Curd <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">Ethical Farming <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">Farm to Table <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">Daily Delivery <span class="marquee-dot">✦</span></span>
+    <!-- duplicate for seamless loop -->
+    <span class="marquee-item">Fresh Milk <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">Pure Ghee <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">Homemade Paneer <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">Natural Curd <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">Ethical Farming <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">Farm to Table <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">Daily Delivery <span class="marquee-dot">✦</span></span>
+  </div>
 </div>
 
-<!-- AOS JS -->
-<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<!-- ─── STORY ─── -->
+<section>
+  <div class="story-section">
+    <div>
+      <div class="section-number">01</div>
+      <div class="section-label">Our Story</div>
+      <h2 class="story-title">Where every drop <em>begins</em></h2>
+      <p class="story-body">
+        We began with a single, simple belief — that every family in Bangladesh deserves dairy that is truly pure. 
+        Not just labeled as such, but verifiably, honestly, undeniably fresh. From ethically raised cows to 
+        carefully temperature-controlled delivery, every step is done with intention.
+      </p>
+    </div>
+
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🐄</div>
+        <h6>Ethical Farming</h6>
+        <p>Our cows are raised on open pasture, never given artificial hormones or antibiotics.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🌿</div>
+        <h6>Zero Preservatives</h6>
+        <p>No chemicals, no additives. What comes from the farm, goes straight to your home.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🌅</div>
+        <h6>Morning Delivery</h6>
+        <p>Milk is collected at dawn and delivered fresh every single morning, seven days a week.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔬</div>
+        <h6>Quality Tested</h6>
+        <p>Every batch passes rigorous freshness and purity checks before leaving our facility.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── TIMELINE ─── -->
+<section class="timeline-section">
+  <div class="timeline-header">
+    <div class="section-label">Our Journey</div>
+    <h2 class="timeline-title">Four years of <em>dedication</em></h2>
+  </div>
+
+  <div class="timeline-grid">
+    <div class="timeline-item" data-delay="0">
+      <div class="timeline-dot"></div>
+      <div class="timeline-year">2021</div>
+      <div class="timeline-text">Founded our first dairy farm with a vision to deliver clean, fresh milk across the region.</div>
+    </div>
+    <div class="timeline-item" data-delay="150">
+      <div class="timeline-dot"></div>
+      <div class="timeline-year">2022</div>
+      <div class="timeline-text">Launched premium paneer, curd, and ghee production with rigorous quality control standards.</div>
+    </div>
+    <div class="timeline-item" data-delay="300">
+      <div class="timeline-dot"></div>
+      <div class="timeline-year">2023</div>
+      <div class="timeline-text">Expanded our cold-chain supply network across the entire city for faster, safer delivery.</div>
+    </div>
+    <div class="timeline-item" data-delay="450">
+      <div class="timeline-dot"></div>
+      <div class="timeline-year">2024</div>
+      <div class="timeline-text">Introduced seamless online ordering and home delivery — fresh dairy at your fingertips.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── VALUES ─── -->
+<section>
+  <div class="values-section">
+    <div class="values-left">
+      <div class="section-number">02</div>
+      <div class="section-label">What drives us</div>
+      <h2 class="story-title">More than<br>just <em>milk</em></h2>
+      <p class="story-body" style="margin-top:16px">
+        Our values are not a poster on the wall. They're written into every process, every relationship, every delivery.
+      </p>
+      <!-- decorative circle -->
+      <div style="margin-top:48px; width:180px; height:180px; border-radius:50%; background:linear-gradient(135deg,var(--green-deep),var(--green-mid)); display:flex; flex-direction:column; align-items:center; justify-content:center; color:#fff; box-shadow:0 30px 80px rgba(26,77,46,0.25);">
+        <div style="font-family:'Cormorant Garamond',serif; font-size:2.8rem; font-weight:300; line-height:1">100%</div>
+        <div style="font-size:0.65rem; letter-spacing:0.2em; text-transform:uppercase; opacity:0.7; margin-top:4px">Pure Promise</div>
+      </div>
+    </div>
+
+    <div class="values-accordion">
+      <div class="acc-item open">
+        <div class="acc-header" onclick="toggleAcc(this)">
+          <div class="acc-title">Our Mission</div>
+          <div class="acc-arrow">+</div>
+        </div>
+        <div class="acc-body">
+          <div class="acc-content">
+            Delivering fresh, safe and nutritious dairy products for every household in Bangladesh — 
+            making premium quality accessible to all, not just a privileged few.
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item" style="margin-top:8px">
+        <div class="acc-header" onclick="toggleAcc(this)">
+          <div class="acc-title">Our Vision</div>
+          <div class="acc-arrow">+</div>
+        </div>
+        <div class="acc-body">
+          <div class="acc-content">
+            Becoming the most trusted dairy brand in Bangladesh — known not just for taste, 
+            but for the kind of transparency and integrity that makes people choose us every single morning.
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item" style="margin-top:8px">
+        <div class="acc-header" onclick="toggleAcc(this)">
+          <div class="acc-title">Our Values</div>
+          <div class="acc-arrow">+</div>
+        </div>
+        <div class="acc-body">
+          <div class="acc-content">
+            <ul class="values-list">
+              <li><span class="value-dot"></span> Customer Happiness — always first</li>
+              <li><span class="value-dot" style="background:var(--gold)"></span> Natural Products — nothing artificial</li>
+              <li><span class="value-dot" style="background:#e67e22"></span> Trust & Transparency — radical honesty</li>
+              <li><span class="value-dot" style="background:#3498db"></span> Ethical Farming — respect for life</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── CTA ─── -->
+<div class="cta-section">
+  <div>
+    <div class="cta-label">Get in touch</div>
+    <h2 class="cta-title">Let's talk about<br><em>freshness.</em></h2>
+    <p class="cta-desc">
+      Questions, bulk orders, feedback, or just a good old conversation about dairy — 
+      we love hearing from our customers. Reach out anytime.
+    </p>
+  </div>
+  <a href="{% url 'contact' %}" class="btn-premium">
+    Contact Us
+    <span class="btn-arrow">→</span>
+  </a>
+</div>
+
+<!-- ─── JS ─── -->
 <script>
-  AOS.init();
+  // Accordion
+  function toggleAcc(header) {
+    const item = header.parentElement;
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.acc-item').forEach(i => i.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  }
+
+  // Timeline scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const item = entry.target;
+        const delay = parseInt(item.dataset.delay) || 0;
+        setTimeout(() => item.classList.add('visible'), delay);
+        observer.unobserve(item);
+      }
+    });
+  }, { threshold: 0.2 });
+
+  document.querySelectorAll('.timeline-item').forEach(el => observer.observe(el));
 </script>
-
-<!-- CUSTOM CSS -->
-<style>
-    .about-hero {
-        background: linear-gradient(135deg, #f8f9fa 0%, #eaf6ef 100%);
-        padding: 50px 20px;
-        border-radius: 20px;
-    }
-
-    .feature-item i {
-        color: #2E8B57;
-        font-size: 1.4rem;
-        margin-right: 10px;
-    }
-
-    .feature-item {
-        font-size: 1.05rem;
-        color: #495057;
-        margin-bottom: 15px;
-        display: flex;
-        align-items: center;
-    }
-
-    .timeline {
-        position: relative;
-        margin-left: 20px;
-        border-left: 3px solid #2E8B57;
-        padding-left: 20px;
-    }
-
-    .timeline-box {
-        background: #fff;
-        padding: 20px;
-        border-radius: 12px;
-        margin-bottom: 25px;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-    }
-
-    .timeline-box h5 {
-        color: #2E8B57;
-        font-weight: bold;
-    }
-
-    .contact-cta {
-        background: linear-gradient(135deg, #f8f9fa 0%, #dff5e2 100%);
-    }
-
-    @media(max-width: 768px){
-        .about-image {
-            max-height: 280px;
-            object-fit: cover;
-        }
-    }
-</style>
 
 {% endblock %}
