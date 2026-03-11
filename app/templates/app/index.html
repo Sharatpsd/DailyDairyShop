@@ -1,290 +1,861 @@
 {% extends 'app/base.html' %}
 {% load static %}
 
-{% block title %}Welcome - Daily Dairy Shop{% endblock %}
+{% block title %}Welcome — Daily Dairy Shop{% endblock %}
 
-{# =================== HERO / BANNER =================== #}
-{% block banner-slider %}
-<section class="welcome-header d-flex flex-column justify-content-center align-items-center text-center text-white position-relative overflow-hidden">
-    <!-- Subtle floating particles (mobile-friendly) -->
-    <div class="floating-particles">
-        <span></span><span></span><span></span><span></span><span></span>
-        <span></span><span></span><span></span>
-    </div>
-
-    <div class="hero-content">
-        <h1 class="welcome-title fw-bold mb-3 reveal-up">
-            Welcome to Daily Dairy Shop
-        </h1>
-        <p class="welcome-subtitle mb-4 reveal-up delay-1">
-            Fresh milk, curd & dairy delivered every morning
-        </p>
-        <a href="#products" class="btn btn-success btn-lg rounded-pill px-4 py-2 reveal-up delay-2">
-            Shop Now
-        </a>
-    </div>
-</section>
+{# =================== FONTS + BASE STYLES =================== #}
+{% block extra_head %}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
 
 <style>
-.welcome-header {
-    min-height: 55vh;
-    background: radial-gradient(circle at top left, #38a169 0, #0f2027 40%, #203a43 70%, #2c5364 100%);
-    padding: 32px 16px;
-    position: relative;
+/* ═══════════════════════════════════════════
+   CSS CUSTOM PROPERTIES
+═══════════════════════════════════════════ */
+:root {
+  --green:        #1a7a45;
+  --green-dark:   #145e35;
+  --green-mid:    #22c55e;
+  --green-light:  #d1fae5;
+  --green-pale:   #f0fdf4;
+  --blue:         #4da8da;
+  --cream:        #fffdf7;
+  --bg:           #f6f8f6;
+  --text:         #0d1f0d;
+  --muted:        #5c6e5c;
+  --white:        #ffffff;
+  --border:       #e4ede4;
+  --ff-display:   'Playfair Display', Georgia, serif;
+  --ff-body:      'DM Sans', system-ui, sans-serif;
+  --r-card:       20px;
+  --r-pill:       999px;
+  --shadow-sm:    0 2px 12px rgba(0,0,0,0.06);
+  --shadow-md:    0 6px 28px rgba(0,0,0,0.09);
+  --shadow-lg:    0 18px 48px rgba(0,0,0,0.13);
+  --shadow-green: 0 8px 28px rgba(26,122,69,0.22);
+  --ease:         cubic-bezier(0.22,1,0.36,1);
 }
 
-/* Ultra-light floating particles - works perfectly on mobile */
-.floating-particles {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    overflow: hidden;
-}
-.floating-particles span {
-    position: absolute;
-    width: 6px;
-    height: 6px;
-    background: rgba(255,255,255,0.4);
-    border-radius: 50%;
-    animation: floatUp 18s infinite linear;
-}
-.floating-particles span:nth-child(1) { left: 10%; animation-delay: 0s; }
-.floating-particles span:nth-child(2) { left: 20%; animation-delay: 3s; }
-.floating-particles span:nth-child(3) { left: 35%; animation-delay: 7s; }
-.floating-particles span:nth-child(4) { left: 50%; animation-delay: 12s; }
-.floating-particles span:nth-child(5) { left: 65%; animation-delay: 5s; }
-.floating-particles span:nth-child(6) { left: 80%; animation-delay: 9s; }
-.floating-particles span:nth-child(7) { left: 90%; animation-delay: 2s; }
-.floating-particles span:nth-child(8) { left: 15%; animation-delay: 15s; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-@keyframes floatUp {
-    0% { transform: translateY(100vh) scale(0); opacity: 0; }
-    10% { opacity: 0.6; }
-    90% { opacity: 0.3; }
-    100% { transform: translateY(-100px) scale(1); opacity: 0; }
+body {
+  font-family: var(--ff-body);
+  background: var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* Smooth reveal animations - mobile optimized */
-.reveal-up {
-    opacity: 0;
-    transform: translateY(40px);
-    transition: all 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+/* ═══════════════════════════════════════════
+   SCROLL REVEAL SYSTEM
+═══════════════════════════════════════════ */
+.rv               { opacity: 0; will-change: opacity, transform; }
+.rv.rv-up         { transform: translateY(52px); }
+.rv.rv-left       { transform: translateX(-56px); }
+.rv.rv-right      { transform: translateX(56px); }
+.rv.rv-scale      { transform: scale(0.86) translateY(30px); }
+.rv.rv-fade       { transform: translateY(22px); }
+.rv.on {
+  opacity: 1; transform: none;
+  transition: opacity 0.72s var(--ease), transform 0.72s var(--ease);
 }
-.reveal-up.active {
-    opacity: 1;
-    transform: translateY(0);
+.d1 { transition-delay: 0.07s !important; }
+.d2 { transition-delay: 0.14s !important; }
+.d3 { transition-delay: 0.21s !important; }
+.d4 { transition-delay: 0.28s !important; }
+.d5 { transition-delay: 0.35s !important; }
+.d6 { transition-delay: 0.42s !important; }
+
+/* ═══════════════════════════════════════════
+   SHARED SECTION STYLES
+═══════════════════════════════════════════ */
+.dds-sec        { padding: 92px 0; }
+.dds-sec--white { background: var(--white); }
+.dds-sec--bg    { background: var(--bg); }
+.dds-sec--cream { background: var(--cream); }
+.dds-sec--pale  { background: var(--green-pale); }
+
+.sec-head { margin-bottom: 52px; text-align: center; }
+
+.sec-pill {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--green-light); color: var(--green);
+  font-size: 0.72rem; font-weight: 700;
+  letter-spacing: 1.3px; text-transform: uppercase;
+  padding: 5px 14px; border-radius: var(--r-pill);
+  border: 1px solid #86efac; margin-bottom: 14px;
 }
-.delay-1 { transition-delay: 0.2s; }
-.delay-2 { transition-delay: 0.4s; }
+.sec-title {
+  font-family: var(--ff-display);
+  font-size: clamp(1.85rem, 4vw, 2.75rem);
+  font-weight: 800; color: var(--text);
+  letter-spacing: -0.6px; line-height: 1.15; margin-bottom: 10px;
+}
+.sec-sub  { font-size: 0.97rem; color: var(--muted); }
+.accent   { color: var(--green); }
 
-.welcome-title { font-size: clamp(1.9rem, 4vw, 2.8rem); }
-.welcome-subtitle { font-size: clamp(0.95rem, 2.4vw, 1.2rem); max-width: 480px; }
+/* ═══════════════════════════════════════════
+   BUTTON SYSTEM
+═══════════════════════════════════════════ */
+.btn-dds {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--ff-body); font-size: 0.95rem; font-weight: 600;
+  padding: 12px 26px; border-radius: var(--r-pill);
+  border: 2px solid transparent; text-decoration: none;
+  transition: all 0.32s var(--ease); cursor: pointer;
+  position: relative; overflow: hidden;
+}
+.btn-dds .arr { transition: transform 0.28s var(--ease); }
+.btn-dds:hover .arr { transform: translateX(5px); }
 
-@media (max-width: 768px) {
-    .welcome-header { min-height: 45vh; padding: 24px 12px; }
+.btn-primary {
+  background: var(--green); color: #fff;
+  box-shadow: var(--shadow-green);
+}
+.btn-primary:hover {
+  background: var(--green-dark); color: #fff;
+  transform: translateY(-3px);
+  box-shadow: 0 14px 36px rgba(26,122,69,0.42);
+}
+.btn-ghost {
+  background: rgba(255,255,255,0.15); color: #fff;
+  border-color: rgba(255,255,255,0.45); backdrop-filter: blur(8px);
+}
+.btn-ghost:hover {
+  background: rgba(255,255,255,0.26); color: #fff;
+  border-color: rgba(255,255,255,0.72); transform: translateY(-3px);
+}
+.btn-outline {
+  background: transparent; color: var(--green);
+  border-color: var(--green);
+}
+.btn-outline:hover {
+  background: var(--green); color: #fff;
+  transform: translateY(-3px); box-shadow: var(--shadow-green);
 }
 </style>
 {% endblock %}
 
 
-{# =================== MAIN CONTENT =================== #}
+{# ═══════════════════════ HERO ═══════════════════════ #}
+{% block banner-slider %}
+<section class="hero" id="hero">
+
+  <div class="hero-bg" aria-hidden="true">
+    <img src="https://images.unsplash.com/photo-1563636619-e9143da7973b?auto=format&fit=crop&w=1920&q=90"
+         alt="" class="hero-bg__img" loading="eager">
+    <div class="hero-bg__overlay"></div>
+    <div class="hero-bg__noise"></div>
+  </div>
+
+  <div class="hero-orbs" aria-hidden="true">
+    <div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div>
+  </div>
+
+  <div class="hero-bubbles" aria-hidden="true">
+    <span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span>
+  </div>
+
+  <div class="container hero-wrap">
+    <div class="hero-content">
+      <div class="hero-badge rv rv-up d1">
+        <span class="hero-badge__dot"></span>
+        Live Delivery Available Now
+      </div>
+      <h1 class="hero-title rv rv-up d2">
+        Farm-Fresh Dairy,
+        <span class="hero-title__shimmer">Every Morning.</span>
+      </h1>
+      <p class="hero-sub rv rv-up d3">
+        Pure milk, creamy curd &amp; artisan dairy — straight from trusted
+        Bangladeshi farms to your doorstep. No preservatives. No compromise.
+      </p>
+      <div class="hero-ctas rv rv-up d4">
+        <a href="#products" class="btn-dds btn-primary">
+          Shop Now
+          <svg class="arr" width="16" height="16" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </a>
+        <a href="#about" class="btn-dds btn-ghost">Our Story</a>
+      </div>
+      <div class="hero-stats rv rv-up d5">
+        <div class="hero-stat"><strong>10K+</strong><span>Customers</span></div>
+        <div class="hero-stat-div"></div>
+        <div class="hero-stat"><strong>100%</strong><span>Natural</span></div>
+        <div class="hero-stat-div"></div>
+        <div class="hero-stat"><strong>365</strong><span>Days Fresh</span></div>
+        <div class="hero-stat-div"></div>
+        <div class="hero-stat"><strong>4.9★</strong><span>Rated</span></div>
+      </div>
+    </div>
+
+    <div class="hero-showcase rv rv-right d3">
+      <div class="showcase-card">
+        <div class="showcase-img">
+          <img src="https://images.unsplash.com/photo-1550583724-b2692b85b150?auto=format&fit=crop&w=600&q=85"
+               alt="Fresh Milk" loading="eager">
+        </div>
+        <div class="showcase-body">
+          <span class="showcase-tag">⭐ Best Seller</span>
+          <h4>Fresh Whole Milk</h4>
+          <p>Pure · Pasteurized · Daily</p>
+          <div class="showcase-price">৳85 <del>৳110</del></div>
+        </div>
+      </div>
+      <div class="showcase-float-badge">
+        <span>🚚</span>
+        <div><strong>Free Delivery</strong><small>Orders ৳500+</small></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-scroll" aria-label="Scroll down">
+    <div class="hero-scroll__line"></div><span>Scroll</span>
+  </div>
+</section>
+
+<div class="sec-wave" aria-hidden="true">
+  <svg viewBox="0 0 1440 72" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,36 C180,72 360,0 540,36 C720,72 900,8 1080,36 C1260,64 1380,28 1440,36 L1440,72 L0,72 Z"
+          fill="var(--bg)"/>
+  </svg>
+</div>
+
+<style>
+/* HERO */
+.hero { position:relative;min-height:100vh;display:flex;align-items:center;overflow:hidden; }
+.hero-bg { position:absolute;inset:0;z-index:0; }
+.hero-bg__img {
+  width:100%;height:100%;object-fit:cover;object-position:center 38%;
+  animation:kenBurns 24s ease-in-out infinite alternate;will-change:transform;
+}
+@keyframes kenBurns { from{transform:scale(1);}to{transform:scale(1.09) translate(1.5%,-1%);} }
+.hero-bg__overlay {
+  position:absolute;inset:0;
+  background:linear-gradient(108deg,rgba(8,34,14,0.91) 0%,rgba(14,55,26,0.78) 38%,rgba(10,28,18,0.58) 65%,rgba(6,18,10,0.74) 100%);
+}
+.hero-bg__noise {
+  position:absolute;inset:0;opacity:0.035;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:160px;
+}
+.hero-orbs{position:absolute;inset:0;z-index:1;pointer-events:none;}
+.orb{position:absolute;border-radius:50%;filter:blur(88px);animation:orbDrift 18s ease-in-out infinite alternate;}
+.o1{width:520px;height:520px;background:rgba(34,197,94,0.14);top:-160px;left:-120px;animation-duration:20s;}
+.o2{width:360px;height:360px;background:rgba(77,168,218,0.11);bottom:-90px;right:-70px;animation-duration:25s;animation-delay:-9s;}
+.o3{width:240px;height:240px;background:rgba(255,255,255,0.05);top:38%;left:52%;animation-duration:15s;animation-delay:-5s;}
+@keyframes orbDrift{from{transform:translate(0,0) scale(1);}to{transform:translate(42px,28px) scale(1.13);}}
+.hero-bubbles{position:absolute;inset:0;z-index:1;pointer-events:none;overflow:hidden;}
+.hero-bubbles span{position:absolute;border-radius:50%;background:rgba(255,255,255,0.055);border:1px solid rgba(255,255,255,0.09);animation:bubbleRise 26s linear infinite;}
+.hero-bubbles span:nth-child(1){width:42px;height:42px;left:6%;animation-duration:28s;animation-delay:0s}
+.hero-bubbles span:nth-child(2){width:18px;height:18px;left:16%;animation-duration:21s;animation-delay:5s}
+.hero-bubbles span:nth-child(3){width:58px;height:58px;left:29%;animation-duration:32s;animation-delay:11s}
+.hero-bubbles span:nth-child(4){width:14px;height:14px;left:45%;animation-duration:19s;animation-delay:3s}
+.hero-bubbles span:nth-child(5){width:46px;height:46px;left:59%;animation-duration:30s;animation-delay:8s}
+.hero-bubbles span:nth-child(6){width:26px;height:26px;left:72%;animation-duration:24s;animation-delay:15s}
+.hero-bubbles span:nth-child(7){width:52px;height:52px;left:83%;animation-duration:34s;animation-delay:2s}
+.hero-bubbles span:nth-child(8){width:16px;height:16px;left:92%;animation-duration:20s;animation-delay:7s}
+.hero-bubbles span:nth-child(9){width:36px;height:36px;left:38%;animation-duration:26s;animation-delay:17s}
+@keyframes bubbleRise{0%{transform:translateY(110vh) rotate(0deg);opacity:0;}8%{opacity:1;}90%{opacity:0.5;}100%{transform:translateY(-130px) rotate(360deg);opacity:0;}}
+.hero-wrap{position:relative;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:48px;padding-top:110px;padding-bottom:90px;min-height:100vh;}
+.hero-content{max-width:560px;flex-shrink:0;}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(34,197,94,0.16);border:1px solid rgba(34,197,94,0.38);color:#86efac;font-size:0.78rem;font-weight:600;padding:7px 16px;border-radius:var(--r-pill);margin-bottom:22px;backdrop-filter:blur(8px);}
+.hero-badge__dot{width:7px;height:7px;background:#22c55e;border-radius:50%;box-shadow:0 0 0 3px rgba(34,197,94,0.28);animation:dotPulse 2s ease-in-out infinite;}
+@keyframes dotPulse{0%,100%{box-shadow:0 0 0 3px rgba(34,197,94,0.28);}50%{box-shadow:0 0 0 8px rgba(34,197,94,0.08);}}
+.hero-title{font-family:var(--ff-display);font-size:clamp(2.3rem,5.5vw,3.9rem);font-weight:900;color:#fff;line-height:1.1;letter-spacing:-1.5px;margin-bottom:20px;}
+.hero-title__shimmer{display:block;background:linear-gradient(90deg,#86efac,#4ade80,#22c55e,#4da8da,#86efac);background-size:300% auto;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:shimmer 5s linear infinite;}
+@keyframes shimmer{from{background-position:0% center;}to{background-position:300% center;}}
+.hero-sub{font-size:clamp(0.96rem,2vw,1.1rem);color:rgba(255,255,255,0.76);line-height:1.76;margin-bottom:34px;max-width:490px;}
+.hero-ctas{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:46px;}
+.hero-stats{display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
+.hero-stat{text-align:left;}
+.hero-stat strong{display:block;font-family:var(--ff-display);font-size:1.22rem;font-weight:800;color:#fff;line-height:1;}
+.hero-stat span{font-size:0.7rem;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:0.7px;}
+.hero-stat-div{width:1px;height:34px;background:rgba(255,255,255,0.18);}
+.hero-showcase{flex-shrink:0;position:relative;}
+.showcase-card{background:rgba(255,255,255,0.1);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);border:1px solid rgba(255,255,255,0.2);border-radius:26px;overflow:hidden;width:278px;box-shadow:0 32px 64px rgba(0,0,0,0.32);animation:floatCard 5s ease-in-out infinite alternate;}
+@keyframes floatCard{from{transform:translateY(0) rotate(0deg);}to{transform:translateY(-14px) rotate(0.6deg);}}
+.showcase-img{height:195px;overflow:hidden;background:rgba(255,255,255,0.05);}
+.showcase-img img{width:100%;height:100%;object-fit:cover;transition:transform 0.5s ease;}
+.showcase-card:hover .showcase-img img{transform:scale(1.07);}
+.showcase-body{padding:18px 20px 22px;}
+.showcase-tag{display:inline-block;background:rgba(34,197,94,0.2);color:#86efac;font-size:0.68rem;font-weight:700;padding:3px 10px;border-radius:var(--r-pill);border:1px solid rgba(34,197,94,0.28);margin-bottom:8px;}
+.showcase-body h4{font-family:var(--ff-display);font-size:1.12rem;font-weight:800;color:#fff;margin-bottom:3px;}
+.showcase-body p{font-size:0.76rem;color:rgba(255,255,255,0.52);margin-bottom:12px;}
+.showcase-price{font-size:1.28rem;font-weight:800;color:#86efac;}
+.showcase-price del{font-size:0.82rem;color:rgba(255,255,255,0.32);font-weight:400;margin-left:7px;}
+.showcase-float-badge{position:absolute;bottom:-16px;left:-20px;background:#fff;border-radius:14px;padding:11px 15px;display:flex;align-items:center;gap:9px;box-shadow:0 12px 32px rgba(0,0,0,0.18);font-size:1.35rem;animation:badgeFloat 4s ease-in-out infinite alternate;}
+@keyframes badgeFloat{from{transform:translateY(0) rotate(-1deg);}to{transform:translateY(-9px) rotate(1deg);}}
+.showcase-float-badge strong{display:block;font-size:0.8rem;color:#111;font-weight:700;line-height:1.1;}
+.showcase-float-badge small{font-size:0.66rem;color:#6B7280;}
+.hero-scroll{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);z-index:3;display:flex;flex-direction:column;align-items:center;gap:5px;color:rgba(255,255,255,0.35);font-size:0.62rem;text-transform:uppercase;letter-spacing:1.6px;animation:scrollFade 2s 1.8s ease both;}
+.hero-scroll__line{width:1.5px;height:38px;background:linear-gradient(to bottom,transparent,rgba(255,255,255,0.38));animation:scrollPulse 2.5s ease-in-out infinite;}
+@keyframes scrollPulse{0%,100%{height:38px;opacity:0.38;}50%{height:22px;opacity:0.75;}}
+@keyframes scrollFade{from{opacity:0;transform:translateX(-50%) translateY(10px);}to{opacity:1;transform:translateX(-50%) translateY(0);}}
+.sec-wave{background:linear-gradient(to bottom,#0d1f0d,var(--bg));line-height:0;}
+.sec-wave svg{display:block;width:100%;height:58px;}
+@media(max-width:991px){
+  .hero-showcase{display:none;}
+  .hero-wrap{justify-content:center;text-align:center;}
+  .hero-content{max-width:640px;}
+  .hero-ctas,.hero-stats{justify-content:center;}
+  .hero-badge{margin-left:auto;margin-right:auto;}
+}
+@media(max-width:576px){
+  .hero-title{font-size:clamp(2rem,8.5vw,2.6rem);}
+  .hero-wrap{padding-top:90px;padding-bottom:70px;}
+}
+</style>
+{% endblock %}
+
+
+{# ═══════════════════════ MAIN CONTENT ═══════════════════════ #}
 {% block main-content %}
 
-{# ---------- PRODUCTS SECTION ---------- #}
-<section class="container py-5 mt-4" id="products">
-    <div class="text-center mb-4 mb-md-5 reveal-fade">
-        <h2 class="h3 fw-bold mb-1">Our Premium Products</h2>
-        <p class="text-muted mb-0">Fresh • Natural • Delivered with care</p>
+<!-- ═══════════════════════════════════════════════════════
+     PRODUCTS SECTION
+═══════════════════════════════════════════════════════ -->
+<section class="dds-sec dds-sec--white" id="products">
+  <div class="container">
+
+    <div class="sec-head rv rv-fade">
+      <span class="sec-pill">🥛 Fresh Picks</span>
+      <h2 class="sec-title">Our Premium Products</h2>
+      <p class="sec-sub">Farm-fresh · All-natural · Delivered with care every morning</p>
     </div>
 
     <div class="row g-3 g-sm-4">
-        {% for product in products %}
-        <div class="col-6 col-md-4 col-lg-3">
-            <div class="card product-card h-100 border-0 shadow-sm rounded-4 overflow-hidden reveal-scale">
-                {% if product.image %}
-                <div class="product-image-box bg-light d-flex justify-content-center align-items-center">
-                    <img src="{{ product.image.url }}" loading="lazy" class="product-image" alt="{{ product.title }}">
-                </div>
-                {% endif %}
+      {% for product in products %}
+      <div class="col-6 col-md-4 col-lg-3">
+        <div class="pcard rv rv-scale" data-idx="{{ forloop.counter0 }}">
 
-                <div class="card-body text-center d-flex flex-column px-3 pb-3 pt-2">
-                    <h5 class="fw-semibold mb-1 product-title">{{ product.title }}</h5>
-                    <p class="text-success fw-bold fs-6 fs-md-5 mb-3">৳{{ product.discounted_price }}</p>
-                    <a href="{% url 'product_detail' product.id %}" class="btn btn-success btn-sm rounded-pill px-3 py-2 mt-auto btn-hover">
-                        View Details
-                    </a>
-                </div>
-            </div>
-        </div>
-        {% empty %}
-        <div class="col-12 text-center py-5 reveal-fade">
-            <p class="text-muted fs-5">No products available right now.</p>
-        </div>
-        {% endfor %}
-    </div>
-</section>
+          <!-- IMAGE TOP -->
+          <div class="pcard__top">
+            {% if product.image %}
+              <img src="{{ product.image.url }}" loading="lazy"
+                   class="pcard__img" alt="{{ product.title }}">
+            {% else %}
+              <div class="pcard__no-img">🥛</div>
+            {% endif %}
 
-<style>
-.product-image-box { height: 200px; padding: 12px; }
-.product-image {
-    max-height: 180px;
-    width: auto;
-    object-fit: contain;
-    transition: transform 0.45s ease;
-    border-radius: 10px;
-}
-
-/* Premium hover + reveal */
-.product-card {
-    transition: all 0.35s ease;
-    border-radius: 20px !important;
-}
-.product-card:hover .product-image { transform: scale(1.08); }
-.product-card:hover { transform: translateY(-8px); box-shadow: 0 16px 32px rgba(46,139,87,0.2); }
-
-/* Button micro-interaction */
-.btn-hover {
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-}
-.btn-hover::after {
-    content: '';
-    position: absolute;
-    top: 50%; left: 50%;
-    width: 0; height: 0;
-    background: rgba(255,255,255,0.3);
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-    transition: width 0.6s, height 0.6s;
-}
-.btn-hover:active::after {
-    width: 300px; height: 300px;
-}
-
-/* Reveal animations */
-.reveal-scale {
-    opacity: 0;
-    transform: scale(0.9) translateY(30px);
-    transition: all 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
-}
-.reveal-scale.active { opacity: 1; transform: scale(1) translateY(0); }
-
-.reveal-fade {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: all 0.9s ease;
-}
-.reveal-fade.active { opacity: 1; transform: translateY(0); }
-
-@media (max-width: 768px) {
-    .product-image-box { height: 170px; padding: 8px; }
-    .product-image { max-height: 150px; }
-}
-</style>
-
-
-{# ---------- ABOUT SECTION ---------- #}
-<section class="container py-5 my-4" id="about">
-    <div class="row g-4 g-lg-5 align-items-center">
-        <div class="col-12 col-lg-6 reveal-left">
-            <div class="about-img-wrapper position-relative">
-
-                <!-- Updated Premium Online Image -->
-                <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1200&q=80"
-                     class="img-fluid rounded-4 shadow-lg about-image"
-                     alt="Our dairy farm"
-                     loading="lazy">
-
-                <div class="about-badge">100% Fresh • Daily Supply</div>
-            </div>
-        </div>
-
-
-        <div class="col-12 col-lg-6 reveal-right">
-            <h2 class="fw-bold mb-3" style="color:#2E8B57;">From Farm to Your Home</h2>
-            <p class="text-muted mb-3">We bring you the freshest milk, yogurt, paneer, ghee & cheese directly from trusted Bangladeshi farms — naturally produced, preservative-free, and delivered with care.</p>
-            <p class="text-muted mb-4">Every product is carefully handled from milking to packaging, ensuring hygiene, safety, and original taste.</p>
-
-            <div class="row g-3 mb-4">
-                <div class="col-6 reveal-up delay-1">
-                    <div class="about-feature"><span class="about-icon">Milk</span><div><h6 class="mb-1 fw-semibold">Pure Ingredients</h6><small class="text-muted">No added preservatives</small></div></div>
-                </div>
-                <div class="col-6 reveal-up delay-2">
-                    <div class="about-feature"><span class="about-icon">Clock</span><div><h6 class="mb-1 fw-semibold">Daily Delivery</h6><small class="text-muted">Fresh every single day</small></div></div>
-                </div>
-                <div class="col-6 reveal-up delay-3">
-                    <div class="about-feature"><span class="about-icon">Ice</span><div><h6 class="mb-1 fw-semibold">Cold Chain</h6><small class="text-muted">Maintained from farm to door</small></div></div>
-                </div>
-                <div class="col-6 reveal-up delay-4">
-                    <div class="about-feature"><span class="about-icon">Heart</span><div><h6 class="mb-1 fw-semibold">Customer Care</h6><small class="text-muted">Support 7 days a week</small></div></div>
-                </div>
+            <!-- Hover quick-view overlay -->
+            <div class="pcard__hover-layer">
+              <a href="{% url 'product_detail' product.id %}" class="pcard__quick">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
+                     stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+                  <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+                </svg>
+                Quick View
+              </a>
             </div>
 
-            <a href="{% url 'contact' %}" class="btn btn-outline-success rounded-pill px-4 py-2 btn-hover">
-                Contact Us
+            <!-- Fresh badge -->
+            <span class="pcard__badge-fresh">🌿 Fresh</span>
+            {% if forloop.counter == 1 %}
+            <span class="pcard__badge-hot">🔥 Popular</span>
+            {% endif %}
+
+            <!-- Wishlist -->
+            <button class="pcard__wish" aria-label="Add to wishlist">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+              </svg>
+            </button>
+          </div>
+
+          <!-- CARD BODY -->
+          <div class="pcard__body">
+            <div class="pcard__stars">
+              <span>★★★★★</span><small>(24)</small>
+            </div>
+            <h5 class="pcard__name">{{ product.title }}</h5>
+            <p class="pcard__desc">Fresh · Natural · Pure</p>
+            <div class="pcard__prices">
+              <span class="pcard__price">৳{{ product.discounted_price }}</span>
+              <span class="pcard__old">৳{{ product.discounted_price|add:30 }}</span>
+              <span class="pcard__off">-21%</span>
+            </div>
+            <a href="{% url 'product_detail' product.id %}" class="pcard__cart-btn">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+                <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+              </svg>
+              Add to Cart
             </a>
+            <a href="{% url 'product_detail' product.id %}" class="pcard__link">
+              View Details
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </a>
+          </div>
+
         </div>
+      </div>
+      {% empty %}
+      <div class="col-12 rv rv-fade">
+        <div class="p-empty">
+          <div style="font-size:3.5rem;margin-bottom:14px;">🥛</div>
+          <h5>No products available yet</h5>
+          <p>Fresh dairy products will be listed here soon. Check back tomorrow morning!</p>
+        </div>
+      </div>
+      {% endfor %}
     </div>
+  </div>
 </section>
 
 <style>
-.about-img-wrapper { position: relative; max-width: 480px; margin: 0 auto; }
-.about-image { transition: all 0.5s ease; }
-.about-img-wrapper:hover .about-image {
-    transform: translateY(-6px);
-    box-shadow: 0 25px 50px rgba(0,0,0,0.2);
-}
-.about-badge {
-    position: absolute;
-    bottom: 12px; left: 12px;
-    background: rgba(46,139,87,0.95);
-    color: #fff;
-    padding: 6px 14px;
-    border-radius: 999px;
-    font-size: 0.75rem;
-    font-weight: 600;
-}
-.about-feature {
-    display: flex; align-items: center; gap: 8px;
-    padding: 10px 12px;
-    background: #f8fdf9;
-    border-radius: 14px;
-    border: 1px solid #e3f2ea;
-    transition: all 0.3s ease;
-}
-.about-feature:hover { background: #e8f5ee; transform: translateY(-3px); }
-.about-icon { font-size: 1.4rem; }
+/* ═══════════════ PRODUCT CARDS ═══════════════ */
+.dds-sec { padding: 92px 0; }
+.dds-sec--white { background: var(--white); }
+.dds-sec--cream { background: var(--cream); }
+.dds-sec--pale  { background: var(--green-pale); }
 
-/* Directional reveals */
-.reveal-left {
-    opacity: 0;
-    transform: translateX(-50px);
-    transition: all 1s ease;
+.pcard {
+  background: var(--white);
+  border-radius: var(--r-card);
+  border: 1.5px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  display: flex; flex-direction: column; height: 100%;
+  transition: transform 0.42s var(--ease), box-shadow 0.42s var(--ease), border-color 0.3s ease;
+  transition-delay: calc(var(--idx,0) * 58ms);
 }
-.reveal-right {
-    opacity: 0;
-    transform: translateX(50px);
-    transition: all 1s ease;
+.pcard:hover {
+  transform: translateY(-10px);
+  box-shadow: var(--shadow-lg);
+  border-color: #c2dfc2;
 }
-.reveal-left.active { opacity: 1; transform: translateX(0); }
-.reveal-right.active { opacity: 1; transform: translateX(0); }
+
+/* Image container — gradient bg so images look good always */
+.pcard__top {
+  position: relative;
+  height: 226px; overflow: hidden;
+  /* Rich soft gradient background */
+  background:
+    radial-gradient(ellipse at 30% 30%, #e8f8ec 0%, transparent 60%),
+    radial-gradient(ellipse at 75% 75%, #dff0e5 0%, transparent 60%),
+    linear-gradient(145deg, #f0faf2 0%, #e5f4e9 50%, #eef7f0 100%);
+  display: flex; align-items: center; justify-content: center;
+}
+.pcard__img {
+  width: 100%; height: 100%;
+  object-fit: contain;      /* full product visible, no crop */
+  padding: 22px;
+  transition: transform 0.52s var(--ease);
+  will-change: transform;
+}
+.pcard:hover .pcard__img { transform: scale(1.12) translateY(-6px); }
+
+.pcard__no-img {
+  font-size: 4rem; opacity: 0.35;
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* Hover overlay */
+.pcard__hover-layer {
+  position: absolute; inset: 0;
+  background: rgba(10,40,18,0.36);
+  backdrop-filter: blur(2.5px);
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; transition: opacity 0.3s ease;
+}
+.pcard:hover .pcard__hover-layer { opacity: 1; }
+.pcard__quick {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: var(--white); color: var(--green);
+  font-size: 0.82rem; font-weight: 700;
+  padding: 9px 18px; border-radius: var(--r-pill);
+  text-decoration: none;
+  transform: translateY(12px);
+  transition: transform 0.32s var(--ease), background 0.25s ease;
+  box-shadow: var(--shadow-md);
+}
+.pcard:hover .pcard__quick { transform: translateY(0); }
+.pcard__quick:hover { background: var(--green); color: #fff; }
+
+/* Badges */
+.pcard__badge-fresh,
+.pcard__badge-hot {
+  position: absolute; top: 10px; left: 10px;
+  font-size: 0.66rem; font-weight: 700; letter-spacing: 0.3px;
+  padding: 4px 10px; border-radius: var(--r-pill);
+}
+.pcard__badge-fresh {
+  background: rgba(22,163,74,0.9); color: #fff;
+  backdrop-filter: blur(4px);
+}
+.pcard__badge-hot {
+  top: 38px;
+  background: rgba(239,68,68,0.9); color: #fff;
+  backdrop-filter: blur(4px);
+}
+
+/* Wishlist */
+.pcard__wish {
+  position: absolute; top: 10px; right: 10px;
+  background: rgba(255,255,255,0.9);
+  border: none; cursor: pointer;
+  width: 32px; height: 32px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: var(--shadow-sm); color: #bbb;
+  transition: color 0.24s ease, transform 0.24s var(--ease), background 0.24s ease;
+}
+.pcard__wish:hover { color: #ef4444; transform: scale(1.18); background: #fff; }
+.pcard__wish.active { color: #ef4444; }
+
+/* Card body */
+.pcard__body {
+  padding: 16px 18px 20px;
+  display: flex; flex-direction: column; flex: 1;
+}
+.pcard__stars { display:flex;align-items:center;gap:5px;margin-bottom:6px; }
+.pcard__stars span { color:#f59e0b;font-size:0.8rem;letter-spacing:1px; }
+.pcard__stars small { font-size:0.7rem;color:var(--muted); }
+.pcard__name {
+  font-family: var(--ff-display);
+  font-size: 0.98rem; font-weight: 700; color: var(--text);
+  margin-bottom: 3px; line-height: 1.3;
+}
+.pcard__desc { font-size:0.74rem;color:var(--muted);margin-bottom:12px; }
+.pcard__prices { display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-bottom:14px; }
+.pcard__price  { font-size:1.2rem;font-weight:800;color:var(--green); }
+.pcard__old    { font-size:0.81rem;color:#aaa;text-decoration:line-through;font-weight:400; }
+.pcard__off    { font-size:0.68rem;font-weight:700;color:#dc2626;background:#fef2f2;padding:2px 7px;border-radius:var(--r-pill);border:1px solid #fecaca; }
+
+/* Add to cart button */
+.pcard__cart-btn {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  background: var(--green); color: #fff;
+  font-size: 0.86rem; font-weight: 600;
+  padding: 11px 0; border-radius: 12px;
+  text-decoration: none; margin-top: auto;
+  box-shadow: 0 4px 14px rgba(26,122,69,0.26);
+  position: relative; overflow: hidden;
+  transition: background 0.28s ease, transform 0.28s var(--ease), box-shadow 0.28s ease;
+}
+.pcard__cart-btn:hover {
+  background: var(--green-dark); color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(26,122,69,0.38);
+}
+/* Shine sweep */
+.pcard__cart-btn::after {
+  content:''; position:absolute; top:0;left:-100%;
+  width:55%;height:100%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,0.25),transparent);
+  transition:left 0.52s ease;
+}
+.pcard__cart-btn:hover::after { left:160%; }
+
+/* View details link */
+.pcard__link {
+  display:flex;align-items:center;justify-content:center;gap:4px;
+  color:var(--muted);font-size:0.77rem;font-weight:500;
+  text-decoration:none;margin-top:9px;
+  transition:color 0.22s ease;
+}
+.pcard__link:hover { color:var(--green); }
+.pcard__link svg { transition:transform 0.24s var(--ease); }
+.pcard__link:hover svg { transform:translateX(4px); }
+
+/* Empty state */
+.p-empty {
+  text-align:center;padding:56px 20px;
+  background:var(--white);border-radius:var(--r-card);
+  border:2px dashed var(--border);
+}
+.p-empty h5 { font-family:var(--ff-display);font-size:1.2rem;color:var(--text);margin-bottom:8px; }
+.p-empty p  { color:var(--muted);font-size:0.9rem; }
+
+@media(max-width:576px){
+  .pcard__top { height:178px; }
+  .pcard__img { padding:16px; }
+  .dds-sec    { padding:64px 0; }
+}
 </style>
 
-<!-- Tiny & Fast Scroll Reveal Script (mobile-optimized) -->
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-    const elements = document.querySelectorAll('.reveal-up, .reveal-scale, .reveal-fade, .reveal-left, .reveal-right');
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('active');
-            }
-        });
-    }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
 
-    elements.forEach(el => observer.observe(el));
-});
+<!-- ═══════════════════════════════════════════════════════
+     FEATURE STRIP
+═══════════════════════════════════════════════════════ -->
+<div class="feat-strip">
+  <div class="container">
+    <div class="row g-3">
+      <div class="col-6 col-md-3 rv rv-up d1">
+        <div class="feat-tile"><div class="feat-tile__ico">🚚</div><h6>Free Delivery</h6><p>Orders above ৳500</p></div>
+      </div>
+      <div class="col-6 col-md-3 rv rv-up d2">
+        <div class="feat-tile"><div class="feat-tile__ico">🥛</div><h6>100% Organic</h6><p>Straight from the farm</p></div>
+      </div>
+      <div class="col-6 col-md-3 rv rv-up d3">
+        <div class="feat-tile"><div class="feat-tile__ico">❄️</div><h6>Cold Chain</h6><p>Farm-to-door freshness</p></div>
+      </div>
+      <div class="col-6 col-md-3 rv rv-up d4">
+        <div class="feat-tile"><div class="feat-tile__ico">🌿</div><h6>No Preservatives</h6><p>Pure &amp; natural always</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.feat-strip {
+  background:linear-gradient(108deg,#0a2812 0%,var(--green) 48%,#145e35 100%);
+  padding:58px 0;position:relative;overflow:hidden;
+}
+.feat-strip::before {
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:url("data:image/svg+xml,%3Csvg width='64' height='64' viewBox='0 0 64 64' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='32' cy='32' r='5' fill='%23ffffff' fill-opacity='0.04'/%3E%3C/svg%3E");
+}
+.feat-tile {
+  text-align:center;padding:26px 16px;
+  background:rgba(255,255,255,0.09);
+  border:1px solid rgba(255,255,255,0.16);
+  border-radius:18px;backdrop-filter:blur(10px);height:100%;
+  transition:transform 0.35s var(--ease),background 0.3s ease;
+}
+.feat-tile:hover{transform:translateY(-6px);background:rgba(255,255,255,0.17);}
+.feat-tile__ico{font-size:2.1rem;margin-bottom:11px;}
+.feat-tile h6{font-weight:700;color:#fff;font-size:0.91rem;margin-bottom:4px;}
+.feat-tile p {font-size:0.77rem;color:rgba(255,255,255,0.62);margin:0;}
+</style>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     ABOUT SECTION
+═══════════════════════════════════════════════════════ -->
+<section class="dds-sec dds-sec--cream" id="about">
+  <div class="container">
+    <div class="row g-5 align-items-center">
+
+      <div class="col-12 col-lg-6 rv rv-left">
+        <div class="about-vis">
+          <div class="about-vis__main">
+            <img src="https://images.unsplash.com/photo-1529257414772-1960b7bea4eb?auto=format&fit=crop&w=900&q=85"
+                 alt="Our dairy farm" loading="lazy">
+            <div class="about-vis__grad"></div>
+          </div>
+          <div class="about-vis__thumb">
+            <img src="https://images.unsplash.com/photo-1550583724-b2692b85b150?auto=format&fit=crop&w=400&q=85"
+                 alt="Fresh milk" loading="lazy">
+          </div>
+          <div class="about-vis__pill">
+            <span>🏆</span>
+            <div><strong>Since 2018</strong><small>6 years of freshness</small></div>
+          </div>
+          <div class="about-vis__badge">✅ 100% Natural · No Preservatives</div>
+        </div>
+      </div>
+
+      <div class="col-12 col-lg-6 rv rv-right">
+        <span class="sec-pill">Our Story</span>
+        <h2 class="sec-title mt-2">From Farm to<br><span class="accent">Your Home</span></h2>
+        <p class="about-txt">
+          We bring you the freshest milk, yogurt, paneer, ghee &amp; cheese directly from
+          trusted Bangladeshi farms — naturally produced, preservative-free, and delivered
+          with care every single morning.
+        </p>
+        <p class="about-txt">
+          Every product is carefully handled from milking to packaging, ensuring hygiene,
+          safety, and original taste — so your family always gets only the best.
+        </p>
+        <div class="row g-3 mb-4">
+          <div class="col-6 rv rv-up d1">
+            <div class="about-feat"><div class="about-feat__i">🥛</div><div><h6>Pure Ingredients</h6><small>No additives ever</small></div></div>
+          </div>
+          <div class="col-6 rv rv-up d2">
+            <div class="about-feat"><div class="about-feat__i">⏰</div><div><h6>Daily Delivery</h6><small>Every single morning</small></div></div>
+          </div>
+          <div class="col-6 rv rv-up d3">
+            <div class="about-feat"><div class="about-feat__i">❄️</div><div><h6>Cold Chain</h6><small>Farm to door</small></div></div>
+          </div>
+          <div class="col-6 rv rv-up d4">
+            <div class="about-feat"><div class="about-feat__i">💚</div><div><h6>7-Day Support</h6><small>Always here for you</small></div></div>
+          </div>
+        </div>
+        <a href="{% url 'contact' %}" class="btn-dds btn-outline">
+          Contact Us
+          <svg class="arr" width="14" height="14" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+.about-vis{position:relative;max-width:510px;margin:0 auto;}
+.about-vis__main{position:relative;border-radius:26px;overflow:hidden;aspect-ratio:4/3;box-shadow:var(--shadow-lg);}
+.about-vis__main img{width:100%;height:100%;object-fit:cover;transition:transform 0.7s var(--ease);}
+.about-vis:hover .about-vis__main img{transform:scale(1.05);}
+.about-vis__grad{position:absolute;bottom:0;left:0;right:0;height:42%;background:linear-gradient(to top,rgba(13,50,20,0.48),transparent);}
+.about-vis__thumb{position:absolute;bottom:-22px;right:-20px;width:158px;height:116px;border-radius:18px;overflow:hidden;border:4px solid var(--cream);box-shadow:0 12px 32px rgba(0,0,0,0.18);animation:tFloat 5s ease-in-out infinite alternate;}
+.about-vis__thumb img{width:100%;height:100%;object-fit:cover;}
+@keyframes tFloat{from{transform:translateY(0) rotate(-1.2deg);}to{transform:translateY(-10px) rotate(0.8deg);}}
+.about-vis__pill{position:absolute;top:18px;left:-20px;background:rgba(255,255,255,0.94);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.88);border-radius:15px;padding:11px 15px;display:flex;align-items:center;gap:9px;box-shadow:0 8px 26px rgba(0,0,0,0.1);font-size:1.38rem;animation:pFloat 6s ease-in-out infinite alternate;}
+.about-vis__pill strong{display:block;font-size:0.81rem;color:#111;font-weight:700;}
+.about-vis__pill small{font-size:0.67rem;color:var(--muted);}
+@keyframes pFloat{from{transform:translateY(0);}to{transform:translateY(-11px);}}
+.about-vis__badge{position:absolute;bottom:14px;left:14px;z-index:1;background:rgba(26,122,69,0.9);color:#fff;padding:7px 16px;border-radius:var(--r-pill);font-size:0.74rem;font-weight:600;backdrop-filter:blur(6px);}
+.about-txt{color:var(--muted);font-size:0.97rem;line-height:1.75;margin-bottom:14px;}
+.about-feat{background:var(--white);border-radius:16px;border:1.5px solid var(--border);padding:15px 13px;display:flex;align-items:center;gap:11px;box-shadow:var(--shadow-sm);height:100%;transition:transform 0.32s var(--ease),box-shadow 0.32s ease,background 0.28s ease;}
+.about-feat:hover{transform:translateY(-5px);box-shadow:var(--shadow-md);background:var(--green-pale);border-color:#c8e6c8;}
+.about-feat__i{font-size:1.55rem;flex-shrink:0;}
+.about-feat h6{font-size:0.84rem;font-weight:700;color:var(--text);margin-bottom:2px;}
+.about-feat small{font-size:0.71rem;color:var(--muted);}
+@media(max-width:768px){.about-vis__thumb{width:116px;height:85px;right:-6px;bottom:-14px;}.about-vis__pill{left:-4px;top:10px;}}
+</style>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     TESTIMONIALS
+═══════════════════════════════════════════════════════ -->
+<section class="dds-sec dds-sec--white" id="reviews">
+  <div class="container">
+    <div class="sec-head rv rv-fade">
+      <span class="sec-pill">⭐ Reviews</span>
+      <h2 class="sec-title">What Our Customers Say</h2>
+      <p class="sec-sub">Real words from our daily dairy family across Bangladesh</p>
+    </div>
+    <div class="row g-4">
+      <div class="col-12 col-md-4 rv rv-scale d1">
+        <div class="rev">
+          <div class="rev__top">
+            <div class="rev__av" style="--c:#2E8B57">RA</div>
+            <div><strong>Rafiq Ahmed</strong><small>📍 Dhaka</small></div>
+            <div class="rev__stars ms-auto">★★★★★</div>
+          </div>
+          <p>"The milk is so fresh I can taste the difference. Delivery every single morning without fail!"</p>
+          <div class="rev__foot">Verified Customer · Feb 2025</div>
+        </div>
+      </div>
+      <div class="col-12 col-md-4 rv rv-scale d2">
+        <div class="rev rev--feat">
+          <div class="rev__top">
+            <div class="rev__av" style="--c:#4DA8DA">SB</div>
+            <div><strong>Salma Begum</strong><small>📍 Chittagong</small></div>
+            <div class="rev__stars ms-auto">★★★★★</div>
+          </div>
+          <p>"Best curd I've ever tasted — thick, natural, no sourness. My whole family absolutely loves it!"</p>
+          <div class="rev__foot">Verified Customer · Jan 2025</div>
+        </div>
+      </div>
+      <div class="col-12 col-md-4 rv rv-scale d3">
+        <div class="rev">
+          <div class="rev__top">
+            <div class="rev__av" style="--c:#22c55e">KH</div>
+            <div><strong>Karim Hossain</strong><small>📍 Sylhet</small></div>
+            <div class="rev__stars ms-auto">★★★★★</div>
+          </div>
+          <p>"Paneer fresh, ghee pure gold. Switching to Daily Dairy was the best kitchen decision!"</p>
+          <div class="rev__foot">Verified Customer · Mar 2025</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+.rev{background:var(--white);border-radius:var(--r-card);padding:26px 24px;border:1.5px solid var(--border);box-shadow:var(--shadow-sm);height:100%;position:relative;overflow:hidden;transition:transform 0.35s var(--ease),box-shadow 0.35s ease;}
+.rev::before{content:'\201C';position:absolute;top:6px;right:18px;font-family:var(--ff-display);font-size:5rem;color:var(--green-light);line-height:1;pointer-events:none;}
+.rev:hover{transform:translateY(-8px);box-shadow:var(--shadow-lg);}
+.rev--feat{background:linear-gradient(135deg,var(--green) 0%,#145e35 100%);border-color:transparent;}
+.rev--feat::before{color:rgba(255,255,255,0.1);}
+.rev--feat .rev__stars,.rev--feat p,.rev--feat strong{color:#fff;}
+.rev--feat small,.rev--feat .rev__foot{color:rgba(255,255,255,0.55);}
+.rev__top{display:flex;align-items:center;gap:12px;margin-bottom:16px;}
+.rev__av{width:44px;height:44px;flex-shrink:0;border-radius:50%;background:var(--c,var(--green));color:#fff;font-size:0.76rem;font-weight:700;display:flex;align-items:center;justify-content:center;}
+.rev__top strong{display:block;font-size:0.86rem;color:var(--text);font-weight:700;}
+.rev__top small{font-size:0.7rem;color:var(--muted);}
+.rev__stars{color:#f59e0b;font-size:0.88rem;letter-spacing:1.5px;white-space:nowrap;}
+.rev p{font-size:0.88rem;line-height:1.72;color:var(--muted);font-style:italic;margin-bottom:16px;position:relative;z-index:1;}
+.rev__foot{font-size:0.7rem;color:var(--muted);font-weight:500;}
+</style>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     CTA BANNER
+═══════════════════════════════════════════════════════ -->
+<section class="cta-sec rv rv-fade">
+  <div class="cta-sec__bg" aria-hidden="true"></div>
+  <div class="container cta-sec__inner">
+    <div class="cta-sec__txt">
+      <h2>Ready for Fresh Dairy Every Morning?</h2>
+      <p>Join 10,000+ happy families enjoying farm-fresh products daily.</p>
+    </div>
+    <div class="cta-sec__btns">
+      <a href="#products" class="btn-dds btn-primary">
+        Order Now
+        <svg class="arr" width="15" height="15" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </a>
+      <a href="{% url 'contact' %}" class="btn-dds btn-ghost">Get in Touch</a>
+    </div>
+  </div>
+</section>
+
+<style>
+.cta-sec{position:relative;overflow:hidden;padding:84px 0;}
+.cta-sec__bg{position:absolute;inset:0;z-index:0;background:linear-gradient(108deg,#081e0c 0%,var(--green) 42%,#145e35 72%,#0b2a15 100%);}
+.cta-sec__bg::after{content:'';position:absolute;inset:0;pointer-events:none;background:url("data:image/svg+xml,%3Csvg width='72' height='72' viewBox='0 0 72 72' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='36' cy='36' r='5.5' fill='%23ffffff' fill-opacity='0.03'/%3E%3C/svg%3E");}
+.cta-sec__inner{position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:32px;flex-wrap:wrap;}
+.cta-sec__txt h2{font-family:var(--ff-display);font-size:clamp(1.5rem,3.5vw,2.25rem);font-weight:800;color:#fff;letter-spacing:-0.5px;margin-bottom:8px;}
+.cta-sec__txt p{color:rgba(255,255,255,0.65);font-size:1rem;margin:0;}
+.cta-sec__btns{display:flex;gap:14px;flex-wrap:wrap;flex-shrink:0;}
+@media(max-width:768px){.cta-sec__inner{flex-direction:column;text-align:center;}.cta-sec__btns{justify-content:center;}}
+</style>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     JS: Scroll Reveal + Stagger + Wishlist toggle
+═══════════════════════════════════════════════════════ -->
+<script>
+(function(){
+  "use strict";
+
+  /* Stagger product cards via CSS custom property */
+  document.querySelectorAll('.pcard').forEach(function(el,i){
+    el.style.setProperty('--idx', i);
+  });
+
+  /* IntersectionObserver — fire-once reveal */
+  var items = document.querySelectorAll('.rv');
+  if(items.length){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){ e.target.classList.add('on'); io.unobserve(e.target); }
+      });
+    },{ threshold:0.1, rootMargin:'0px 0px -36px 0px' });
+    items.forEach(function(el){ io.observe(el); });
+  }
+
+  /* Wishlist heart toggle */
+  document.querySelectorAll('.pcard__wish').forEach(function(btn){
+    btn.addEventListener('click',function(e){
+      e.preventDefault();
+      this.classList.toggle('active');
+      var svg = this.querySelector('svg');
+      if(this.classList.contains('active')){
+        svg.setAttribute('fill','#ef4444'); svg.setAttribute('stroke','#ef4444');
+      } else {
+        svg.setAttribute('fill','none'); svg.setAttribute('stroke','currentColor');
+      }
+    });
+  });
+}());
 </script>
 
 {% endblock %}
