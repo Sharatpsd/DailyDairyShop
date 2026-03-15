@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="readmefile/landing_page.png" alt="Daily Dairy Shop Banner" width="100%" style="border-radius: 12px;" />
+<img src="app/readmefile/landing_page.png" alt="Daily Dairy Shop Banner" width="100%" style="border-radius: 12px;" />
 
 # 🥛 Daily Dairy Shop
 
@@ -48,42 +48,42 @@
 <br/>
 
 ### 🏠 Landing Page
-<img src="readmefile/landing_page.png" alt="Landing Page" width="100%" />
+<img src="app/readmefile/landing_page.png" alt="Landing Page" width="100%" />
 
 > Animated full-screen welcome slider with snow effect, smooth transitions, and a modern hero section.
 
 ---
 
 ### 🗂️ Product Category
-<img src="readmefile/product_category.png" alt="Product Category" width="100%" />
+<img src="app/readmefile/product_category.png" alt="Product Category" width="100%" />
 
 > Browse all dairy products organized by category — beautifully laid out with responsive card components.
 
 ---
 
 ### 🔍 Product Details
-<img src="readmefile/product_details.png" alt="Product Details" width="100%" />
+<img src="app/readmefile/product_details.png" alt="Product Details" width="100%" />
 
 > Detailed product view with high-quality images, descriptions, pricing, and quick Add to Cart / Buy Now actions.
 
 ---
 
 ### ❤️ Wishlist
-<img src="readmefile/wishlist.png" alt="Wishlist" width="100%" />
+<img src="app/readmefile/wishlist.png" alt="Wishlist" width="100%" />
 
 > Save your favorite products to your personal wishlist for easy access anytime.
 
 ---
 
 ### 🛒 Add to Cart
-<img src="readmefile/add_ to cart.png" alt="Add to Cart" width="100%" />
+<img src="app/readmefile/add_ to cart.png" alt="Add to Cart" width="100%" />
 
 > Seamless session-based cart with real-time item tracking, quantity control, and order summary.
 
 ---
 
 ### ℹ️ About Page
-<img src="readmefile/about_page.png" alt="About Page" width="100%" />
+<img src="app/readmefile/about_page.png" alt="About Page" width="100%" />
 
 > A clean, professional About page showcasing the brand story, mission, and team details.
 
@@ -140,37 +140,33 @@
 ## 📁 Project Structure
 
 ```
-DailyDairyShop/
+DailyDairyShop/               ← Root (README.md is here)
 │
-├── 📂 adminpanel/                  # Custom Admin Panel App
-│   ├── 📂 templates/adminpanel/
-│   │   ├── dashboard_home.html
-│   │   ├── products.html
-│   │   ├── categories.html
-│   │   └── ...
-│   ├── urls.py
-│   ├── views.py
-│   └── models.py
-│
-├── 📂 customer/                    # Customer-Facing App
-│   ├── 📂 templates/customer/
+├── 📂 app/                         # Main Django App
+│   ├── 📂 readmefile/              # README Screenshots
+│   │   ├── landing_page.png
+│   │   ├── product_category.png
+│   │   ├── product_details.png
+│   │   ├── wishlist.png
+│   │   ├── add_ to cart.png
+│   │   └── about_page.png
+│   ├── 📂 templates/
 │   │   ├── home.html
 │   │   ├── product_detail.html
 │   │   ├── cart.html
 │   │   ├── wishlist.html
 │   │   └── ...
+│   ├── 📂 static/app/              # Static Files (CSS, JS, Images)
 │   ├── urls.py
 │   ├── views.py
 │   └── models.py
 │
-├── 📂 DailyDairyShop/              # Project Configuration
+├── 📂 ec/                          # Project Configuration
 │   ├── settings.py
 │   ├── urls.py
 │   └── wsgi.py
 │
-├── 📂 static/                      # Static Files (CSS, JS, Images)
 ├── 📂 media/                       # Uploaded Media Files
-├── 📂 readmefile/                  # README Screenshots
 ├── manage.py
 ├── requirements.txt
 └── README.md
